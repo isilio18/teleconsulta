@@ -42,6 +42,16 @@ Route::group(['namespace' => 'Telemedicina'], function(){
     Route::get('consulta/informe/{id}', 'consultaController@informe');
     Route::get('consulta/historicoInforme/{id}', 'consultaController@historicoInforme');
 	Route::post('consulta/registrarInforme', 'consultaController@guardarInforme');
+        
+	Route::group(['prefix' => 'telemedicina'], function(){
+	Route::get('persona/lista', 'persona@lista');
+        Route::get('persona/nuevo', 'persona@nuevo');
+        Route::get('persona/editar/{id}', 'persona@editar');
+        Route::post('persona/buscar', 'persona@buscar');
+        Route::post('persona/guardar', 'persona@guardar');
+        Route::post('persona/guardar/{id}', 'persona@guardar');        
+	});        
+        
 });
 
 //*Modulos de Tablas de Configuracion*/
