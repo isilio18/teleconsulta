@@ -38,11 +38,7 @@ Route::group(['namespace' => 'Panel'], function(){
 
 
 Route::group(['namespace' => 'Telemedicina'], function(){
-    Route::get('inicio', 'panelController@inicio');
-	Route::get('inicio/notificacion', 'panelController@notificacion');
-	Route::get('ejercicio', 'panelController@ejercicio');
-	Route::post('ejercicio', 'panelController@ejercicioInicio');
-	Route::get('consulta/listapaciente', 'consultaController@listapaciente');
+  	Route::get('consulta/listapaciente', 'consultaController@listapaciente');
     Route::get('consulta/informe/{id}', 'consultaController@informe');
     Route::get('consulta/historicoInforme/{id}', 'consultaController@historicoInforme');
 	Route::post('consulta/registrarInforme', 'consultaController@guardarInforme');
