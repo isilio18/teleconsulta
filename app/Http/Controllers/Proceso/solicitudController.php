@@ -9,6 +9,7 @@ use App\Models\Proceso\tab_ruta;
 use App\Models\Configuracion\tab_ruta as tab_configuracion_ruta;
 use App\Models\Configuracion\tab_proceso_usuario;
 use App\Models\Configuracion\tab_estatus;
+use App\Models\Proceso\tab_persona;
 use View;
 use Validator;
 use Response;
@@ -36,7 +37,7 @@ class solicitudController extends Controller
     */
     public function lista( Request $request)
     {
-        $sortBy = 'id';
+        $sortBy = 'cedula';
         $orderBy = 'desc';
         $perPage = 5;
         $q = null;
@@ -60,11 +61,13 @@ class solicitudController extends Controller
 
         $proceso = tab_proceso_usuario::getListaProcesoAsignado(Auth::user()->id);
         $tramite = tab_solicitud_usuario::getListaTramiteAsignado(Auth::user()->id);
+       
 
         $tab_solicitud = tab_solicitud::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
         'nu_solicitud', 'nb_usuario',
         'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),
-        'de_proceso')
+        'de_proceso','nombres','apellidos','cedula')
+        ->join('telemedicina.tab_persona as t05', 'proceso.tab_solicitud.id_persona', '=', 't05.id')
         ->join('proceso.tab_ruta as t01', 'proceso.tab_solicitud.id', '=', 't01.id_tab_solicitud')
         ->join('configuracion.tab_proceso as t02', 't02.id', '=', 't01.id_tab_proceso')
         ->join('autenticacion.tab_usuario as t03', 't03.id', '=', 't01.id_tab_usuario')
@@ -76,9 +79,12 @@ class solicitudController extends Controller
         ->whereIn('t01.id_tab_proceso', $proceso)
         ->whereIn('proceso.tab_solicitud.id_tab_tipo_solicitud', $tramite)
         ->where('t01.nu_orden', '=', 1)
-        ->search($q, $sortBy)
         ->orderBy($sortBy, $orderBy)
         ->paginate($perPage);
+
+        if(!empty($q)){
+            $tab_solicitud->where('t05.cedula', '=', $q);
+        }
 
         return View::make('proceso.solicitud.lista')->with([
           'tab_solicitud' => $tab_solicitud,
@@ -97,7 +103,7 @@ class solicitudController extends Controller
     */
     public function pendiente( Request $request)
     {
-        $sortBy = 'id';
+        $sortBy = 'cedula';
         $orderBy = 'desc';
         $perPage = 5;
         $q = null;
@@ -121,11 +127,12 @@ class solicitudController extends Controller
 
         $proceso = tab_proceso_usuario::getListaProcesoAsignado(Auth::user()->id);
         $tramite = tab_solicitud_usuario::getListaTramiteAsignado(Auth::user()->id);
-
-        $tab_solicitud = tab_solicitud::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
+       
+        $tab_solicitud = tab_persona::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
         'nu_solicitud', 'nb_usuario',
         'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),
-        'de_proceso')
+        'de_proceso','nombres','apellidos','cedula')
+        ->join('proceso.tab_solicitud', 'telemedicina.tab_persona.id', '=', 'proceso.tab_solicitud.id_persona')
         ->join('proceso.tab_ruta as t01', 'proceso.tab_solicitud.id', '=', 't01.id_tab_solicitud')
         ->join('configuracion.tab_proceso as t02', 't02.id', '=', 't01.id_tab_proceso')
         ->join('autenticacion.tab_usuario as t03', 't03.id', '=', 't01.id_tab_usuario')
@@ -136,7 +143,6 @@ class solicitudController extends Controller
         ->where('id_tab_ejercicio_fiscal', '=', Session::get('ejercicio'))
         ->whereIn('t01.id_tab_proceso', $proceso)
         ->whereIn('proceso.tab_solicitud.id_tab_tipo_solicitud', $tramite)
-        ->where('t01.nu_orden', '>', 1)
         ->search($q, $sortBy)
         ->orderBy($sortBy, $orderBy)
         ->paginate($perPage);
@@ -278,7 +284,7 @@ class solicitudController extends Controller
      *
      * @return Response
      */
-    public function nuevo()
+    public function nuevo(Request $request, $id)
     {
 
         $tab_solicitud_usuario = tab_solicitud_usuario::select( 'id_tab_solicitud as id', 'nu_identificador', 'de_solicitud')
@@ -290,7 +296,9 @@ class solicitudController extends Controller
         ->get();
 
         return View::make('proceso.solicitud.nuevo')->with([
-            'tab_solicitud_usuario' => $tab_solicitud_usuario
+            'tab_solicitud_usuario' => $tab_solicitud_usuario,
+            'id_persona'            => $id,
+            'id_centro_asistencial' => '1'
         ]);
     }
 
@@ -316,11 +324,11 @@ class solicitudController extends Controller
 
                 $tab_solicitud = tab_solicitud::find($id);
                 $tab_solicitud->id_tab_tipo_solicitud = $request->solicitud;
-                $tab_solicitud->id_tab_usuario = Auth::user()->id; 
-                $tab_solicitud->de_observacion = $request->observacion; 
-                //$tab_solicitud->id_tab_estatus = 1;
-                $tab_solicitud->id_tab_proceso = tab_tipo_solicitud::getProceso($request->solicitud);
-                //$tab_solicitud->id_tab_ejercicio_fiscal = Session::get('ejercicio');
+                $tab_solicitud->id_tab_usuario        = Auth::user()->id; 
+                $tab_solicitud->de_observacion        = $request->observacion; 
+                $tab_solicitud->id_tab_proceso        = tab_tipo_solicitud::getProceso($request->solicitud);
+                $tab_solicitud->id_persona            = $request->id_persona;
+                $tab_solicitud->id_centro_asistencial = $request->id_centro_asistencial;
                 $tab_solicitud->save();
 
                 DB::commit();
@@ -352,13 +360,15 @@ class solicitudController extends Controller
                 }
 
                 $tab_solicitud = new tab_solicitud;
-                $tab_solicitud->id_tab_tipo_solicitud = $request->solicitud;
-                $tab_solicitud->id_tab_usuario = Auth::user()->id; 
-                $tab_solicitud->de_observacion = $request->observacion; 
-                $tab_solicitud->id_tab_estatus = 1;
-                $tab_solicitud->id_tab_proceso = tab_tipo_solicitud::getProceso($request->solicitud);
+                $tab_solicitud->id_tab_tipo_solicitud   = $request->solicitud;
+                $tab_solicitud->id_tab_usuario          = Auth::user()->id; 
+                $tab_solicitud->de_observacion          = $request->observacion; 
+                $tab_solicitud->id_tab_estatus          = 1;
+                $tab_solicitud->id_tab_proceso          = tab_tipo_solicitud::getProceso($request->solicitud);
                 $tab_solicitud->id_tab_ejercicio_fiscal = Session::get('ejercicio');
-                $tab_solicitud->in_activo = true;
+                $tab_solicitud->in_activo               = true;
+                $tab_solicitud->id_persona              = $request->id_persona;
+                $tab_solicitud->id_centro_asistencial   = $request->id_centro_asistencial;
                 $tab_solicitud->save();
 
                 self::crearRuta($tab_solicitud);
@@ -368,7 +378,7 @@ class solicitudController extends Controller
                 $serial = tab_solicitud::findOrFail($tab_solicitud->id);
 
                 Session::flash('msg_side_overlay', 'Tramite registrado exitosamente! Numero de Proceso: '.$serial->nu_solicitud );
-                return Redirect::to('/proceso/solicitud/lista');
+                return Redirect::to('/proceso/solicitud/pendiente');
 
             }catch (\Illuminate\Database\QueryException $e){
                 DB::rollback();
@@ -394,6 +404,8 @@ class solicitudController extends Controller
         $tab_ruta->id_tab_proceso = tab_configuracion_ruta::getVerificaRuta($tab_solicitud->id_tab_tipo_solicitud);
         $tab_ruta->in_actual = true;
         $tab_ruta->in_activo = true;
+        $tab_ruta->id_persona              = $tab_solicitud->id_persona;
+        $tab_ruta->id_centro_asistencial   = $tab_solicitud->id_centro_asistencial;
         $tab_ruta->save();
 
     }

@@ -35,6 +35,19 @@ Route::group(['namespace' => 'Panel'], function(){
 	Route::get('ejercicio', 'panelController@ejercicio');
 	Route::post('ejercicio', 'panelController@ejercicioInicio');
 });
+
+
+Route::group(['namespace' => 'Telemedicina'], function(){
+    Route::get('inicio', 'panelController@inicio');
+	Route::get('inicio/notificacion', 'panelController@notificacion');
+	Route::get('ejercicio', 'panelController@ejercicio');
+	Route::post('ejercicio', 'panelController@ejercicioInicio');
+	Route::get('consulta/listapaciente', 'consultaController@listapaciente');
+    Route::get('consulta/informe/{id}', 'consultaController@informe');
+    Route::get('consulta/historicoInforme/{id}', 'consultaController@historicoInforme');
+	Route::post('consulta/registrarInforme', 'consultaController@guardarInforme');
+});
+
 //*Modulos de Tablas de Configuracion*/
 Route::group(['namespace' => 'Configuracion'], function(){
     //*Modulo de Configuracion*/
@@ -80,6 +93,9 @@ Route::group(['namespace' => 'Proceso'], function(){
 	Route::group(['prefix' => 'proceso'], function(){
 		//*Controlador de solicitud de Modelo tab_solicitud *//
 		Route::get('solicitud/lista', 'solicitudController@lista');
+        Route::get('consulta/listapaciente', 'consultaController@listapaciente');
+        Route::get('consulta/informe/{id}', 'consultaController@informe');
+        Route::get('consulta/historicoInforme/{id}', 'consultaController@historicoInforme');
 		Route::get('solicitud/pendiente', 'solicitudController@pendiente');
 		Route::get('solicitud/completo', 'solicitudController@completo');
 		Route::get('solicitud/todo', 'solicitudController@todo');
@@ -90,8 +106,10 @@ Route::group(['namespace' => 'Proceso'], function(){
 		Route::post('solicitud/storeLista/completo', 'solicitudController@storeListaCompleto');
 		Route::post('solicitud/storeLista/todo', 'solicitudController@storeListaTodo');
 		Route::get('solicitud/nuevo', 'solicitudController@nuevo');
+		Route::get('solicitud/nuevo/{id}', 'solicitudController@nuevo');
 		Route::get('solicitud/editar/{id}', 'solicitudController@editar');
 		Route::post('solicitud/guardar', 'solicitudController@guardar');
+		Route::post('consulta/registrarInforme', 'consultaController@guardarInforme');
 		Route::post('solicitud/guardar/{id}', 'solicitudController@guardar');
 		Route::post('solicitud/eliminar', 'solicitudController@eliminar');
 		Route::post('solicitud/habilitar', 'solicitudController@habilitar');

@@ -21,6 +21,8 @@
     <!-- New Post -->
     <form action="{{ URL::to('proceso/solicitud/guardar') }}" method="POST">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="id_persona" value="{{ $id_persona }}">
+        <input type="hidden" name="id_centro_asistencial" value="{{ $id_centro_asistencial }}">
         <div class="block">
             <div class="block-header block-header-default">
                 <a class="btn btn-light" href="{{ URL::to('proceso/solicitud/lista') }}">

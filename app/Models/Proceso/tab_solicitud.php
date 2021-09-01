@@ -29,8 +29,8 @@ class tab_solicitud extends Model
     public function scopeSearch($query, $q, $sortBy)
     {
         switch ($sortBy) {
-            case 'id':
-                return $query->where('nu_solicitud', 'ILIKE', "%{$q}%");
+            case 'cedula':
+                return $query->where('t05.cedula', 'like', "'%{$q}%'");
             break;
                 default:
                 return $query;
