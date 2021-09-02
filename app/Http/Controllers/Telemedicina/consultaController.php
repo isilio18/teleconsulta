@@ -11,6 +11,7 @@ use App\Models\Proceso\tab_ruta;
 use App\Models\Configuracion\tab_solicitud as tab_tipo_solicitud;
 use App\Models\Configuracion\tab_tipo_informe;
 use App\Models\Proceso\tab_persona;
+use App\Models\Teleconsulta\tab_informe;
 use View;
 use Validator;
 use Input;
@@ -674,15 +675,18 @@ class consultaController extends Controller
 
         $tab_ruta = tab_ruta::where('id','=',$id)->first();
 
-        $tab_persona = tab_persona::select('telemedicina.tab_persona.id', 'nombres', 'apellidos', 'de_sexo', 'telefono', 'direccion', DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"))
+        $tab_persona = tab_persona::select('telemedicina.tab_persona.id', 'cedula','nombres', 'apellidos', 'de_sexo', 'telefono', 'direccion', DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"))
         ->join('configuracion.tab_sexo as t01', 'telemedicina.tab_persona.id_sexo', '=', 't01.id')
-        ->where('telemedicina.tab_persona.id', '=', $tab_ruta->id_persona)->first();
+        ->where('telemedicina.tab_persona.id', '=', $tab_ruta->id_persona)
+        ->first();
+
+        $tab_informe = tab_informe::where('id_ruta', '=', $id)->first();
 
         return View::make('consulta.informe')->with([
-          'tab_persona' => $tab_persona
+          'tab_persona' => $tab_persona,
+          'id_ruta'     => $id,
+          'tab_informe' => $tab_informe
         ]);
-
-
     }
 
           /**
@@ -695,9 +699,30 @@ class consultaController extends Controller
     {
         DB::beginTransaction();
 
-        if($id!=''||$id!=null){
+        $id_informe = $request->id_informe; 
+
+        if($id_informe !=''||$id_informe !=null){              
   
-             
+                $validator = Validator::make($request->all(), tab_informe::$validarCrear);
+
+                if ($validator->fails()){
+                    return Redirect::back()->withErrors($validator)->withInput($request->all());
+                }
+
+                $tab_informe = tab_informe::find($id_informe);
+                $tab_informe->id_persona            = $request->id_persona;
+                $tab_informe->medico                = $request->medico; 
+                $tab_informe->de_informe            = $request->de_informe;
+                $tab_informe->de_protocolo_tecnico  = $request->de_protocolo_tecnico;
+                $tab_informe->de_conclusion         = $request->de_conclusion;
+                $tab_informe->id_ruta               = $request->id_ruta;
+                $tab_informe->save();  
+
+                DB::commit();
+
+                Session::flash('msg_side_overlay', 'Informe resgistrado exitosamente!');
+                return Redirect::to('/proceso/ruta/lista/'.$request->id_ruta);
+
         }else{
   
             try {
@@ -705,11 +730,8 @@ class consultaController extends Controller
                 $validator = Validator::make($request->all(), tab_informe::$validarCrear);
 
                 if ($validator->fails()){
-                    return Redirect::back()->withErrors( $validator)->withInput( $request->all());
+                    return Redirect::back()->withErrors( $validator)->withInput($request->all());
                 }
-
-
-
 
                 if (isset($_FILES['de_ruta_imagen']) && $_FILES['de_ruta_imagen']['error'] === UPLOAD_ERR_OK) {
 
@@ -741,17 +763,23 @@ class consultaController extends Controller
                 }
 
                 $tab_informe = new tab_informe;
-                $tab_informe->id_persona      = $request->id_persona;
-                $tab_informe->medico          = $request->medico; 
-                $tab_informe->id_tipo_informe = $request->id_tipo_informe; 
-                $tab_informe->de_informe      = $request->de_informe;
-                $tab_informe->de_ruta_imagen  = $dest_path;
+                $tab_informe->id_persona            = $request->id_persona;
+                $tab_informe->medico                = $request->medico; 
+                $tab_informe->de_informe            = $request->de_informe;
+                $tab_informe->de_protocolo_tecnico  = $request->de_protocolo_tecnico;
+                $tab_informe->de_conclusion         = $request->de_conclusion;
+                $tab_informe->id_ruta               = $request->id_ruta;
                 $tab_informe->save();
+
+
+                $tab_ruta = tab_ruta::find( $request->id_ruta);
+                $tab_ruta->in_datos = true;
+                $tab_ruta->save();
 
                 DB::commit();
 
                 Session::flash('msg_side_overlay', 'Informe resgistrado exitosamente!');
-                return Redirect::to('/proceso/solicitud/lista');
+                return Redirect::to('/proceso/ruta/lista/'.$request->id_ruta);
 
             }catch (\Illuminate\Database\QueryException $e){
                 DB::rollback();
