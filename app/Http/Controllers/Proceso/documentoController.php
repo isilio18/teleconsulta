@@ -147,7 +147,7 @@ class documentoController extends Controller
                 $tab_documento->save();
                 
                 $directorio = '/App/documento';
-                $disk = Storage::disk('ftp');
+                $disk = Storage::disk('local');
                 $disk->makeDirectory($directorio);
 
                 $disk->put($directorio.'/'.$tab_documento->id.'.'.$extension, file_get_contents($request->file('archivo')->getRealPath()));
@@ -189,7 +189,7 @@ class documentoController extends Controller
                 $tab_documento->save();
 
                 $directorio = '/App/documento';
-                $disk = Storage::disk('ftp');
+                $disk = Storage::disk('local');
                 $disk->makeDirectory($directorio);
 
                 $disk->put($directorio.'/'.$tab_documento->id.'.'.$extension, file_get_contents($request->file('archivo')->getRealPath()));
@@ -227,7 +227,7 @@ class documentoController extends Controller
             $adjuntos = tab_documento::where('id', '=', $request->id)->first();
 
             $directorio = '/App/documento';
-            $disk = Storage::disk('ftp');
+            $disk = Storage::disk('local');
             $disk->delete($directorio.'/'.$adjuntos->id.'.'.$adjuntos->de_extension);
 
             DB::commit();
@@ -255,7 +255,7 @@ class documentoController extends Controller
 	    $adjuntos = tab_documento::where('id', '=', $id)->first();
 
 		$directorio = '/App/documento/'.$id.'.'.$adjuntos->de_extension;
-		$archivo = Storage::disk('ftp')->get($directorio);
+		$archivo = Storage::disk('local')->get($directorio);
 
         return (new ResposeFile($archivo, 200))->header('Content-Type', ''.$adjuntos->mime.'');
         
@@ -323,7 +323,7 @@ class documentoController extends Controller
     public function verReporte($id, $t)
     {
 		$directorio = '/App/reporte/'.$id.'.pdf';
-		$archivo = Storage::disk('ftp')->get($directorio);
+		$archivo = Storage::disk('local')->get($directorio);
 
         return (new ResposeFile($archivo, 200))->header('Content-Type', 'application/pdf');
         
