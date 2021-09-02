@@ -35,12 +35,14 @@ $(function () {
     <!-- Partial Table -->
     <div class="block block-rounded block-bordered">
     <!-- New Post -->
-    <form enctype="multipart/form-data" action="{{ URL::to('proceso/consulta/registrarInforme') }}"  method="POST">
+    <form action="{{ URL::to('consulta/registrarInforme') }}"  method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="id_persona" value="{{ $tab_persona->id }}">
+                <input type="hidden" name="id_ruta" value="{{ $id_ruta }}">
+                <input type="hidden" name="id_informe" value="{{ (empty($tab_informe->id))?'':$tab_informe->id }}">
                 <div class="block">
                     <div class="block-header block-header-default">
-                        <a class="btn btn-light" href="{{ URL::to('proceso/ruta/lista').'/'.$tab_persona->id }}">
+                        <a class="btn btn-light" href="{{ URL::to('proceso/ruta/lista').'/'.$id_ruta }}">
                             <i class="fa fa-arrow-left mr-1"></i> Volver
                         </a>
                     </div>
@@ -73,7 +75,7 @@ $(function () {
 
                                  <div class="row">
                                     <div class="col-md-3">
-                                        <label for="cedula">Cedula:</label>{{ $tab_persona->id }}
+                                        <label for="cedula">Cedula:</label>{{ $tab_persona->cedula }}
                                     </div>                         
                                     
                                     <div class="col-md-7">
@@ -97,7 +99,7 @@ $(function () {
                                             <div class="col-md-7">
                                                 <div class="form-group form-row">
                                                     <label for="medico">Médico Tratante</label>
-                                                    <input type="text" class="form-control {!! $errors->has('medico') ? 'is-invalid' : '' !!}" id="medico" name="medico" value="{{ old('medico') }}" {{ $errors->has('medico') ? 'aria-describedby="medico-error" aria-invalid="true"' : '' }}>
+                                                    <input type="text" class="form-control {!! $errors->has('medico') ? 'is-invalid' : '' !!}" id="medico" name="medico" value="{{ (empty($tab_informe->medico))?old('medico'): $tab_informe->medico}}" {{ $errors->has('medico') ? 'aria-describedby="medico-error" aria-invalid="true"' : '' }}>
                                                     @if( $errors->has('medico') )
                                                         <div id="medico-error" class="invalid-feedback animated fadeIn">{{ $errors->first('medico') }}</div>
                                                     @endif
@@ -107,7 +109,7 @@ $(function () {
                                             <div class="col-md-10">
                                                 <div class="form-group form-row">
                                                     <label for="de_protocolo_tecnico">Protocolo Técnico</label>
-                                                    <textarea rows="5" important;" class="form-control {!! $errors->has('de_protocolo_tecnico') ? 'is-invalid' : '' !!}" id="de_protocolo_tecnico" name="de_protocolo_tecnico"  value="{{ old('de_protocolo_tecnico') }}" {{ $errors->has('de_protocolo_tecnico') ? 'aria-describedby="de_protocolo_tecnico-error" aria-invalid="true"' : '' }}> </textarea>
+                                                    <textarea rows="5" important;" class="form-control {!! $errors->has('de_protocolo_tecnico') ? 'is-invalid' : '' !!}" id="de_protocolo_tecnico" name="de_protocolo_tecnico" {{ $errors->has('de_protocolo_tecnico') ? 'aria-describedby="de_protocolo_tecnico-error" aria-invalid="true"' : '' }}> {{ (empty($tab_informe->de_protocolo_tecnico))?old('de_protocolo_tecnico'):$tab_informe->de_protocolo_tecnico}}</textarea>
                                                     @if( $errors->has('de_protocolo_tecnico') )
                                                         <div id="de_protocolo_tecnico-error" class="invalid-feedback animated fadeIn">{{ $errors->first('de_protocolo_tecnico') }}</div>
                                                     @endif
@@ -117,17 +119,16 @@ $(function () {
                                             <div class="col-md-10">
                                                 <div class="form-group form-row">
                                                     <label for="de_informe">Detalle del Informe</label>
-                                                    <textarea rows="10" important;" class="form-control {!! $errors->has('de_informe') ? 'is-invalid' : '' !!}" id="de_informe" name="de_informe"  value="{{ old('de_informe') }}" {{ $errors->has('de_informe') ? 'aria-describedby="de_informe-error" aria-invalid="true"' : '' }}> </textarea>
+                                                    <textarea rows="10" important;" class="form-control {!! $errors->has('de_informe') ? 'is-invalid' : '' !!}" id="de_informe" name="de_informe"  {{ $errors->has('de_informe') ? 'aria-describedby="de_informe-error" aria-invalid="true"' : '' }}> {{ (empty($tab_informe->de_informe))?old('de_informe'):$tab_informe->de_informe }} </textarea>
                                                     @if( $errors->has('de_informe') )
                                                         <div id="de_informe-error" class="invalid-feedback animated fadeIn">{{ $errors->first('de_informe') }}</div>
                                                     @endif
                                                 </div>
                                             </div> 
-
-                                             <div class="col-md-10">
+                                            <div class="col-md-10">
                                                 <div class="form-group form-row">
                                                     <label for="de_protocolo_tecnico">Conclusiones</label>
-                                                    <textarea rows="5" important;" class="form-control {!! $errors->has('de_conclusion') ? 'is-invalid' : '' !!}" id="de_conclusion" name="de_conclusion"  value="{{ old('de_conclusion') }}" {{ $errors->has('de_conclusion') ? 'aria-describedby="de_conclusion-error" aria-invalid="true"' : '' }}> </textarea>
+                                                    <textarea rows="5" important;" class="form-control {!! $errors->has('de_conclusion') ? 'is-invalid' : '' !!}" id="de_conclusion" name="de_conclusion" {{ $errors->has('de_conclusion') ? 'aria-describedby="de_conclusion-error" aria-invalid="true"' : '' }}>{{ (empty($tab_informe->de_conclusion))?old('de_conclusion'):$tab_informe->de_conclusion }}</textarea>
                                                     @if( $errors->has('de_conclusion') )
                                                         <div id="de_conclusion-error" class="invalid-feedback animated fadeIn">{{ $errors->first('de_conclusion') }}</div>
                                                     @endif
