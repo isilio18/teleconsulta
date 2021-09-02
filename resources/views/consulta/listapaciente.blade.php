@@ -74,7 +74,7 @@
         </div>
         @endif
             
-        <form action="{{ url('/proceso/consulta/listapaciente') }}" method="get">
+        <form action="{{ url('/consulta/listapaciente') }}" method="get">
             <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <label>
