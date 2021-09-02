@@ -35,7 +35,7 @@
     <!-- Partial Table -->
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
-            <a class="btn btn-light" href="{{ URL::to('proceso/solicitud/lista') }}">
+            <a class="btn btn-light" href="{{ URL::to('proceso/solicitud/pendiente') }}">
                 <i class="fa fa-arrow-left mr-1"></i> Volver
             </a>
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
