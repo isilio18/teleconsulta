@@ -48,13 +48,13 @@
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Lista de Procesos</li>
-                    <li class="breadcrumb-item active" aria-current="page">Pendientes</li>
+                    <li class="breadcrumb-item">Registro de Procesos</li>
+                    <!--<li class="breadcrumb-item active" aria-current="page">Pendientes</li>-->
                 </ol>
             </nav>
         </div>            
             <div class="block-options">
-                <button type="button" class="btn-block-option mr-2"><a href="{{ URL::to('telemedicina/persona/nuevo') }}"><i class="fa fa-plus mr-1"></i> Nuevo</a></button>
+                <button type="button" class="btn-block-option mr-2"><a href="{{ URL::to('telemedicina/persona/nuevo') }}"><i class="fa fa-plus mr-1"></i> Nuevo Paciente</a></button>
                 <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
                 <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                     <i class="si si-refresh"></i>
