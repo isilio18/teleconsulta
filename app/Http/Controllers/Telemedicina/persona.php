@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Telemedicina;
 //*******agregar esta linea******//
 use App\Models\Telemedicina\tab_persona;
 use App\Models\Configuracion\tab_municipio;
+use App\Models\Configuracion\tab_sexo;
 use View;
 use Validator;
 use Response;
@@ -52,7 +53,7 @@ class persona extends Controller
             $q = $request->query('q');
         }
 
-        $tab_persona = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'sexo', 'telefono', 'direccion')
+        $tab_persona = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'telefono', 'direccion')
         //->where('in_activo', '=', true)
         ->search($q, $sortBy)
         ->orderBy($sortBy, $orderBy)
@@ -77,13 +78,18 @@ class persona extends Controller
     {
         $data = array( "id" => null);
         
+        $tab_sexo = tab_sexo::select( 'id','de_sexo')
+        ->orderby('id','ASC')
+        ->get();        
+        
         $tab_municipio = tab_municipio::select( 'id','de_municipio')
         ->orderby('id','ASC')
         ->get();        
 
         return View::make('telemedicina.persona.nuevo')->with([
             'data'  => $data,
-            'tab_municipio'  => $tab_municipio
+            'tab_municipio'  => $tab_municipio,
+            'tab_sexo'  => $tab_sexo,
         ]);
     }
 
@@ -97,15 +103,20 @@ class persona extends Controller
         
         $tab_municipio = tab_municipio::select( 'id','de_municipio')
         ->orderby('id','ASC')
-        ->get();         
+        ->get();
         
-        $data = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'sexo', 'telefono', 'direccion', 'correo', 'id_municipio')
+        $tab_sexo = tab_sexo::select( 'id','de_sexo')
+        ->orderby('id','ASC')
+        ->get();        
+        
+        $data = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'id_sexo', 'telefono', 'direccion', 'correo', 'id_municipio', 'fe_nacimiento')
         ->where('id', '=', $id)
         ->first();
 
         return View::make('telemedicina.persona.editar')->with([
             'data'  => $data,
-            'tab_municipio'  => $tab_municipio
+            'tab_municipio'  => $tab_municipio,
+            'tab_sexo'  => $tab_sexo
         ]);
     }
 
@@ -132,9 +143,10 @@ class persona extends Controller
             $tabla->cedula = $request->cedula;
             $tabla->nombres = $request->nombres;
             $tabla->apellidos = $request->apellido;
-            $tabla->sexo = $request->sexo;
+            $tabla->id_sexo = $request->sexo;
             $tabla->telefono = $request->telefono;
             $tabla->direccion = $request->direccion;
+            $tabla->fe_nacimiento = $request->fe_nacimiento;
             $tabla->correo = $request->correos;
             $tabla->id_municipio = $request->municipio;
             $tabla->save();
@@ -142,7 +154,7 @@ class persona extends Controller
             DB::commit();
 
             Session::flash('msg_side_overlay', 'Registro Editado con Exito!');
-            return Redirect::to('/telemedicina/persona/lista');
+            return Redirect::to('/proceso/consulta/listapaciente');
 
           }catch (\Illuminate\Database\QueryException $e)
           {
@@ -169,9 +181,10 @@ class persona extends Controller
             $tabla->cedula = $request->cedula;
             $tabla->nombres = $request->nombres;
             $tabla->apellidos = $request->apellido;
-            $tabla->sexo = $request->sexo;
+            $tabla->id_sexo = $request->sexo;
             $tabla->telefono = $request->telefono;
             $tabla->direccion = $request->direccion;
+            $tabla->fe_nacimiento = $request->fe_nacimiento;
             $tabla->correo = $request->correos;
             $tabla->id_municipio = $request->municipio;
             $tabla->save();
@@ -184,7 +197,7 @@ class persona extends Controller
             Session::flash('msg_side_overlay', 'Registro creado con Exito!');
             }            
             
-            return Redirect::to('/telemedicina/persona/lista');
+            return Redirect::to('/proceso/consulta/listapaciente');
 
           }catch (\Illuminate\Database\QueryException $e)
           {

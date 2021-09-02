@@ -20,6 +20,7 @@ class tab_persona extends Model
                 "telefono" => "required",
                 "municipio" => "required",
                 "direccion" => "required",
+                "fe_nacimiento" => "required",
                 "correos" => "required"
         
 	);
@@ -32,6 +33,7 @@ class tab_persona extends Model
                 "telefono" => "required",
                 "municipio" => "required",
                 "direccion" => "required",
+                "fe_nacimiento" => "required",
                 "correos" => "required"
     );
 
