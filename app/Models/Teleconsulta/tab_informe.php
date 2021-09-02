@@ -14,11 +14,11 @@ class tab_informe extends Model
 
     //id_persona, medico, id_tipo_informe, de_informe, de_ruta_imagen
     public static $validarCrear = array(
-        "id_persona" 		=> "required|numeric",
-        "medico"    		=> "required|min:1|max:1200",
-        "id_tipo_informe"   => "required|numeric",
-        "de_informe"        => "required|min:1|max:1200",
-        "de_ruta_imagen"    => "required|min:1|max:1200"
+        "id_persona" 	          => "required|numeric",
+        "medico"    		      => "required|min:1|max:1200",
+        "de_informe"              => "required|min:1|max:1200",
+        "de_protocolo_tecnico"    => "required|min:1|max:1200",
+        "de_conclusion"           => "required|min:1|max:1200"
     );
 
     public function scopeSearch($query, $q, $sortBy)
