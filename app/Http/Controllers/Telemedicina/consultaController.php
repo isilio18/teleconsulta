@@ -702,6 +702,8 @@ class consultaController extends Controller
 
         $id_informe = $request->id_informe; 
 
+
+
         if($id_informe !=''||$id_informe !=null){              
   
                 $validator = Validator::make($request->all(), tab_informe::$validarCrear);
@@ -720,6 +722,12 @@ class consultaController extends Controller
                 $tab_informe->save();  
 
                 DB::commit();
+
+                $tab_ruta = tab_ruta::find($request->id_ruta);
+                $tab_ruta->in_datos = true;
+                $tab_ruta->save();
+
+                HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
 
                 Session::flash('msg_side_overlay', 'Informe resgistrado exitosamente!');
                 return Redirect::to('/proceso/ruta/lista/'.$request->id_ruta);
@@ -777,8 +785,9 @@ class consultaController extends Controller
                 $tab_ruta->in_datos = true;
                 $tab_ruta->save();
 
+                
 
-                //HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
+                HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
 
                 DB::commit();
 

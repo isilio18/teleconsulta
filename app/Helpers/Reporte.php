@@ -1,10 +1,10 @@
 <?php 
 
-namespace gobela\Helpers;
+namespace App\Helpers;
 //*******agregar esta linea******//
-use gobela\Models\Proceso\tab_ruta;
-use gobela\Models\Configuracion\tab_ruta as tab_configuracion_ruta;
-use gobela\Models\Proceso\tab_documento;
+use App\Models\Proceso\tab_ruta;
+use App\Models\Configuracion\tab_ruta as tab_configuracion_ruta;
+use App\Models\Proceso\tab_documento;
 use DB;
 use Session;
 use Storage;
@@ -32,6 +32,8 @@ class Reporte
         $tab_ruta_dato = tab_ruta::find( $data->id);
         $tab_ruta_dato->in_datos = true;
         $tab_ruta_dato->save();
+
+
 
         if (tab_configuracion_ruta::where('id_tab_solicitud', '=', $data->id_tab_tipo_solicitud)
                                     ->where('id_tab_proceso', '=', $data->id_tab_proceso)
@@ -81,7 +83,7 @@ class Reporte
         foreach($tab_documento as $anexo){
 
             $directorio = '/gobela/documento/'.$anexo->id.'.'.$anexo->de_extension;
-            $archivo = Storage::disk('ftp')->get($directorio);
+            $archivo = Storage::disk('local')->get($directorio);
 
             if($anexo->de_extension=='pdf'){
 
