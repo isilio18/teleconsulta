@@ -778,7 +778,7 @@ class consultaController extends Controller
                 $tab_ruta->save();
 
 
-                HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
+                //HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
 
                 DB::commit();
 
