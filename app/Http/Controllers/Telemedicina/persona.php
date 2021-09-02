@@ -11,6 +11,7 @@ use Response;
 use DB;
 use Session;
 use Redirect;
+use Carbon\Carbon;
 //*******************************//
 use Illuminate\Http\Request;
 
@@ -138,7 +139,7 @@ class persona extends Controller
           }
 
           try {
-
+            $fe_nacimiento = Carbon::parse($request->fe_nacimiento)->format('Y-m-d');
             $tabla = tab_persona::find($id);
             $tabla->cedula = $request->cedula;
             $tabla->nombres = $request->nombres;
@@ -146,7 +147,7 @@ class persona extends Controller
             $tabla->id_sexo = $request->sexo;
             $tabla->telefono = $request->telefono;
             $tabla->direccion = $request->direccion;
-            $tabla->fe_nacimiento = $request->fe_nacimiento;
+            $tabla->fe_nacimiento = $fe_nacimiento;
             $tabla->correo = $request->correos;
             $tabla->id_municipio = $request->municipio;
             $tabla->save();
@@ -178,13 +179,14 @@ class persona extends Controller
             }else{  
             $tabla = new tab_persona;
             }
+            $fe_nacimiento = Carbon::parse($request->fe_nacimiento)->format('Y-m-d');
             $tabla->cedula = $request->cedula;
             $tabla->nombres = $request->nombres;
             $tabla->apellidos = $request->apellido;
             $tabla->id_sexo = $request->sexo;
             $tabla->telefono = $request->telefono;
             $tabla->direccion = $request->direccion;
-            $tabla->fe_nacimiento = $request->fe_nacimiento;
+            $tabla->fe_nacimiento = $fe_nacimiento;
             $tabla->correo = $request->correos;
             $tabla->id_municipio = $request->municipio;
             $tabla->save();
