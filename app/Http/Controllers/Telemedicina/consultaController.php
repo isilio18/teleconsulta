@@ -21,6 +21,7 @@ use Session;
 use Redirect;
 use Auth;
 use Mail;
+use HelperReporte;
 //*******************************//
 use Illuminate\Http\Request;
 
@@ -653,7 +654,7 @@ class consultaController extends Controller
 
         $tab_persona = tab_persona::select('telemedicina.tab_persona.id', 'nombres', 'apellidos', 'de_sexo', 'telefono', 'direccion', DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"))
         ->join('configuracion.tab_sexo as t01', 'telemedicina.tab_persona.id_sexo', '=', 't01.id')
-        ->where('telemedicina.tab_persona.id', '=', $q)->get();
+        ->where('telemedicina.tab_persona.cedula', '=', $q)->get();
 
         return View::make('consulta.listapaciente')->with([
           'tab_persona' => $tab_persona,
@@ -775,6 +776,9 @@ class consultaController extends Controller
                 $tab_ruta = tab_ruta::find( $request->id_ruta);
                 $tab_ruta->in_datos = true;
                 $tab_ruta->save();
+
+
+                HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
 
                 DB::commit();
 
