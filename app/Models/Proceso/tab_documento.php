@@ -16,13 +16,13 @@ class tab_documento extends Model
       "solicitud" => "required|numeric",
       "ruta" => "required|numeric",
       "descripcion" => "required|min:1|max:1200",
-      "archivo" => "required|max:6144|mimes:jpeg,png,pdf"
+      "archivo" => "required|max:6144|mimes:jpg,gif,csv,png,zip,rar,txt,xls,doc"
     );
 
     public static $validarEditar = array(
       "solicitud" => "required|numeric",
       "ruta" => "required|numeric",
       "descripcion" => "required|min:1|max:1200",
-      "archivo" => "required|max:6144|mimes:jpeg,png,pdf"
+      "archivo" => "required|max:6144|mimes:jpg,gif,csv,png,zip,rar,txt,xls,doc"
     );
 }
