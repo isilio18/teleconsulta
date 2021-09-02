@@ -2,12 +2,19 @@
 
 @section('css_before')
     <!-- Page JS Plugins CSS -->
-
+    <link rel="stylesheet" id="css-main" href="{{ asset('assets/js/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.css') }}">
 @endsection
 
 @section('js_after')
     <!-- Page JS Plugins -->
+    <script src="{{ asset('assets/js/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.js') }}"></script>
+    <script>
 
+        jQuery(function(){ Dashmix.helpers([ 'flatpickr', 'select2']); });
+
+    </script>    
     <!-- Page JS Code -->
 
 @endsection
@@ -95,11 +102,26 @@
                         
                         <div class="form-group">
                             <label for="sexo">Sexo</label>
-                            <input type="text" class="form-control {!! $errors->has('sexo') ? 'is-invalid' : '' !!}" id="sexo" name="sexo" placeholder="Sexo..." value="{{ empty(old('sexo'))? $data->sexo : old('sexo') }}" {{ $errors->has('sexo') ? 'aria-describedby="sexo-error" aria-invalid="true"' : '' }}>
+                            <select class="custom-select {!! $errors->has('sexo') ? 'is-invalid' : '' !!}" name="sexo" id="sexo" {{ $errors->has('sexo') ? 'aria-describedby="sexo-error" aria-invalid="true"' : '' }}>
+                                <option value="0" >Seleccione...</option>
+                                @foreach($tab_sexo as $sexo)
+                                    <option value="{{ $sexo->id }}" {{ $sexo->id == $data->id_sexo ? 'selected' : '' }}>{{ $sexo->de_sexo }}</option>
+                                @endforeach
+                            </select>
                             @if( $errors->has('sexo') )
                                 <div id="sexo-error" class="invalid-feedback animated fadeIn">{{ $errors->first('sexo') }}</div>
                             @endif
-                        </div>       
+                        </div>     
+                        
+                        <div class="form-group form-row">
+                            <div class="col-4">
+                                <label for="fe_nacimiento">Fecha de Nacimiento</label>
+                                <input type="text" class="js-flatpickr form-control bg-white {!! $errors->has('fe_nacimiento') ? 'is-invalid' : '' !!}" id="fe_nacimiento" name="fe_nacimiento" placeholder="d-m-Y" data-date-format="Y-m-d" value="{{ empty(old('fe_nacimiento'))? $data->fe_nacimiento : old('fe_nacimiento') }}" {{ $errors->has('fe_nacimiento') ? 'aria-describedby="fe_nacimiento-error" aria-invalid="true"' : '' }}>
+                                @if( $errors->has('fe_nacimiento') )
+                                    <div id="fe_nacimiento-error" class="invalid-feedback animated fadeIn">{{ $errors->first('fe_nacimiento') }}</div>
+                                @endif
+                            </div>
+                        </div>                        
                         
                         <div class="form-group">
                             <label for="telefono">Telefono</label>
