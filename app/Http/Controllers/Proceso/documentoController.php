@@ -257,11 +257,13 @@ class documentoController extends Controller
 		$directorio = '/App/documento/'.$id.'.'.$adjuntos->de_extension;
 		$archivo = Storage::disk('local')->get($directorio);
 
-        return (new ResposeFile($archivo, 200))->header('Content-Type', ''.$adjuntos->mime.'');
-        
+        //if($adjuntos->de_extension == 'zip' || $adjuntos->de_extension == 'rar'){
+            
+           return Response::download(storage_path('app').$directorio);
+           
     }
 
-            /**
+    /**
     * Display a listing of the resource.
     *
     * @return Response
