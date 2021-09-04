@@ -259,7 +259,7 @@ class documentoController extends Controller
 
         //if($adjuntos->de_extension == 'zip' || $adjuntos->de_extension == 'rar'){
             
-           return Response::download(storage_path('app').$directorio);
+           return Response::download(storage_path('app').$directorio,$adjuntos->nb_archivo);
            
     }
 
