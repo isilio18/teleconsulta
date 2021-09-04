@@ -410,12 +410,20 @@ $(function () {
                         </div>               
 
                         <div class="form-group form-row">
-                            <label for="tratamiento">Tratamiento y Posología</label>
+                            <label for="tratamiento">Tratamiento</label>
                             <textarea class="form-control {!! $errors->has('tratamiento') ? 'is-invalid' : '' !!}" id="tratamiento" name="tratamiento" rows="3" placeholder="..." {{ $errors->has('tratamiento') ? 'aria-describedby="tratamiento-error" aria-invalid="true"' : '' }}>{{ empty(old('tratamiento'))? $tab_consulta->de_tratamiento : old('tratamiento') }}</textarea>
                             @if( $errors->has('tratamiento') )
                                 <div id="tratamiento-error" class="invalid-feedback animated fadeIn">{{ $errors->first('tratamiento') }}</div>
                             @endif
                         </div>
+                
+                        <div class="form-group form-row">
+                            <label for="posologia">Posología</label>
+                            <textarea class="form-control {!! $errors->has('posologia') ? 'is-invalid' : '' !!}" id="posologia" name="posologia" rows="3" placeholder="..." {{ $errors->has('posologia') ? 'aria-describedby="posologia-error" aria-invalid="true"' : '' }}>{{ empty(old('posologia'))? $tab_consulta->de_posologia : old('posologia') }}</textarea>
+                            @if( $errors->has('posologia') )
+                                <div id="posologia-error" class="invalid-feedback animated fadeIn">{{ $errors->first('posologia') }}</div>
+                            @endif
+                        </div>                
 
                         <div class="form-group form-row">
                             <label for="medico">Médico</label>
