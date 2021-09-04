@@ -535,7 +535,8 @@ class consultaController extends Controller
             $tab_ruta->save();            
             
             DB::commit();
-
+            HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
+            
             Session::flash('msg_side_overlay', 'Registro creado con Exito!');
             return Redirect::to('/proceso/ruta/lista/'.$request->ruta);
 
