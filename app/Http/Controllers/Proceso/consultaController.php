@@ -34,11 +34,14 @@ class consultaController extends Controller
     public function informe( Request $request, $id = NULL)
     {
 
-        $tab_tipo_informe =  tab_tipo_informe::orderBy('de_tipo_informe','asc')->get();
+        //$tab_tipo_informe =  tab_tipo_informe::orderBy('de_tipo_informe','asc')->get();
 
         $tab_persona = tab_persona::select('telemedicina.tab_persona.id', 'nombres', 'apellidos', 'de_sexo', 'telefono', 'direccion', DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"))
         ->join('configuracion.tab_sexo as t01', 'telemedicina.tab_persona.id_sexo', '=', 't01.id')
-        ->where('telemedicina.tab_persona.id', '=', $id)->first();
+        ->leftjoin('tab_informe as t02', 'telemedicina.tab_persona.id', '=', 't02.id_persona')
+        ->where('telemedicina.tab_persona.id', '=', $id)
+        ->where('t02.id_ruta', '=', $id)
+        ->first();
 
         return View::make('consulta.informe')->with([
           'tab_persona' => $tab_persona,
@@ -158,10 +161,10 @@ class consultaController extends Controller
                 $validator = Validator::make($request->all(), tab_informe::$validarCrear);
 
                 if ($validator->fails()){
-                    return Redirect::back()->withErrors( $validator)->withInput( $request->all());
+                    return Redirect::back()->withErrors($validator)->withInput( $request->all());
                 }
 
-                if (isset($_FILES['de_ruta_imagen']) && $_FILES['de_ruta_imagen']['error'] === UPLOAD_ERR_OK) {
+              /*  if (isset($_FILES['de_ruta_imagen']) && $_FILES['de_ruta_imagen']['error'] === UPLOAD_ERR_OK) {
 
                         $fileTmpPath   = $_FILES['de_ruta_imagen']['tmp_name'];
                         $fileName      = $_FILES['de_ruta_imagen']['name'];
@@ -188,14 +191,15 @@ class consultaController extends Controller
                                 ])->withInput( $request->all());
                             }
                         }
-                }
+                }*/
 
                 $tab_informe = new tab_informe;
-                $tab_informe->id_persona      = $request->id_persona;
-                $tab_informe->medico          = $request->medico; 
-                $tab_informe->id_tipo_informe = $request->id_tipo_informe; 
-                $tab_informe->de_informe      = $request->de_informe;
-                $tab_informe->de_ruta_imagen  = $dest_path;
+                $tab_informe->id_persona            = $request->id_persona;
+                $tab_informe->medico                = $request->medico; 
+                $tab_informe->id_tipo_informe       = $request->id_tipo_informe; 
+                $tab_informe->de_informe            = $request->de_informe;
+                $tab_informe->de_protocolo_tecnico  = $request->de_protocolo_tecnico;
+                $tab_informe->de_conclusion         = $request->de_conclusion;
                 $tab_informe->save();
 
                 DB::commit();

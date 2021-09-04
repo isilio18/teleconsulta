@@ -745,6 +745,8 @@ class consultaController extends Controller
 
                 $tab_ruta = tab_ruta::find($request->id_ruta);
                 $tab_ruta->in_datos = true;
+                $tab_ruta->id_instituto    = Session::get('id_instituto');
+                $tab_ruta->id_especialidad = Session::get('id_especialidad');
                 $tab_ruta->save();
 
                 HelperReporte::generarReporte($tab_ruta->id_tab_solicitud);
@@ -803,6 +805,8 @@ class consultaController extends Controller
 
                 $tab_ruta = tab_ruta::find( $request->id_ruta);
                 $tab_ruta->in_datos = true;
+                $tab_ruta->id_instituto    = Session::get('id_instituto');
+                $tab_ruta->id_especialidad = Session::get('id_especialidad');
                 $tab_ruta->save();
 
                 

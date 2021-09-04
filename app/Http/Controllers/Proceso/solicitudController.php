@@ -329,7 +329,7 @@ class solicitudController extends Controller
                 $tab_solicitud->de_observacion        = $request->observacion; 
                 $tab_solicitud->id_tab_proceso        = tab_tipo_solicitud::getProceso($request->solicitud);
                 $tab_solicitud->id_persona            = $request->id_persona;
-                $tab_solicitud->id_centro_asistencial = $request->id_centro_asistencial;
+                $tab_solicitud->id_centro_asistencial = Session::get('id_instituto');
                 $tab_solicitud->save();
 
                 DB::commit();
@@ -369,7 +369,7 @@ class solicitudController extends Controller
                 $tab_solicitud->id_tab_ejercicio_fiscal = Session::get('ejercicio');
                 $tab_solicitud->in_activo               = true;
                 $tab_solicitud->id_persona              = $request->id_persona;
-                $tab_solicitud->id_centro_asistencial   = $request->id_centro_asistencial;
+                $tab_solicitud->id_centro_asistencial = Session::get('id_instituto');
                 $tab_solicitud->save();
 
                 self::crearRuta($tab_solicitud);

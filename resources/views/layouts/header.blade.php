@@ -43,8 +43,8 @@
             <!-- Ejercicio -->
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-dual" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-fw fa-calendar-alt"></i>
-                    {!! Session::get('ejercicio') !!}
+                    <i class="fa fa-fw fa-hospital"></i>
+                    {!! Session::get('nb_instituto') !!} / <i class="fa fa-fw fa-user-md"></i>{!! Session::get('nb_especialidad') !!}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right p-0">
                     <div class="p-2">
