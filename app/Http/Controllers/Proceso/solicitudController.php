@@ -144,7 +144,7 @@ class solicitudController extends Controller
         ->whereIn('t01.id_tab_proceso', $proceso)
         ->whereIn('proceso.tab_solicitud.id_tab_tipo_solicitud', $tramite)
         ->search($q, $sortBy)
-        ->orderBy($sortBy, $orderBy)
+        ->orderBy('nu_solicitud', $orderBy)
         ->paginate($perPage);
 
         return View::make('proceso.solicitud.pendiente')->with([
@@ -164,7 +164,7 @@ class solicitudController extends Controller
     */
     public function completo( Request $request)
     {
-        $sortBy = 'id';
+        $sortBy = 'cedula';
         $orderBy = 'desc';
         $perPage = 5;
         $q = null;
@@ -189,10 +189,11 @@ class solicitudController extends Controller
         $proceso = tab_proceso_usuario::getListaProcesoAsignado(Auth::user()->id);
         $tramite = tab_solicitud_usuario::getListaTramiteAsignado(Auth::user()->id);
 
-        $tab_solicitud = tab_solicitud::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
+        $tab_solicitud = tab_persona::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
         'nu_solicitud', 'nb_usuario',
         'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),
-        'de_proceso')
+        'de_proceso','nombres','apellidos','cedula')
+        ->join('proceso.tab_solicitud', 'telemedicina.tab_persona.id', '=', 'proceso.tab_solicitud.id_persona')
         ->join('proceso.tab_ruta as t01', 'proceso.tab_solicitud.id', '=', 't01.id_tab_solicitud')
         ->join('configuracion.tab_proceso as t02', 't02.id', '=', 't01.id_tab_proceso')
         ->join('autenticacion.tab_usuario as t03', 't03.id', '=', 't01.id_tab_usuario')
@@ -203,9 +204,8 @@ class solicitudController extends Controller
         ->where('id_tab_ejercicio_fiscal', '=', Session::get('ejercicio'))
         ->whereIn('t01.id_tab_proceso', $proceso)
         ->whereIn('proceso.tab_solicitud.id_tab_tipo_solicitud', $tramite)
-        ->where('t01.nu_orden', '>', 1)
         ->search($q, $sortBy)
-        ->orderBy($sortBy, $orderBy)
+        ->orderBy('nu_solicitud', $orderBy)
         ->paginate($perPage);
 
         return View::make('proceso.solicitud.completo')->with([
@@ -225,7 +225,7 @@ class solicitudController extends Controller
     */
     public function todo( Request $request)
     {
-        $sortBy = 'id';
+        $sortBy = 'cedula';
         $orderBy = 'desc';
         $perPage = 5;
         $q = null;
@@ -250,10 +250,11 @@ class solicitudController extends Controller
         $proceso = tab_proceso_usuario::getListaProcesoAsignado(Auth::user()->id);
         $tramite = tab_solicitud_usuario::getListaTramiteAsignado(Auth::user()->id);
 
-        $tab_solicitud = tab_solicitud::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
+        $tab_solicitud = tab_persona::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
         'nu_solicitud', 'nb_usuario',
         'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),
-        'de_proceso')
+        'de_proceso','nombres','apellidos','cedula')
+        ->join('proceso.tab_solicitud', 'telemedicina.tab_persona.id', '=', 'proceso.tab_solicitud.id_persona')
         ->join('proceso.tab_ruta as t01', 'proceso.tab_solicitud.id', '=', 't01.id_tab_solicitud')
         ->join('configuracion.tab_proceso as t02', 't02.id', '=', 't01.id_tab_proceso')
         ->join('autenticacion.tab_usuario as t03', 't03.id', '=', 't01.id_tab_usuario')

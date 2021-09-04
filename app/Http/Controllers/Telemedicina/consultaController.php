@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Telemedicina;
 //*******agregar esta linea******//
 use App\Models\tab_comentario;
 use App\Models\tab_clasificacion;
-use App\Models\tab_consulta;
 use App\Models\tab_institucion;
 use App\Models\Proceso\tab_solicitud;
 use App\Models\Proceso\tab_ruta;
@@ -12,6 +11,7 @@ use App\Models\Configuracion\tab_solicitud as tab_tipo_solicitud;
 use App\Models\Configuracion\tab_tipo_informe;
 use App\Models\Proceso\tab_persona;
 use App\Models\Teleconsulta\tab_informe;
+use App\Models\Teleconsulta\tab_consulta;
 use View;
 use Validator;
 use Input;
@@ -102,24 +102,48 @@ class consultaController extends Controller
         ->where('id', '=', $id)
         ->first();       
         
-        $tab_proceso = tab_ruta::select( 't01.de_proceso')
+        $tab_proceso = tab_ruta::select( 't01.de_proceso','tab_ruta.id_persona')
         ->join('configuracion.tab_proceso as t01', 'proceso.tab_ruta.id_tab_proceso', '=', 't01.id')
         ->where('proceso.tab_ruta.id', '=', $ruta)
         ->first();        
         
         $tab_tipo_solicitud = tab_tipo_solicitud::select( 'id', 'de_solicitud')
         ->where('id', '=', $tab_solicitud->id_tab_tipo_solicitud)
-        ->first();  
+        ->first();
         
+        $tab_consulta = tab_consulta::where('id_ruta', '=', $ruta)->first(); 
+        
+        $tab_persona = tab_persona::select('telemedicina.tab_persona.id', 'cedula','nombres', 'apellidos', 'de_sexo', 'telefono', 'direccion', DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"))
+        ->join('configuracion.tab_sexo as t01', 'telemedicina.tab_persona.id_sexo', '=', 't01.id')
+        ->where('telemedicina.tab_persona.id', '=', $tab_proceso->id_persona)
+        ->first();        
+        
+        if(!$tab_consulta){    
+            
         return View::make('consulta.registrar')->with([
           'solicitud' => $id,
           'ruta' => $ruta,
           'tab_proceso' => $tab_proceso,
           'tab_solicitud' => $tab_solicitud,
-          'tab_tipo_solicitud' => $tab_tipo_solicitud
-        ]);        
+          'tab_tipo_solicitud' => $tab_tipo_solicitud,
+          'tab_persona' => $tab_persona
+        ]);            
+            
+        }else{
         
-        return View::make('consulta.registrar');
+        return View::make('consulta.editar')->with([
+          'solicitud' => $id,
+          'ruta' => $ruta,
+          'tab_consulta' => $tab_consulta,
+          'tab_proceso' => $tab_proceso,
+          'tab_solicitud' => $tab_solicitud,
+          'tab_tipo_solicitud' => $tab_tipo_solicitud,
+          'tab_persona' => $tab_persona
+        ]);            
+            
+        }    
+        
+        
 
     }    
     
@@ -184,19 +208,14 @@ class consultaController extends Controller
         try {
 
             $fecha = $request->get('fecha');
+            $fecha_covid = $request->get('fecha_covid');
+            $fecha_vacuna = $request->get('fecha_vacuna');            
             $tabla = tab_consulta::find($id);
             //$tabla->fe_consulta = $fecha;
-            $tabla->cedula = $request->cedula;
-            $tabla->persona = $request->nombre;
-            $tabla->edad = $request->edad;
-            $tabla->sexo = $request->sexo;
-            $tabla->peso = $request->peso;
-            $tabla->talla = $request->talla;
-            $tabla->telefono = $request->telefono;
-            $tabla->direccion = $request->direccion;
-            $tabla->municipio = $request->municipio;
-            $tabla->parroquia = $request->parroquia;
-            $tabla->correo = $request->correo;
+            $tabla->fe_covid = $fecha_covid;
+            $tabla->fe_vacuna = $fecha_vacuna;
+            $tabla->id_persona = $request->id_persona;            
+            
             if (array_key_exists('diabetes', $request->all())) {
                 $tabla->diabetes = true;
             }else{
@@ -334,11 +353,15 @@ class consultaController extends Controller
             $tabla->de_tratamiento =  $request->tratamiento;
             
             $tabla->save();
+            
+            $tab_ruta = tab_ruta::find($request->ruta);
+            $tab_ruta->in_datos = true;
+            $tab_ruta->save();             
 
             DB::commit();
 
             Session::flash('msg_side_overlay', 'Registro editado con Exito!');
-            return Redirect::to('/consulta');
+            return Redirect::to('/proceso/ruta/lista/'.$request->ruta);
 
         }catch (\Illuminate\Database\QueryException $e)
         {
@@ -364,17 +387,8 @@ class consultaController extends Controller
             $tabla->fe_consulta = $fecha;
             $tabla->fe_covid = $fecha_covid;
             $tabla->fe_vacuna = $fecha_vacuna;
-            $tabla->cedula = $request->cedula;
-            $tabla->persona = $request->nombre;
-            $tabla->edad = $request->edad;
-            $tabla->sexo = $request->sexo;
-            $tabla->peso = $request->peso;
-            $tabla->talla = $request->talla;
-            $tabla->telefono = $request->telefono;
-            $tabla->direccion = $request->direccion;
-            $tabla->municipio = $request->municipio;
-            $tabla->parroquia = $request->parroquia;
-            $tabla->correo = $request->correo;
+            $tabla->id_persona = $request->id_persona;
+            
             if (array_key_exists('diabetes', $request->all())) {
                 $tabla->diabetes = true;
             }else{
@@ -510,14 +524,18 @@ class consultaController extends Controller
             $tabla->de_consulta = $request->informe;
             $tabla->de_diagnostico = $request->diagnostico;
             $tabla->de_tratamiento =  $request->tratamiento;
+            $tabla->id_ruta =  $request->ruta;
             
             $tabla->save();
 
+            $tab_ruta = tab_ruta::find($request->ruta);
+            $tab_ruta->in_datos = true;
+            $tab_ruta->save();            
             
             DB::commit();
 
             Session::flash('msg_side_overlay', 'Registro creado con Exito!');
-            return Redirect::to('/consulta');
+            return Redirect::to('/proceso/ruta/lista/'.$request->ruta);
 
         }catch (\Illuminate\Database\QueryException $e)
         {
