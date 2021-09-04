@@ -83,7 +83,7 @@ $(function () {
 
                      <div class="row">
                         <div class="col-md-3">
-                            <label for="cedula">Cedula:</label> {{ $tab_persona->cedula }}
+                            <label for="cedula">Cédula:</label> {{ $tab_persona->cedula }}
                         </div>                         
 
                         <div class="col-md-7">
