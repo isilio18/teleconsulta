@@ -310,7 +310,7 @@ $(function () {
                                          
                 </div>
                 
-                <label for="correo">Habitos Tóxicos</label>   
+                <label for="correo">Hábitos Tóxicos</label>   
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
