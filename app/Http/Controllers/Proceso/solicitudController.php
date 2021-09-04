@@ -267,7 +267,7 @@ class solicitudController extends Controller
         ->whereIn('proceso.tab_solicitud.id_tab_tipo_solicitud', $tramite)
         ->where('t01.nu_orden', '=', 1)
         ->search($q, $sortBy)
-        ->orderBy($sortBy, $orderBy)
+        ->orderBy('nu_solicitud', $orderBy)
         ->paginate($perPage);
 
         return View::make('proceso.solicitud.todo')->with([
