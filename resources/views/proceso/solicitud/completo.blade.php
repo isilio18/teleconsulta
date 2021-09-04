@@ -73,7 +73,7 @@
         </div>
         @endif
             
-        <form action="{{ url('/proceso/solicitud/lista') }}" method="get">
+        <form action="{{ url('/proceso/solicitud/completo') }}" method="get">
             <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <label>
@@ -100,7 +100,9 @@
             <table class="table table-hover table-bordered table-striped table-vcenter">
                 <thead class="thead-light">
                     <tr>
-                        <th class="text-center" style="width: 150px;">N° Proceso</th>
+                        <th class="text-center" style="width: 150px;">Nº Solicitud</th>
+                        <th class="text-center" style="width: 150px;">Cédula</th>
+                        <th class="text-center" style="width: 200px;">Nombre y Apellido</th>
                         <th>Descripcion</th>
                         <th>Usuario</th>
                         <th>Fecha</th>
@@ -111,6 +113,8 @@
                 @foreach($tab_solicitud as $key => $value)
                     <tr>
                         <td class="font-w600">{{ $value->nu_solicitud }}</td>
+                        <td class="font-w600">{{ $value->cedula }}</td>
+                        <td class="font-w600">{{ $value->nombres.' '.$value->apellidos}}</td>
                         <td class="font-w600">{{ $value->nu_identificador }}-{{ $value->de_solicitud }}</td>
                         <td class="d-none d-sm-table-cell"><em class="text-muted">{{ $value->nb_usuario }}</em></td>
                         <td class="font-w600">{{ $value->fe_creado }}</td>

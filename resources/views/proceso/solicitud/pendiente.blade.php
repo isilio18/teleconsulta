@@ -100,6 +100,7 @@
             <table class="table table-hover table-bordered table-striped table-vcenter">
                 <thead class="thead-light">
                     <tr>
+                        <th class="text-center" style="width: 150px;">Nº Solicitud</th>
                         <th class="text-center" style="width: 150px;">Cédula</th>
                         <th class="text-center" style="width: 200px;">Nombre y Apellido</th>
                         <th>Descripcion</th>
@@ -111,6 +112,7 @@
                 <tbody>
                 @foreach($tab_solicitud as $key => $value)
                     <tr>
+                        <td class="font-w600">{{ $value->nu_solicitud }}</td>
                         <td class="font-w600">{{ $value->cedula }}</td>
                         <td class="font-w600">{{ $value->nombres.' '.$value->apellidos}}</td>
                         <td class="font-w600">{{ $value->nu_identificador }}-{{ $value->de_solicitud }}</td>
