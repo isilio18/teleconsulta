@@ -26,7 +26,7 @@
                         <a class="link-fx font-w700 font-size-h1" href="javascript:void(0)">
                             <span class="text-dark">GOBEL</span><span class="text-primary"> Salud</span>
                         </a>
-                        <p class="text-uppercase font-w700 font-size-sm text-muted">Selección de Periodo</p>
+                       
                     </div>
                     <!-- END Header -->
 
@@ -35,29 +35,44 @@
                     <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
                     <form class="js-validation-reminder" action="{{ url('/ejercicio') }}" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <select class="custom-select {!! $errors->has('ejercicio') ? 'is-invalid' : '' !!}" name="ejercicio" id="ejercicio" {{ $errors->has('ejercicio') ? 'aria-describedby="ejercicio-error" aria-invalid="true"' : '' }}>
+                        <div class="form-group form-row">                           
+                                  <label for="cedula">Institución</label>
+                        </div>
+                        <div class="form-group form-row">
+                                <select class="custom-select {!! $errors->has('instituto') ? 'is-invalid' : '' !!}" name="instituto" id="instituto" {{ $errors->has('instituto') ? 'aria-describedby="instituto-error" aria-invalid="true"' : '' }}>
                                     <option value="" >Seleccione...</option>
-                                    @foreach($tab_ejercicio_fiscal as $ejercicio)
-                                        <option value="{{ $ejercicio->id }}" {{ $ejercicio->id == old('ejercicio') ? 'selected' : '' }}>{{ $ejercicio->id }}</option>
+                                    @foreach($tab_instituto as $instituto)
+                                        <option value="{{ $instituto->id }}" {{ $instituto->id == old('instituto') ? 'selected' : '' }}>{{ $instituto->de_instituto}}</option>
                                     @endforeach
                                 </select>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-calendar-alt"></i>
-                                    </span>
-                                </div>
-                                @if( $errors->has('ejercicio') )
-                                    <div id="ejercicio-error" class="invalid-feedback animated fadeIn">{{ $errors->first('ejercicio') }}</div>
+                                @if( $errors->has('instituto') )
+                                    <div id="instituto-error" class="invalid-feedback animated fadeIn">{{ $errors->first('instituto') }}</div>
                                 @endif
+                        </div>
+                         <div class="form-group form-row">
+                                 <label for="cedula">Especialidad</label>
+                        </div>      
+                        <div class="form-group form-row">
+                                <select class="custom-select {!! $errors->has('especialidad') ? 'is-invalid' : '' !!}" name="especialidad" id="especialidad" {{ $errors->has('especialidad') ? 'aria-describedby="especialidad-error" aria-invalid="true"' : '' }}>
+                                    <option value="" >Seleccione...</option>
+                                    @foreach($tab_especialidad as $especialidad)
+                                        <option value="{{ $especialidad->id }}" {{ $especialidad->id == old('especialidad') ? 'selected' : '' }}>{{ $especialidad->de_especialidad}}</option>
+                                    @endforeach
+                                </select>
+                                @if( $errors->has('especialidad') )
+                                    <div id="especialidad-error" class="invalid-feedback animated fadeIn">{{ $errors->first('especialidad') }}</div>
+                                @endif
+                        </div>  
+
+                        <div class="block-content bg-body-light">
+                            <div class="row justify-content-center push">
+                                <div class="col-md-10">
+                                    <button type="submit" class="btn btn-alt-primary">
+                                        <i class="fa fa-fw fa-save mr-1"></i> Seleccionar
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-block btn-hero-lg btn-hero-primary">
-                                <i class="fa fa-fw fa-calendar-check mr-1"></i> Aceptar
-                            </button>
-                        </div>
+                        </div>                      
                     </form>
                     <!-- END Reminder Form -->
                 </div>

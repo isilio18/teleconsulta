@@ -45,6 +45,11 @@ class consultaController extends Controller
         ->first();
 
         $tab_informe = tab_informe::where('id_ruta', '=',$ruta)->first();   
+        $tab_ruta = tab_ruta::select('nb_usuario','de_especialidad','de_instituto')
+                    ->join('autenticacion.tab_usuario as t01','t01.id','=','proceso.tab_ruta.id_tab_usuario')
+                    ->join('configuracion.tab_especialidad as t02','t02.id','=','proceso.tab_ruta.id_especialidad')
+                    ->join('configuracion.tab_instituto as t03','t03.id','=','proceso.tab_ruta.id_instituto')
+                    ->where('proceso.tab_ruta.id', '=',$ruta)->first();   
 
 
         list($fecha,$hora) = explode(" ", $tab_informe->created_at);
@@ -79,6 +84,8 @@ class consultaController extends Controller
         $pdf->SetFont('','',10);
 
         $pdf->ln();
+        $pdf->MultiCell(190, 5, $tab_ruta->de_instituto, 0, 'C', 0, 0, '', '', true);
+        $pdf->ln();  
         $pdf->SetFont('','B',11);
         $pdf->MultiCell(190, 5, 'RESONANCIA MAGNETICA DE CRANEO', 0, 'C', 0, 0, '', '', true);
         //$pdf->SetY(35);
@@ -107,7 +114,9 @@ class consultaController extends Controller
 
         $pdf->ln(16);
         $pdf->SetFont('','',10);
-        $pdf->MultiCell(190, 6, $tab_informe->medico, 0, 'R', 0, 0, '', '', true);
+        $pdf->MultiCell(190, 6, $tab_ruta->nb_usuario, 0, 'R', 0, 0, '', '', true);
+        $pdf->ln();
+        $pdf->MultiCell(190, 6, $tab_ruta->de_especialidad, 0, 'R', 0, 0, '', '', true);
 
         //******FIN CONTENIDO*******//
         $pdf->lastPage();

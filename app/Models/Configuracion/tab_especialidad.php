@@ -11,4 +11,14 @@ class tab_especialidad extends Model
 
 	//Todos los modelos deben extender la clase Eloquent
     protected $table = 'configuracion.tab_especialidad';
+
+    protected function getEspecialidad($id_usuario){
+
+    $tab_solicitud = tab_especialidad::select( 'configuracion.tab_especialidad.id','configuracion.tab_especialidad.de_especialidad')
+        ->join('autenticacion.tab_usuario_especialidad as t01', 't01.id_especialidad', '=', 'configuracion.tab_especialidad.id')
+        ->where('id_usuario', '=', $id_usuario)
+        ->get();
+        
+        return $tab_solicitud;
+    }
 }

@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Panel;
 //*******agregar esta linea******//
 use App\Models\Configuracion\tab_ejercicio_fiscal;
 use App\Models\Autenticar\tab_notificacion;
+use App\Models\Autenticar\tab_usuario;
 use App\Models\Proceso\tab_solicitud;
 use App\Models\Configuracion\tab_proceso_usuario;
 use App\Models\Configuracion\tab_solicitud_usuario;
+use App\Models\Configuracion\tab_especialidad;
+use App\Models\Configuracion\tab_instituto;
 use Session;
 use Response;
 use Validator;
@@ -63,11 +66,12 @@ class panelController extends Controller
     public function ejercicio()
     {
   
-        $tab_ejercicio_fiscal = tab_ejercicio_fiscal::orderBy('id','asc')
-        ->get();
+        $tab_especialidad = tab_especialidad::getEspecialidad(Auth::user()->id);
+        $tab_instituto    = tab_instituto::getInstituto(Auth::user()->id);
   
         return View::make('inicio.ejercicio')->with([
-            'tab_ejercicio_fiscal'  => $tab_ejercicio_fiscal
+            'tab_especialidad'  => $tab_especialidad,
+            'tab_instituto' => $tab_instituto
         ]);
     }
 
@@ -79,14 +83,25 @@ class panelController extends Controller
     public function ejercicioInicio(Request $request)
     {
 
-        $validator= Validator::make($request->all(), tab_ejercicio_fiscal::$validar);
+        $validator= Validator::make($request->all(), tab_usuario::$validarLogin);
 
         if ($validator->fails()){
             return Redirect::back()->withErrors( $validator)->withInput( $request->all());
         }
   
-        Session::put('ejercicio', $request->ejercicio);
-        Session::flash('msg_side_overlay', 'Periodo seleccionado con exito!');
+
+        $especialidad = tab_especialidad::where('id','=',$request->especialidad)->first();
+        $instituto    = tab_instituto::where('id','=',$request->instituto)->first();
+
+     
+
+        Session::put('id_especialidad', $request->especialidad);
+        Session::put('id_instituto', $request->instituto);
+        Session::put('nb_especialidad', $especialidad->de_especialidad);
+        Session::put('nb_instituto', $instituto->de_instituto);
+
+
+        Session::flash('msg_side_overlay', 'Especialidad Seleccionada con Exito!');
 
         return redirect('/inicio');
 

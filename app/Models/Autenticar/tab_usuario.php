@@ -44,6 +44,11 @@ class tab_usuario extends Model implements AuthenticatableContract,
 	 */
     protected $hidden = ['password', 'remember_token'];
 
+    public static $validarLogin = array(
+		"especialidad"    => "required",
+		"instituto"    => "required"
+	);
+
     public static $validarCrear = array(
 		"usuario"    => "required|alpha_dash|min:1|max:30|unique:principal.autenticacion.tab_usuario,da_login",
 		"correo"    => "required|email|unique:principal.autenticacion.tab_usuario,da_email",

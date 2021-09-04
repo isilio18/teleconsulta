@@ -96,16 +96,7 @@ $(function () {
                                  <h2 class="content-heading pt-0">Datos del Informe</h2>
 
                                  <div class="row">
-                                            <div class="col-md-7">
-                                                <div class="form-group form-row">
-                                                    <label for="medico">Médico Tratante</label>
-                                                    <input type="text" class="form-control {!! $errors->has('medico') ? 'is-invalid' : '' !!}" id="medico" name="medico" value="{{ (empty($tab_informe->medico))?old('medico'): $tab_informe->medico}}" {{ $errors->has('medico') ? 'aria-describedby="medico-error" aria-invalid="true"' : '' }}>
-                                                    @if( $errors->has('medico') )
-                                                        <div id="medico-error" class="invalid-feedback animated fadeIn">{{ $errors->first('medico') }}</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-
+                                            
                                             <div class="col-md-10">
                                                 <div class="form-group form-row">
                                                     <label for="de_protocolo_tecnico">Protocolo Técnico</label>
