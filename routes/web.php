@@ -49,7 +49,9 @@ Route::group(['namespace' => 'Telemedicina'], function(){
         Route::get('persona/editar/{id}', 'persona@editar');
         Route::post('persona/buscar', 'persona@buscar');
         Route::post('persona/guardar', 'persona@guardar');
-        Route::post('persona/guardar/{id}', 'persona@guardar');        
+        Route::post('persona/guardar/{id}', 'persona@guardar');
+        Route::post('registrarConsulta', 'consultaController@guardar');
+        Route::post('registrarConsulta/{id}', 'consultaController@guardar');        
 	});        
         
 });
