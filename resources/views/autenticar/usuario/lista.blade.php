@@ -79,7 +79,6 @@
                         <th>Login</th>
                         <th>Nombre</th>
                         <th>Rol</th>
-                        <th>Empresa</th>
                         <th class="d-none d-md-table-cell text-center" style="width: 100px;">Acciones</th>
                     </tr>
                 </thead>
@@ -90,7 +89,6 @@
                         <td class="d-none d-sm-table-cell"><em class="text-muted">{{ $value->da_login }}</em></td>
                         <td class="font-w600">{{ $value->nb_usuario }}</td>
                         <td class="font-w600">{{ $value->de_rol }}</td>
-                        <td class="font-w600">{{ $value->nb_empresa }}</td>
                         <td class="text-center">
                             <div class="btn-group">
                                 <a href="{{ url('/autenticar/usuario/editar').'/'. $value->id }}">
@@ -112,6 +110,12 @@
                                 </button>
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Asignar Solicitudes" onclick="location.href='{{ url('/autenticar/usuario/solicitud').'/'. $value->id }}'">
                                     <i class="fa fa-indent"></i>
+                                </button>
+                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Especialidades" onclick="location.href='{{ url('/configuracion/usuario/especialidad').'/'. $value->id }}'">
+                                    <i class="fa fa-user-md"></i>
+                                </button>
+                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Centro Asistencial" onclick="location.href='{{ url('/configuracion/usuario/instituto').'/'. $value->id }}'">
+                                    <i class="fa fa-hospital"></i>
                                 </button>
                             </div>
                         </td>

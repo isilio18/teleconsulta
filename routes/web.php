@@ -91,6 +91,23 @@ Route::group(['namespace' => 'Configuracion'], function(){
 			Route::post('ejercicio/guardar/{id}', 'ejercicioFiscalController@guardar');
 			Route::get('ejercicio/deshabilitar/{id}', 'ejercicioFiscalController@deshabilitar');
 			Route::get('ejercicio/habilitar/{id}', 'ejercicioFiscalController@habilitar');
+
+
+			Route::get('usuario/especialidad/{id}', 'especialidadController@lista');			
+			Route::get('usuario/especialidad/nuevo/{id}', 'especialidadController@nuevo');	
+			Route::post('usuario/especialidad/guardar', 'especialidadController@guardar');
+			Route::get('usuario/especialidad/deshabilitar/{id}', 'especialidadController@deshabilitar');
+			Route::get('usuario/especialidad/habilitar/{id}', 'especialidadController@habilitar');
+			Route::post('usuario/especialidad/eliminar/{id}', 'especialidadController@eliminar');
+			
+
+			Route::get('usuario/instituto/{id}', 'institutoController@lista');			
+			Route::get('usuario/instituto/nuevo/{id}', 'institutoController@nuevo');	
+			Route::post('usuario/instituto/guardar', 'institutoController@guardar');
+			Route::get('usuario/instituto/deshabilitar/{id}', 'institutoController@deshabilitar');
+			Route::get('usuario/instituto/habilitar/{id}', 'institutoController@habilitar');
+			Route::post('usuario/instituto/eliminar/{id}', 'institutoController@eliminar');
+
     });
 });
 //*Modulos de Tablas de Proceso*/
@@ -162,7 +179,7 @@ Route::group(['namespace' => 'Autenticar'], function(){
 		Route::get('usuario/deshabilitar/{id}', 'usuarioController@deshabilitar');
 		Route::get('usuario/habilitar/{id}', 'usuarioController@habilitar');
 		Route::get('usuario/proceso/{id}', 'procesoController@lista');
-		Route::get('usuario/proceso/nuevo/{id}', 'procesoController@nuevo');
+		Route::get('usuario/proceso/nuevo/{id}', 'procesoController@nuevo');	
 		Route::get('usuario/solicitud/{id}', 'usuarioSolicitudController@lista');
 		Route::get('usuario/rol', 'usuarioController@rol');
 		Route::get('usuario/empresa', 'usuarioController@empresa');
