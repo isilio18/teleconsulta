@@ -296,7 +296,7 @@ class institutoController extends Controller
         ->orderBy('de_instituto', $orderBy)
         ->paginate($perPage);
 
-        $email = "noreply@teleconsulta.gobeltech.com";
+        $email = "teleconsulta@teleconsulta.gobeltech.com";
         $name  = "Joel Camarillo";
 
         try{
