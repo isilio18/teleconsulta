@@ -7,15 +7,15 @@
 
 @section('js_after')
     <!-- Page JS Plugins -->
-    <script src="{{ asset('/assets/js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ secure_asset('/assets/js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <!-- Page JS Code -->
-    <script src="{{ asset('/assets/js/pages/op_auth_signin.min.js') }}"></script>
+    <script src="{{ secure_asset('/assets/js/pages/op_auth_signin.min.js') }}"></script>
 @endsection
 
 @section('content')
 
 <!-- Page Content -->
-<div class="bg-image" style="background-image: url('{{ asset('/assets/media/photos/photo22@2x.jpg') }}');">
+<div class="bg-image" style="background-image: url('{{ secure_asset('/assets/media/photos/photo22@2x.jpg') }}');">
     <div class="row no-gutters bg-primary-op">
         <div class="hero-static col-md-6 d-flex align-items-center bg-white">
             <div class="p-3 w-100">
