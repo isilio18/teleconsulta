@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Configuracion;
 //*******agregar esta linea******//
 use App\Models\Autenticar\tab_usuario_especialidad;
 use App\Models\Configuracion\tab_especialidad;
+use App\Models\Proceso\tab_ruta;
 use View;
 use Validator;
 use Response;
@@ -71,12 +72,56 @@ class especialidadController extends Controller
         ]);
     }
 
+
+      /**
+    * Display a listing of the resource.
+    *
+    * @return Response
+    */
+    public function index(Request $request)
+    {
+        $sortBy = 'de_especialidad';
+        $orderBy = 'desc';
+        $perPage = 5;
+        $q = null;
+        $columnas = [
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Origen'],
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Destino']
+        ];
+
+        if ($request->has('orderBy')){
+            $orderBy = $request->query('orderBy');
+        }
+        if ($request->has('sortBy')){
+            $sortBy = $request->query('sortBy');
+        } 
+        if ($request->has('perPage')){
+            $perPage = $request->query('perPage');
+        } 
+        if ($request->has('q')){
+            $q = $request->query('q');
+        }
+
+        $tab_especialidad = tab_especialidad::search($q, $sortBy)
+        ->orderBy('de_especialidad', $orderBy)
+        ->paginate($perPage);
+
+        return View::make('configuracion.especialidad.lista')->with([
+          'tab_especialidad' => $tab_especialidad,
+          'orderBy' => $orderBy,
+          'sortBy' => $sortBy,
+          'perPage' => $perPage,
+          'columnas' => $columnas,
+          'q' => $q
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function nuevo( $id)
+    public function nuevo($id)
     {
         $data = array( "id_usuario" => $id);
 
@@ -91,7 +136,126 @@ class especialidadController extends Controller
         ]);
     }
 
-        /**
+
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function save( Request $request)
+    {
+        DB::beginTransaction();
+  
+            try {
+
+                $validator= Validator::make($request->all(), tab_especialidad::$validar);
+
+                if ($validator->fails()){
+                    return Redirect::back()->withErrors( $validator)->withInput( $request->all());
+                }
+
+                if(empty($request->id)){
+                     $tabla = new tab_especialidad;
+                }
+                else{
+                     $tabla = tab_especialidad::find($request->id);
+                }  
+
+                             
+                $tabla->de_especialidad = $request->de_especialidad; 
+                $tabla->save();
+
+                DB::commit();
+                
+                Session::flash('msg_side_overlay', 'Registro Editado con Exito!');
+                return Redirect::to('/configuracion/especialidad');
+
+            }catch (\Illuminate\Database\QueryException $e){
+
+                DB::rollback();
+                return Redirect::back()->withErrors([
+                    'da_alert_form' => $e->getMessage()
+                ])->withInput( $request->all());
+
+            }
+  
+        
+    }
+
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return Response
+    */
+    public function delete( Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $cant_ruta         = tab_ruta::where('id_especialidad','=',$id)->count();
+            $cant_especialidad = tab_usuario_especialidad::where('id_especialidad','=',$id)->count();            
+
+            if($cant_ruta>0){
+                  Session::flash('msg_side_overlay', 'El registro se encuentra asociado a historia de pacientes!');
+                  return Redirect::to('/configuracion/especialidad');
+            }
+
+            if($cant_especialidad>0){
+                  Session::flash('msg_side_overlay', 'El registro se encuenta asociado a usuarios!');
+                  return Redirect::to('/configuracion/especialidad');
+            }
+
+
+            $tabla = tab_especialidad::find($id);
+            $tabla->delete();
+            DB::commit();
+
+            Session::flash('msg_side_overlay', 'Registro borrado con Exito!');
+           return Redirect::to('/configuracion/especialidad');
+
+        }catch (\Illuminate\Database\QueryException $e)
+        {
+            DB::rollback();
+
+            $response['success']  = 'false';
+            $response['msg']  = array('ERROR ('.$e->getCode().'):'=> $e->getMessage());
+            return Response::json($response, 200);
+        }
+    }
+
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editar($id)
+    {
+     
+        $especialidad = '';
+        if(!empty($id))
+            $especialidad = tab_especialidad::where('id','=',$id)->first();
+
+
+        return View::make('configuracion.especialidad.editar')->with([
+            'data'  => $especialidad
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function new()
+    {
+        return View::make('configuracion.especialidad.editar')->with([
+            'data'  => ''
+        ]);
+    }
+
+
+
+    /**
     * Update the specified resource in storage.
     *
     * @param  int  $id
@@ -188,6 +352,8 @@ class especialidadController extends Controller
             return Response::json($response, 200);
         }
     }
+
+
 
     /**
      * Remove the specified resource from storage.

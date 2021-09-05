@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Configuracion;
 //*******agregar esta linea******//
 use App\Models\Autenticar\tab_usuario_instituto;
 use App\Models\Configuracion\tab_instituto;
+use App\Models\Proceso\tab_ruta;
 use View;
 use Validator;
 use Response;
@@ -258,4 +259,170 @@ class institutoController extends Controller
             ])->withInput( $request->all());
         }
     }
+
+    
+
+    /**
+    * Display a listing of the resource.
+    *
+    * @return Response
+    */
+    public function index(Request $request)
+    {
+        $sortBy = 'de_instituto';
+        $orderBy = 'desc';
+        $perPage = 5;
+        $q = null;
+        $columnas = [
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Origen'],
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Destino']
+        ];
+
+        if ($request->has('orderBy')){
+            $orderBy = $request->query('orderBy');
+        }
+        if ($request->has('sortBy')){
+            $sortBy = $request->query('sortBy');
+        } 
+        if ($request->has('perPage')){
+            $perPage = $request->query('perPage');
+        } 
+        if ($request->has('q')){
+            $q = $request->query('q');
+        }
+
+        $tab_instituto = tab_instituto::search($q, $sortBy)
+        ->orderBy('de_instituto', $orderBy)
+        ->paginate($perPage);
+
+        return View::make('configuracion.instituto.lista')->with([
+          'tab_instituto' => $tab_instituto,
+          'orderBy' => $orderBy,
+          'sortBy' => $sortBy,
+          'perPage' => $perPage,
+          'columnas' => $columnas,
+          'q' => $q
+        ]);
+    }
+
+
+      /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function save( Request $request)
+    {
+        DB::beginTransaction();
+  
+            try {
+
+                $validator= Validator::make($request->all(), tab_instituto::$validar);
+
+                if ($validator->fails()){
+                    return Redirect::back()->withErrors( $validator)->withInput( $request->all());
+                }
+
+                if(empty($request->id)){
+                     $tabla = new tab_instituto;
+                }
+                else{
+                     $tabla = tab_instituto::find($request->id);
+                }  
+
+                             
+                $tabla->de_instituto = $request->de_instituto; 
+                $tabla->save();
+
+                DB::commit();
+                
+                Session::flash('msg_side_overlay', 'Registro Editado con Exito!');
+                return Redirect::to('/configuracion/instituto');
+
+            }catch (\Illuminate\Database\QueryException $e){
+
+                DB::rollback();
+                return Redirect::back()->withErrors([
+                    'da_alert_form' => $e->getMessage()
+                ])->withInput( $request->all());
+
+            }
+  
+        
+    }
+
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return Response
+    */
+    public function delete( Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $cant_ruta         = tab_ruta::where('id_instituto','=',$id)->count();
+            $cant_instituto = tab_usuario_instituto::where('id_instituto','=',$id)->count();            
+
+            if($cant_ruta>0){
+                  Session::flash('msg_side_overlay', 'El registro se encuentra asociado a historia de pacientes!');
+                  return Redirect::to('/configuracion/instituto');
+            }
+
+            if($cant_instituto>0){
+                  Session::flash('msg_side_overlay', 'El registro se encuenta asociado a usuarios!');
+                  return Redirect::to('/configuracion/instituto');
+            }
+
+
+            $tabla = tab_instituto::find($id);
+            $tabla->delete();
+            DB::commit();
+
+            Session::flash('msg_side_overlay', 'Registro borrado con Exito!');
+           return Redirect::to('/configuracion/instituto');
+
+        }catch (\Illuminate\Database\QueryException $e)
+        {
+            DB::rollback();
+
+            $response['success']  = 'false';
+            $response['msg']  = array('ERROR ('.$e->getCode().'):'=> $e->getMessage());
+            return Response::json($response, 200);
+        }
+    }
+
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editar($id)
+    {
+     
+        $instituto = '';
+        if(!empty($id))
+            $instituto = tab_instituto::where('id','=',$id)->first();
+
+
+        return View::make('configuracion.instituto.editar')->with([
+            'data'  => $instituto
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function new()
+    {
+        return View::make('configuracion.instituto.editar')->with([
+            'data'  => ''
+        ]);
+    }
+
+
+
+
 }

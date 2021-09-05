@@ -101,6 +101,20 @@ Route::group(['namespace' => 'Configuracion'], function(){
 			Route::get('usuario/especialidad/deshabilitar/{id}', 'especialidadController@deshabilitar');
 			Route::get('usuario/especialidad/habilitar/{id}', 'especialidadController@habilitar');
 			Route::post('usuario/especialidad/eliminar/{id}', 'especialidadController@eliminar');
+
+
+			Route::get('especialidad', 'especialidadController@index');
+			Route::get('especialidad/editar/{id}', 'especialidadController@editar');
+			Route::get('especialidad/nuevo', 'especialidadController@new');
+			Route::post('especialidad/guardar', 'especialidadController@save');
+			Route::post('especialidad/eliminar/{id}', 'especialidadController@delete');
+
+
+			Route::get('instituto', 'institutoController@index');
+			Route::get('instituto/editar/{id}', 'institutoController@editar');
+			Route::get('instituto/nuevo', 'institutoController@new');
+			Route::post('instituto/guardar', 'institutoController@save');
+			Route::post('instituto/eliminar/{id}', 'institutoController@delete');
 			
 
 			Route::get('usuario/instituto/{id}', 'institutoController@lista');			
