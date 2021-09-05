@@ -297,13 +297,14 @@ class institutoController extends Controller
         ->paginate($perPage);
 
 
-        $subject = "Asunto del correo";
-        $for = "joel@gmail.com";
-        Mail::send('email',$request->all(), function($msj) use($subject,$for){
-            $msj->from("teleconsulta@gobeltech.com","Teleconsulta");
-            $msj->subject($subject);
-            $msj->to($for);
-        });
+        Mail::send(
+                    'emails.password', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
+                    function($message) use ($email, $name){
+                        $message->sender('noreply@test.com');
+                        //$message->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
+                        $message->to("joelc33@gmail.com", "Joel Camarillo")->subject('Telemedicina Informe');
+                    }
+                );
         
 
         return View::make('configuracion.instituto.lista')->with([
