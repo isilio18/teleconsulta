@@ -692,4 +692,3 @@ Route::group(['namespace' => 'Administracion'], function(){
 	
 });
 
-URL::forceScheme('https');
