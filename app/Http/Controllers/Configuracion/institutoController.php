@@ -299,15 +299,21 @@ class institutoController extends Controller
         $email = "joelc33@gmail.com";
         $name  = "Joel Camarillo";
 
+        try{
+            Mail::send(
+                        'emails.password', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
+                        function($message) use ($email, $name){
+                            $message->sender('noreply-teleconsulta.gobeltech.com@teleconsulta.gobeltech.com');
+                            //$message->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
+                            $message->to($email, $name )->subject('Telemedicina Informe');
+                        }
+                    );
 
-        Mail::send(
-                    'emails.password', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
-                    function($message) use ($email, $name){
-                        $message->sender('noreply-teleconsulta.gobeltech.com@teleconsulta.gobeltech.com');
-                        //$message->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
-                        $message->to($email, $name )->subject('Telemedicina Informe');
-                    }
-                );
+         }catch(\Exception $e){
+
+            echo "error"; exit();
+
+          }
         
 
         return View::make('configuracion.instituto.lista')->with([
