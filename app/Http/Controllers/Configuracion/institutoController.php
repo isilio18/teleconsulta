@@ -303,7 +303,7 @@ class institutoController extends Controller
             Mail::send(
                         'emails.password', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
                         function($message) use ($email, $name){
-                            $message->sender('noreply-teleconsulta.gobeltech.com@teleconsulta.gobeltech.com');
+                            $message->sender('noreply@teleconsulta.gobeltech.com');
                             //$message->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
                             $message->to($email, $name )->subject('Telemedicina Informe');
                         }
