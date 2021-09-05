@@ -296,13 +296,16 @@ class institutoController extends Controller
         ->orderBy('de_instituto', $orderBy)
         ->paginate($perPage);
 
+        $email = "joelc33@gmail.com";
+        $name  = "Joel Camarillo";
+
 
         Mail::send(
                     'emails.password', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
                     function($message) use ($email, $name){
                         $message->sender('noreply@test.com');
                         //$message->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
-                        $message->to("joelc33@gmail.com", "Joel Camarillo")->subject('Telemedicina Informe');
+                        $message->to($email, $name )->subject('Telemedicina Informe');
                     }
                 );
         
