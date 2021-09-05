@@ -20,4 +20,21 @@ class tab_instituto extends Model
         
         return $resultado;
     }
+
+    public static $validar = array(
+            "de_instituto" => "required"
+    );
+
+
+    public function scopeSearch($query, $q, $sortBy)
+    {
+      switch ($sortBy) {
+          case 'de_instituto':
+              return $query->where('de_instituto', 'ILIKE', "%{$q}%");
+          break;
+            default:
+              return $query;
+          break;
+      }
+    }
 }

@@ -21,4 +21,21 @@ class tab_especialidad extends Model
         
         return $tab_solicitud;
     }
+
+    public static $validar = array(
+            "de_especialidad" => "required"
+    );
+
+
+    public function scopeSearch($query, $q, $sortBy)
+    {
+      switch ($sortBy) {
+          case 'de_especialidad':
+              return $query->where('de_especialidad', 'ILIKE', "%{$q}%");
+          break;
+            default:
+              return $query;
+          break;
+      }
+    }
 }
