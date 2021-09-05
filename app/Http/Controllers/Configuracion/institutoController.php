@@ -299,7 +299,7 @@ class institutoController extends Controller
         $subject = "Asunto del correo";
         $for = "joel@gmail.com";
         Mail::send('email',$request->all(), function($msj) use($subject,$for){
-            $msj->;from("teleconsulta@gobeltech.com","Teleconsulta");
+            $msj->from("teleconsulta@gobeltech.com","Teleconsulta");
             $msj->subject($subject);
             $msj->to($for);
         });
