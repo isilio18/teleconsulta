@@ -11,6 +11,7 @@ use Response;
 use DB;
 use Session;
 use Redirect;
+use Mail;
 //*******************************//
 use Illuminate\Http\Request;
 
