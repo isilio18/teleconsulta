@@ -357,7 +357,7 @@ class documentoController extends Controller
         try{
             Mail::send(
                         'emails.plantilla', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
-                        function($message) use ($email, $name,$filename){
+                        function($message) use ($email, $name,$filename,$documento){
                             $message->sender('teleconsulta@gobeltech.com');
                             $message->to($email, $name )->subject('Telemedicina Informe '.$name);
 
