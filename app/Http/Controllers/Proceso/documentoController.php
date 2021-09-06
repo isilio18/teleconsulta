@@ -14,6 +14,7 @@ use Storage;
 use File;
 use Illuminate\Http\Response as ResposeFile;
 use Redirect;
+use Mail;
 //*******************************//
 use Illuminate\Http\Request;
 
