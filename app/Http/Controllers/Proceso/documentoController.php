@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Proceso;
 //*******agregar esta linea******//
 use App\Models\Proceso\tab_documento;
 use App\Models\Proceso\tab_ruta;
+use App\Models\Telemedicina\tab_persona;
 use View;
 use Validator;
 use Response;
@@ -328,6 +329,54 @@ class documentoController extends Controller
 		$archivo = Storage::disk('local')->get($directorio);
 
         return (new ResposeFile($archivo, 200))->header('Content-Type', 'application/pdf');
+        
+    }
+
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function mail($id)
+    {
+        
+
+        $tab_persona = tab_persona::join('proceso.tab_ruta as t01','t01.id_persona','=','teleconsulta.tab_persona.id')->where('t01.id','=',$id)->first();
+
+        $email = $tab_persona->correo;
+        $name  = $tab_persona->nombres.' '.$tab_persona->apellidos;
+
+
+        $filename = tab_documento::where('id_tab_ruta','=',$id);
+
+        try{
+            Mail::send(
+                        'emails.plantilla', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
+                        function($message) use ($email, $name,$document, $filename){
+                            $message->sender('teleconsulta@gobeltech.com');
+                            $message->to($email, $name )->subject('Telemedicina Informe '.$name);
+
+                            foreach($filename as $key => $value){
+
+                                $directorio = '/App/reporte/'.$value->id.'.'.$value->de_extension;
+                                $archivo = Storage::disk('local')->get($directorio);
+
+                                 $message->attach( $archivo, array(
+                                      'as' => $value->nb_archivo.'.'.$value->de_extension,
+                                      'mime' => $value->mime)
+                                 );
+                            }
+
+                        }
+                    );
+
+         }catch(\Exception $e){
+
+            echo "error"; exit();
+
+          }
         
     }
 }

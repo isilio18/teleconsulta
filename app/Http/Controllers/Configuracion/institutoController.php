@@ -294,26 +294,7 @@ class institutoController extends Controller
 
         $tab_instituto = tab_instituto::search($q, $sortBy)
         ->orderBy('de_instituto', $orderBy)
-        ->paginate($perPage);
-
-        $email = "joelc33@gmail.com";
-        $name  = "Joel Camarillo";
-
-        try{
-            Mail::send(
-                        'emails.plantilla', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
-                        function($message) use ($email, $name){
-                            $message->sender('teleconsulta@gobeltech.com');
-                            //$message->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
-                            $message->to($email, $name )->subject('Telemedicina Informe');
-                        }
-                    );
-
-         }catch(\Exception $e){
-
-            echo "error"; exit();
-
-          }
+        ->paginate($perPage);     
         
 
         return View::make('configuracion.instituto.lista')->with([

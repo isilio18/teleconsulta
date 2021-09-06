@@ -178,6 +178,8 @@ Route::group(['namespace' => 'Proceso'], function(){
 		Route::post('documento/eliminar/{id}', 'documentoController@eliminar');
 		Route::get('documento/ver/{id}/{t}', 'documentoController@verAnexo');
 		Route::get('reporte/ver/{id}/{t}', 'documentoController@verReporte');
+
+		Route::get('documento/enviar/{id}', 'documentoController@mail');
 	});
 });
 //*Modulos de Autenticacion*/

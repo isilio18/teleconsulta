@@ -92,6 +92,7 @@
                         <th>Estatus</th>
                         <th class="font-w600 text-center">Datos</th>
                         <th class="font-w600 text-center">Documento</th>
+                        <th class="font-w600 text-center">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,6 +110,15 @@
                         <td class="font-w600 text-center">
                         @if ($value->in_anexo == true)
                             <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Documentos Anexos" onclick="location.href='{{ url('/proceso/documento/lista/ver').'/'. $value->id }}'">
+                                <i class="fa fa-book "></i>
+                            </button>
+                        @else
+                            No
+                        @endif
+                        </td>
+                        <td class="font-w600 text-center">
+                        @if ($value->in_anexo == true || $value->in_anexo == true)
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Enviar Correo" onclick="location.href='{{ url('/proceso/documento/enviar').'/'. $value->id }}'">
                                 <i class="fa fa-mail-bulk"></i>
                             </button>
                         @else
