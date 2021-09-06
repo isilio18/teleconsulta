@@ -361,7 +361,7 @@ class documentoController extends Controller
                             $message->sender('teleconsulta@gobeltech.com');
                             $message->to($email, $name )->subject('Telemedicina Informe '.$name);
 
-                           /* foreach($filename as $key => $value){
+                           foreach($filename as $key => $value){
 
                                 $directorio = '/App/reporte/'.$value->id.'.'.$value->de_extension;
                                 $archivo = Storage::disk('local')->get($directorio);
@@ -370,7 +370,7 @@ class documentoController extends Controller
                                       'as' => $value->nb_archivo.'.'.$value->de_extension,
                                       'mime' => $value->mime)
                                  );
-                            }*/
+                            }
 
                         }
                     );
