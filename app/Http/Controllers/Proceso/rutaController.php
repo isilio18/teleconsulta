@@ -6,6 +6,7 @@ use App\Models\Proceso\tab_ruta;
 use App\Models\Configuracion\tab_ruta as tab_configuracion_ruta;
 use App\Models\Configuracion\tab_estatus;
 use App\Models\Proceso\tab_solicitud;
+use App\Models\Telemedicina\tab_persona;
 use App\Models\Configuracion\tab_solicitud as tab_tipo_solicitud;
 use View;
 use Validator;
@@ -57,7 +58,7 @@ class rutaController extends Controller
             $q = $request->query('q');
         }
 
-        $tab_solicitud = tab_solicitud::select( 'id', 'nu_solicitud','id_tab_tipo_solicitud')
+        $tab_solicitud = tab_solicitud::select( 'id', 'nu_solicitud','id_tab_tipo_solicitud','id_persona')
         ->where('id', '=', $id)
         ->first();               
         
@@ -112,6 +113,73 @@ class rutaController extends Controller
               ]);
 
         }
+
+    }
+
+
+            /**
+    * Display a listing of the resource.
+    *
+    * @return Response
+    */
+    public function expediente( Request $request, $id)
+    {
+        $sortBy = 'id';
+        $orderBy = 'desc';
+        $perPage = 10;
+        $q = null;
+        $columnas = [
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Origen'],
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Destino']
+        ];
+
+        if ($request->has('orderBy')){
+            $orderBy = $request->query('orderBy');
+        }
+        if ($request->has('sortBy')){
+            $sortBy = $request->query('sortBy');
+        } 
+        if ($request->has('perPage')){
+            $perPage = $request->query('perPage');
+        } 
+        if ($request->has('q')){
+            $q = $request->query('q');
+        }
+
+
+        $tab_persona = tab_persona::select(DB::raw("nombres||' '||apellidos as nombre"))
+        ->where('id', '=', $id)->first();
+        
+        
+        $tab_ruta = tab_ruta::select( 'proceso.tab_ruta.id', 'de_solicitud',
+        DB::raw("to_char(proceso.tab_ruta.created_at, 'dd/mm/YYYY') as fe_creado"),
+        DB::raw("proceso.sp_verificar_anexo(proceso.tab_ruta.id) as in_anexo"), 'proceso.tab_ruta.in_reporte')
+        ->join('configuracion.tab_solicitud as t01', 'proceso.tab_ruta.id_tab_tipo_solicitud', '=', 't01.id')
+        ->where('proceso.tab_ruta.id_persona', '=', $id)
+        //->search($q, $sortBy)
+        ->orderBy($sortBy, $orderBy)
+        ->paginate($perPage);
+
+        $ubicacion = tab_ruta::select( 'nu_orden')
+        ->where('id_tab_solicitud', '=', $id)
+        ->where('in_activo', '=', true)
+        ->where('in_actual', '=', true)
+        ->first();
+
+
+
+        return View::make('proceso.ruta.expediente')->with([
+                'tab_ruta' => $tab_ruta, 
+                'tab_persona'=>$tab_persona,                   
+                'orderBy' => $orderBy,
+                'sortBy' => $sortBy,
+                'perPage' => $perPage,
+                'columnas' => $columnas,
+                'q' => $q,
+                'id' => $id
+        ]);
+
+       
 
     }
 

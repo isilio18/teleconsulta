@@ -180,6 +180,7 @@ Route::group(['namespace' => 'Proceso'], function(){
 		Route::get('reporte/ver/{id}/{t}', 'documentoController@verReporte');
 
 		Route::get('documento/enviar/{id}', 'documentoController@mail');
+		Route::get('ruta/expediente/{id}', 'rutaController@expediente');
 	});
 });
 //*Modulos de Autenticacion*/

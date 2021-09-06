@@ -129,7 +129,7 @@ class solicitudController extends Controller
         $tramite = tab_solicitud_usuario::getListaTramiteAsignado(Auth::user()->id);
        
         $tab_solicitud = tab_persona::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
-        'nu_solicitud', 'nb_usuario',
+        'nu_solicitud', 'nb_usuario','proceso.tab_solicitud.id_persona',
         'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),
         'de_proceso','nombres','apellidos','cedula')
         ->join('proceso.tab_solicitud', 'telemedicina.tab_persona.id', '=', 'proceso.tab_solicitud.id_persona')
