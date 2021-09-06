@@ -352,12 +352,12 @@ class documentoController extends Controller
 
         $filename = tab_documento::where('id_tab_ruta','=',$id);
 
-        echo $email; exit();
+       // echo $email; exit();
 
         try{
             Mail::send(
                         'emails.plantilla', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
-                        function($message) use ($email, $name,$document, $filename){
+                        function($message) use ($email, $name){
                             $message->sender('teleconsulta@gobeltech.com');
                             $message->to($email, $name )->subject('Telemedicina Informe '.$name);
 
