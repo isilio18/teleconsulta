@@ -352,6 +352,8 @@ class documentoController extends Controller
 
         $filename = tab_documento::where('id_tab_ruta','=',$id);
 
+        echo $email; exit();
+
         try{
             Mail::send(
                         'emails.plantilla', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
