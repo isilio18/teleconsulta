@@ -364,7 +364,7 @@ class documentoController extends Controller
                            foreach($filename as $key => $value){
 
 
-                                $archivo = '/App/reporte/'.$value->id.'.'.$value->de_extension;
+                                $archivo = '/App/documento/'.$value->id.'.'.$value->de_extension;
 
                                 //echo $directorio; exit();
 
