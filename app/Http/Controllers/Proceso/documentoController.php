@@ -343,7 +343,7 @@ class documentoController extends Controller
     {
         
 
-        $tab_persona = tab_persona::join('proceso.tab_ruta as t01','t01.id_persona','=','teleconsulta.tab_persona.id')->where('t01.id','=',$id)->first();
+        $tab_persona = tab_persona::join('proceso.tab_ruta as t01','t01.id_persona','=','telemedicina.tab_persona.id')->where('t01.id','=',$id)->first();
 
         $email = $tab_persona->correo;
         $name  = $tab_persona->nombres.' '.$tab_persona->apellidos;
@@ -372,10 +372,13 @@ class documentoController extends Controller
                         }
                     );
 
+            Session::flash('msg_side_overlay', 'El correo se envió exitosamente!');
+            return Redirect::to('/proceso/ruta/lista');
+
          }catch(\Exception $e){
 
-            echo "error"; exit();
-
+           Session::flash('msg_side_overlay', 'Occurió un problema al enviar el correo!');
+            return Redirect::to('/proceso/ruta/lista');
           }
         
     }
