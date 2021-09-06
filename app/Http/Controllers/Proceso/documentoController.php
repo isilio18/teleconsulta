@@ -365,6 +365,9 @@ class documentoController extends Controller
 
 
                                 $directorio = '/App/reporte/'.$value->id.'.'.$value->de_extension;
+
+                                echo $directorio; exit();
+
                                 $archivo = Storage::disk('local')->get($directorio);
 
                                  $message->attach( $archivo, array(
