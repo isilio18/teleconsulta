@@ -301,7 +301,7 @@ class institutoController extends Controller
 
         try{
             Mail::send(
-                        'emails.password', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
+                        'emails.plantilla', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
                         function($message) use ($email, $name){
                             $message->sender('teleconsulta@gobeltech.com');
                             //$message->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
