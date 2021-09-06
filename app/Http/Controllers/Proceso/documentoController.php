@@ -350,7 +350,7 @@ class documentoController extends Controller
         $name  = $tab_persona->nombres.' '.$tab_persona->apellidos;
 
 
-        $filename = tab_documento::where('id_tab_ruta','=',$id);
+        $filename = tab_documento::where('id_tab_ruta','=',$id)->get();
 
        // echo $email; exit();
 
@@ -365,7 +365,6 @@ class documentoController extends Controller
 
 
                                 $directorio = '/App/reporte/'.$value->id.'.'.$value->de_extension;
-                                 echo $directorio; exit();
                                 $archivo = Storage::disk('local')->get($directorio);
 
                                  $message->attach( $archivo, array(
