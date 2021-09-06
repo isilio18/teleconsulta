@@ -105,9 +105,9 @@
                                         <i class="fa fa-pencil-alt"></i>
                                     </button>
                                 </a>
-                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Expediente" onclick="location.href='{{ url('/proceso/documento/lista/ver').'/'. $value->id }}'">
-                                        <i class="fa fa-book "></i>
-                                </button>     
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Ver Expediente"onclick="location.href='{{ url('/proceso/ruta/expediente').'/'. $value->id }}'">
+                                            <i class="fa fa-book"></i>
+                                </button>       
                         </td>
                     </tr>
                 @endforeach
