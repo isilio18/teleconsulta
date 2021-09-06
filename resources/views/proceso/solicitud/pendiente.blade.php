@@ -126,6 +126,9 @@
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Avanzar Tramite" onclick="location.href='{{ url('/proceso/ruta/enviar').'/'. $value->id }}'">
                                     <i class="fa fa-vote-yea"></i>
                                 </button>
+                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Ver Expediente"onclick="location.href='{{ url('/proceso/ruta/expediente').'/'. $value->id_persona }}'">
+                                    <i class="fa fa-book"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
