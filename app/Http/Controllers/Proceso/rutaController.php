@@ -151,10 +151,11 @@ class rutaController extends Controller
         ->where('id', '=', $id)->first();
         
         
-        $tab_ruta = tab_ruta::select( 'proceso.tab_ruta.id', 'de_solicitud',
+        $tab_ruta = tab_ruta::select( 'proceso.tab_ruta.id', 'de_solicitud','de_instituto',
         DB::raw("to_char(proceso.tab_ruta.created_at, 'dd/mm/YYYY') as fe_creado"),
         DB::raw("proceso.sp_verificar_anexo(proceso.tab_ruta.id) as in_anexo"), 'proceso.tab_ruta.in_reporte')
         ->join('configuracion.tab_solicitud as t01', 'proceso.tab_ruta.id_tab_tipo_solicitud', '=', 't01.id')
+        ->join('configuracion.tab_instituto as t02', 'proceso.tab_ruta.id_instituto', '=', 't02.id')
         ->where('proceso.tab_ruta.id_persona', '=', $id)
         //->search($q, $sortBy)
         ->orderBy($sortBy, $orderBy)

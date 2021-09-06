@@ -69,6 +69,7 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Tramite</th>
+                        <th>Institución</th>
                         <th class="font-w600 text-center">Datos</th>
                         <th class="font-w600 text-center">Documento</th>
                     </tr>
@@ -78,6 +79,7 @@
                     <tr>
                     <td class="d-none d-sm-table-cell"><em >{{ $value->fe_creado }}</em></td>
                         <td>{{ $value->de_solicitud }}</td>
+                        <td>{{ $value->de_instituto }}</td>
                         <td class="font-w600 text-center">
                         @if ($value->in_reporte == true)
                             <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Documento" onclick="window.open('{{ url('/proceso/reporte/ver').'/'. $value->id }}/' + (new Date().getTime()), '_blank')">

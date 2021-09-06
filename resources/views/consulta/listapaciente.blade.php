@@ -120,8 +120,11 @@
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Nueva Solicitud" onclick="location.href='{{ URL::to('proceso/solicitud/nuevo').'/'. $value->id }}'">
                                             <i class="fa fa-list-ol"></i>
-                                        </button>                                       
-                                    </div>
+                                        </button>    
+                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Ver Expediente"onclick="location.href='{{ url('/proceso/ruta/expediente').'/'. $value->id }}'">
+                                            <i class="fa fa-book"></i>
+                                        </button>                                   
+                                    </div>                                    
                                 </td>
                             </tr>
                         @endforeach
