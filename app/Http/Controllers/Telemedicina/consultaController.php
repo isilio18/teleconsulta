@@ -525,7 +525,7 @@ class consultaController extends Controller
             $tabla->de_consulta = $request->informe;
             $tabla->de_diagnostico = $request->diagnostico;
             $tabla->de_tratamiento =  $request->tratamiento;
-            $tabla->de_posologia =  $request->de_posologia;
+            $tabla->de_posologia =  $request->posologia;
             $tabla->id_ruta =  $request->ruta;
             
             $tabla->save();
