@@ -364,12 +364,7 @@ class documentoController extends Controller
                            foreach($filename as $key => $value){
 
 
-                                $archivo = '/App/documento/'.$value->id.'.'.$value->de_extension;
-
-                                //echo $directorio; exit();
-
-                                //$archivo = Storage::disk('local')->get($directorio);
-
+                                $archivo = storage_path('app').'/App/documento/'.$value->id.'.'.$value->de_extension;                               
                                  $message->attach( $archivo, array(
                                       'as' => $value->nb_archivo.'.'.$value->de_extension,
                                       'mime' => $value->mime)
