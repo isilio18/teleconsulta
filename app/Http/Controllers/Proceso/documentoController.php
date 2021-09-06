@@ -350,26 +350,38 @@ class documentoController extends Controller
         $name  = $tab_persona->nombres.' '.$tab_persona->apellidos;
 
 
-        $filename = tab_documento::where('id_tab_ruta','=',$id)->get();
-
+        
        // echo $email; exit();
 
         try{
             Mail::send(
                         'emails.plantilla', array('codigo_confirmacion' =>"sss", 'usuario' => "admin" ), 
-                        function($message) use ($email, $name,$filename,$documento){
+                        function($message) use ($email, $name,$id){
                             $message->sender('teleconsulta@gobeltech.com');
                             $message->to($email, $name )->subject('Telemedicina Informe '.$name);
 
-                           foreach($filename as $key => $value){
+                            $filename = tab_documento::where('id_tab_ruta','=',$id)->get();
 
-
+                            foreach($filename as $key => $value){
                                 $archivo = storage_path('app').'/App/documento/'.$value->id.'.'.$value->de_extension;                               
                                  $message->attach( $archivo, array(
                                       'as' => $value->nb_archivo.'.'.$value->de_extension,
                                       'mime' => $value->mime)
                                  );
                             }
+
+                            $tab_ruta = tab_ruta::where('id','=',$id)->where('in_reporte','=',true)->first();
+
+                            if(!empty($tab_ruta->id)){
+
+                                 $archivo = storage_path('app').'/App/reporte/'.$tab_ruta->id.'.pdf';                               
+                                 $message->attach( $archivo, array(
+                                      'as' => "Informe".'.pdf',
+                                      'mime' => 'application/pdf')
+                                 );
+
+                            }
+
 
                         }
                     );
