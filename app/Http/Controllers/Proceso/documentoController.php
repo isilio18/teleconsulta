@@ -364,11 +364,11 @@ class documentoController extends Controller
                            foreach($filename as $key => $value){
 
 
-                                $directorio = '/App/reporte/'.$value->id.'.'.$value->de_extension;
+                                $archivo = '/App/reporte/'.$value->id.'.'.$value->de_extension;
 
-                                echo $directorio; exit();
+                                //echo $directorio; exit();
 
-                                $archivo = Storage::disk('local')->get($directorio);
+                                //$archivo = Storage::disk('local')->get($directorio);
 
                                  $message->attach( $archivo, array(
                                       'as' => $value->nb_archivo.'.'.$value->de_extension,
