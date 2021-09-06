@@ -374,12 +374,12 @@ class documentoController extends Controller
                     );
 
             Session::flash('msg_side_overlay', 'El correo se envió exitosamente!');
-            return Redirect::to('/proceso/ruta/lista');
+            return Redirect::to('/proceso/ruta/lista/'.$id);
 
          }catch(\Exception $e){
 
            Session::flash('msg_side_overlay', 'Occurió un problema al enviar el correo!');
-            return Redirect::to('/proceso/ruta/lista');
+            return Redirect::to('/proceso/ruta/lista/'.$id);
           }
         
     }
