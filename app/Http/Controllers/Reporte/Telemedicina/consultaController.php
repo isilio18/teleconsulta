@@ -33,7 +33,7 @@ class consultaController extends Controller
     *
     * @return Response
     */
-    public function resonanciaMagneticaCraneo($ruta)
+    public function reporte($ruta)
     {
 
        // echo "pro"; exit();
