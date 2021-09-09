@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Reporte\Telemedicina;
 use App\Models\Proceso\tab_ruta;
 use App\Models\Proceso\tab_persona;
 use App\Models\Teleconsulta\tab_informe;
-use App\Models\Teleconsulta\tab_consulta;
+use App\Models\Proceso\tab_solicitud;
 use DB;
 use Session;
 use Storage;
@@ -216,5 +216,12 @@ class consultaController extends Controller
         $disk->put($directorio.'/'.$ruta.'.pdf', $pdf->output( $ruta.'.pdf', 'S'));
 
     }    
+
+
+    public function morbilidad(Request $request)
+    {
+        return View::make('reporte.morbilidad');
+    }
     
 }
+

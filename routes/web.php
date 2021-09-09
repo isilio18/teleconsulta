@@ -36,6 +36,13 @@ Route::group(['namespace' => 'Panel'], function(){
 	Route::post('ejercicio', 'panelController@ejercicioInicio');
 });
 
+Route::group(['namespace' => 'Reporte'], function(){
+	//*Modulo de Proceso*/
+	Route::group(['prefix' => 'reporte'], function(){
+		Route::get('morbilidad', 'reporteController@morbilidad');
+	    Route::post('imprimirmorbilidad', 'reporteController@imprimirmorbilidad');
+	});
+});
 
 Route::group(['namespace' => 'Telemedicina'], function(){
   	Route::get('consulta/listapaciente', 'consultaController@listapaciente');
