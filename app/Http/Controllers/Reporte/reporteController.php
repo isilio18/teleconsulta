@@ -105,6 +105,10 @@ class reporteController extends Controller
 
         $fecha_fin = $request->get('fecha_hasta');
 
+        $especialidad = $request->get('especialidad');
+        $instituto    = $request->get('instituto');
+
+
                 
         $tab_consulta = tab_ruta::select('nombres','apellidos',DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"),'de_sexo','t02.de_solicitud','de_instituto','nb_usuario')
         ->join('telemedicina.tab_persona as t01','t01.id','=','proceso.tab_ruta.id_persona')
@@ -112,8 +116,12 @@ class reporteController extends Controller
         ->join('configuracion.tab_instituto as t03','t03.id','=','proceso.tab_ruta.id_instituto')
         ->join('autenticacion.tab_usuario as t04','t04.id','=','proceso.tab_ruta.id_tab_usuario')
         ->join('configuracion.tab_sexo as t06','t06.id','=','t01.id_sexo')
-        ->whereBetween('proceso.tab_ruta.created_at', [ $fecha_ini, $fecha_fin ])
-        ->orderBy('apellidos','ASC')
+        ->whereBetween('proceso.tab_ruta.created_at', [ $fecha_ini, $fecha_fin ]);
+        if(!empty($especialidad ))
+            $tab_consulta = $tab_consulta->where('proceso.tab_ruta.id_instituto', 'like',"'%".$request->get('instituto')."%'");
+        if(!empty($instituto  ))
+        $tab_consulta = $tab_consulta->where('proceso.tab_ruta.id_especialidad', 'like',"'%".$request->get('especialidad')."%'");
+        $tab_consulta = $tab_consulta->orderBy('apellidos','ASC')
         ->get();
 
         $i = 0;
