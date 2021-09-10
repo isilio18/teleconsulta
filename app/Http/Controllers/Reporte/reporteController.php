@@ -118,10 +118,10 @@ class reporteController extends Controller
         ->join('configuracion.tab_sexo as t06','t06.id','=','t01.id_sexo')
         ->whereBetween(DB::raw("cast(proceso.tab_ruta.created_at as date)"), [ $fecha_ini, $fecha_fin ]);
         
-        if(!empty($especialidad ))
-            $tab_consulta = $tab_consulta->where('proceso.tab_ruta.id_instituto', 'like',"'%".$request->get('instituto')."%'");
-        if(!empty($instituto  ))
-        $tab_consulta = $tab_consulta->where('proceso.tab_ruta.id_especialidad', 'like',"'%".$request->get('especialidad')."%'");
+        if(!empty($instituto ))
+            $tab_consulta = $tab_consulta->where('proceso.tab_ruta.id_instituto','=',$instituto);
+        if(!empty($especialidad  ))
+            $tab_consulta = $tab_consulta->where('proceso.tab_ruta.id_especialidad', '=',$especialidad);
         $tab_consulta = $tab_consulta->orderBy('apellidos','ASC')
         ->get();
 
