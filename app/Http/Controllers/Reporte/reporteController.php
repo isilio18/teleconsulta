@@ -115,7 +115,7 @@ class reporteController extends Controller
         ->join('configuracion.tab_solicitud as t02','t02.id','=','proceso.tab_ruta.id_tab_tipo_solicitud')
         ->join('configuracion.tab_instituto as t03','t03.id','=','proceso.tab_ruta.id_instituto')
         ->join('autenticacion.tab_usuario as t04','t04.id','=','proceso.tab_ruta.id_tab_usuario')
-        ->join('configuracion.tab_sexo as t06','t06.id','=','t01.id_sexo')
+        ->join('configuracion.tab_sexo as t06','t06.id','=','t01.id_sexo');
         if($fecha_ini == $fecha_fin)
             $tab_consulta = $tab_consulta->where('proceso.tab_ruta.created_at','=',$fecha_ini);
         else
