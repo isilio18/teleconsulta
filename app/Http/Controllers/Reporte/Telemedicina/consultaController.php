@@ -6,6 +6,7 @@ use App\Models\Proceso\tab_ruta;
 use App\Models\Proceso\tab_persona;
 use App\Models\Teleconsulta\tab_informe;
 use App\Models\Proceso\tab_solicitud;
+use App\Models\Proceso\tab_consulta;
 use DB;
 use Session;
 use Storage;
