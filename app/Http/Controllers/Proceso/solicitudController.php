@@ -406,7 +406,8 @@ class solicitudController extends Controller
         $tab_ruta->in_actual = true;
         $tab_ruta->in_activo = true;
         $tab_ruta->id_persona              = $tab_solicitud->id_persona;
-        $tab_ruta->id_centro_asistencial   = $tab_solicitud->id_centro_asistencial;
+        $tab_ruta->id_instituto    = Session::get('id_instituto');
+        $tab_ruta->id_especialidad = Session::get('id_especialidad');
         $tab_ruta->save();
 
     }

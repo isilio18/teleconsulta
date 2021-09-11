@@ -122,7 +122,7 @@
                                 </button>
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Enviar Tramite" data-target="#avanzar" data-item_id="{{ $value->id }}" >
                                     <i class="fa fa-vote-yea"></i>
-                                </button>
+                                </button>                               
                             </div>
                         </td>
                     </tr>

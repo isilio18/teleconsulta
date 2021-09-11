@@ -723,8 +723,6 @@ class consultaController extends Controller
 
         $id_informe = $request->id_informe; 
 
-
-
         if($id_informe !=''||$id_informe !=null){              
   
                 $validator = Validator::make($request->all(), tab_informe::$validarCrear);
@@ -827,5 +825,7 @@ class consultaController extends Controller
             }
         }
     }
+
+   
 
 }

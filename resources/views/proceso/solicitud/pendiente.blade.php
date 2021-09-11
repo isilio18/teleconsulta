@@ -120,10 +120,10 @@
                         <td class="font-w600">{{ $value->fe_creado }}</td>
                         <td class="text-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Detalle" onclick="location.href='{{ url('/proceso/ruta/lista').'/'. $value->id }}'">
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Detalle" onclick="location.href='{{ url('/proceso/ruta/lista').'/'. $value->id_ruta}}'">
                                     <i class="fa fa-list-ol"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Avanzar Tramite" onclick="location.href='{{ url('/proceso/ruta/enviar').'/'. $value->id }}'">
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Avanzar Tramite" onclick="location.href='{{ url('/proceso/ruta/enviar').'/'. $value->id_ruta}}'">
                                     <i class="fa fa-vote-yea"></i>
                                 </button>
                                  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Ver Expediente"onclick="location.href='{{ url('/proceso/ruta/expediente').'/'. $value->id_persona }}'">

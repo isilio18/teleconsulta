@@ -58,8 +58,9 @@ class rutaController extends Controller
             $q = $request->query('q');
         }
 
-        $tab_solicitud = tab_solicitud::select( 'id', 'nu_solicitud','id_tab_tipo_solicitud','id_persona')
-        ->where('id', '=', $id)
+        $tab_solicitud = tab_solicitud::select( 'proceso.tab_solicitud.id', 'nu_solicitud','proceso.tab_solicitud.id_tab_tipo_solicitud','proceso.tab_solicitud.id_persona')
+        ->join("proceso.tab_ruta as t01","t01.id_tab_solicitud","=","proceso.tab_solicitud.id")
+        ->where('t01.id', '=', $id)
         ->first();               
         
         $tab_tipo_solicitud = tab_tipo_solicitud::select( 'id', 'de_solicitud')
@@ -73,13 +74,14 @@ class rutaController extends Controller
         DB::raw("proceso.sp_verificar_anexo(proceso.tab_ruta.id) as in_anexo"), 'proceso.tab_ruta.in_reporte')
         ->join('configuracion.tab_proceso as t01', 'proceso.tab_ruta.id_tab_proceso', '=', 't01.id')
         ->with(['estatus', 'proceso', 'usuario'])
-        ->where('proceso.tab_ruta.id_tab_solicitud', '=', $id)
+        ->where('proceso.tab_ruta.id', '=', $id)
         //->search($q, $sortBy)
         ->orderBy($sortBy, $orderBy)
         ->paginate($perPage);
 
+
         $ubicacion = tab_ruta::select( 'nu_orden')
-        ->where('id_tab_solicitud', '=', $id)
+        ->where('id', '=', $id)
         ->where('in_activo', '=', true)
         ->where('in_actual', '=', true)
         ->first();
@@ -96,7 +98,7 @@ class rutaController extends Controller
                 'columnas' => $columnas,
                 'q' => $q,
                 'id' => $id
-              ]);
+            ]);
 
         }else{
 
@@ -110,7 +112,7 @@ class rutaController extends Controller
                 'columnas' => $columnas,
                 'q' => $q,
                 'id' => $id
-              ]);
+            ]);
 
         }
 
@@ -345,15 +347,16 @@ class rutaController extends Controller
         $tab_ruta = tab_ruta::select( 'id', 'id_tab_solicitud', 'id_tab_tipo_solicitud', 'id_tab_usuario', 
         'de_observacion', 'id_tab_estatus', 'nu_orden', 'id_tab_proceso', 'in_actual', 
         'in_activo', 'created_at', 'updated_at', DB::raw("to_char(created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"))
-        ->where('id_tab_solicitud', '=', $id)
+        ->where('id', '=', $id)
         ->where('in_activo', '=', true)
         ->where('in_actual', '=', true)
         ->first();
 
+
         $data = tab_ruta::select( 'id', 'id_tab_solicitud', 'id_tab_tipo_solicitud', 'id_tab_usuario', 
         'de_observacion', 'id_tab_estatus', 'nu_orden', 'id_tab_proceso', 'in_actual', 
         'in_activo', 'created_at', 'updated_at')
-        ->where('id', '=', $tab_ruta->id)
+        ->where('id', '=', $id)
         ->first();
 
         $tab_configuracion_ruta = tab_configuracion_ruta::select( 'id_tab_proceso', 'id_tab_solicitud', 'nu_orden', 'in_datos', 'nb_controlador', 

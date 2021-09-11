@@ -49,10 +49,10 @@
             <div class="block-options">
 
                 <div class="btn-group btn-group-sm pr-2">
-                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Presione para ver formulario" onclick="location.href='{{ url('/proceso/ruta/datos').'/'. $id }}'">
+                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Presione para ver formulario" onclick="location.href='{{ url('/proceso/ruta/datos').'/'. $tab_ruta->id }}'">
                         <i class="fa fa-fw fa-pencil-alt"></i> Cargar Datos
                     </button>
-                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Anexar Documentos a la Ruta" onclick="location.href='{{ url('/proceso/documento/lista').'/'. $id }}'">
+                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Anexar Documentos a la Ruta" onclick="location.href='{{ url('/proceso/documento/lista').'/'. $tab_ruta->id }}'">
                         <i class="fa fa-fw fa-paste"></i> Anexar Documentos
                     </button>
                 </div>

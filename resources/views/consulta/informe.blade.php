@@ -29,7 +29,6 @@ $(function () {
 
 @section('content')
 
-
 <!-- Page Content -->
 <div class="content content-full content-boxed">
     <!-- Partial Table -->

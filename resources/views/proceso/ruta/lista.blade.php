@@ -47,7 +47,6 @@
             </nav>
         </div>              
             <div class="block-options">
-
                 <div class="btn-group btn-group-sm pr-2">
                     <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Presione para ver formulario" onclick="location.href='{{ url('/proceso/ruta/datos').'/'. $id }}'">
                         <i class="fa fa-fw fa-pencil-alt"></i> Cargar Datos
