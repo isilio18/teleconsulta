@@ -130,8 +130,7 @@ class solicitudController extends Controller
        
         $tab_solicitud = tab_persona::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
         'nu_solicitud', 'nb_usuario','proceso.tab_solicitud.id_persona',
-        'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),
-        'de_proceso','nombres','apellidos','cedula')
+        'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),'de_proceso','nombres','apellidos','cedula',"t01.id as id_ruta")
         ->join('proceso.tab_solicitud', 'telemedicina.tab_persona.id', '=', 'proceso.tab_solicitud.id_persona')
         ->join('proceso.tab_ruta as t01', 'proceso.tab_solicitud.id', '=', 't01.id_tab_solicitud')
         ->join('configuracion.tab_proceso as t02', 't02.id', '=', 't01.id_tab_proceso')
