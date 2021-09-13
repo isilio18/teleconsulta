@@ -130,12 +130,14 @@ class solicitudController extends Controller
        
         $tab_solicitud = tab_persona::select( 'proceso.tab_solicitud.id', 'de_solicitud', 'nu_identificador',
         'nu_solicitud', 'nb_usuario','proceso.tab_solicitud.id_persona',
-        'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),'de_proceso','nombres','apellidos','cedula',"t01.id as id_ruta")
+        'id_tab_ejercicio_fiscal', DB::raw("to_char(proceso.tab_solicitud.created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"),'de_proceso','nombres','apellidos','cedula',"t01.id as id_ruta","de_instituto","de_municipio")
         ->join('proceso.tab_solicitud', 'telemedicina.tab_persona.id', '=', 'proceso.tab_solicitud.id_persona')
         ->join('proceso.tab_ruta as t01', 'proceso.tab_solicitud.id', '=', 't01.id_tab_solicitud')
         ->join('configuracion.tab_proceso as t02', 't02.id', '=', 't01.id_tab_proceso')
         ->join('autenticacion.tab_usuario as t03', 't03.id', '=', 't01.id_tab_usuario')
         ->join('configuracion.tab_solicitud as t04', 't04.id', '=', 'proceso.tab_solicitud.id_tab_tipo_solicitud')
+        ->leftjoin('configuracion.tab_instituto as t05', 't05.id', '=', 'proceso.tab_solicitud.id_centro_asistencial')
+        ->leftjoin('configuracion.tab_municipio as t06', 't06.id', '=', 'telemedicina.tab_persona.id_municipio')
         ->where('in_actual', '=', true)
         ->where('proceso.tab_solicitud.in_activo', '=', true)
         ->where('t01.id_tab_estatus', '=', 1)

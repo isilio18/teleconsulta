@@ -100,11 +100,11 @@
             <table class="table table-hover table-bordered table-striped table-vcenter">
                 <thead class="thead-light">
                     <tr>
-                        <th class="text-center" style="width: 150px;">Nº Solicitud</th>
-                        <th class="text-center" style="width: 150px;">Cédula</th>
+                        <th class="text-center" style="width: 100px;">Cédula</th>
                         <th class="text-center" style="width: 200px;">Nombre y Apellido</th>
-                        <th>Descripcion</th>
-                        <th>Usuario</th>
+                        <th class="text-center" style="width: 150px;">Municipio</th>
+                        <th>Descripción</th>
+                        <th class="text-center" style="width: 150px;">Instituto</th>
                         <th>Fecha</th>
                         <th class="text-center" style="width: 100px;">Acciones</th>
                     </tr>
@@ -112,11 +112,12 @@
                 <tbody>
                 @foreach($tab_solicitud as $key => $value)
                     <tr>
-                        <td class="font-w600">{{ $value->nu_solicitud }}</td>
                         <td class="font-w600">{{ $value->cedula }}</td>
                         <td class="font-w600">{{ $value->nombres.' '.$value->apellidos}}</td>
+                        <td class="font-w600">{{ $value->de_municipio }}</td>
                         <td class="font-w600">{{ $value->nu_identificador }}-{{ $value->de_solicitud }}</td>
-                        <td class="d-none d-sm-table-cell"><em class="text-muted">{{ $value->nb_usuario }}</em></td>
+                        <td class="font-w600">{{ $value->de_instituto }}</td>
+                       <!-- <td class="d-none d-sm-table-cell"><em class="text-muted">{{ $value->nb_usuario }}</em></td> -->
                         <td class="font-w600">{{ $value->fe_creado }}</td>
                         <td class="text-center">
                             <div class="btn-group">
