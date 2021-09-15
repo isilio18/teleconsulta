@@ -131,6 +131,7 @@ Route::group(['namespace' => 'Configuracion'], function(){
 			Route::get('usuario/instituto/habilitar/{id}', 'institutoController@habilitar');
 			Route::post('usuario/instituto/eliminar/{id}', 'institutoController@eliminar');
 
+
     });
 });
 //*Modulos de Tablas de Proceso*/
@@ -188,6 +189,10 @@ Route::group(['namespace' => 'Proceso'], function(){
 
 		Route::get('documento/enviar/{id}', 'documentoController@mail');
 		Route::get('ruta/expediente/{id}', 'rutaController@expediente');
+		Route::get('ruta/referir/{id}', 'rutaController@referir');
+		Route::post('ruta/registrarReferido', 'rutaController@guardarReferido');
+		Route::get('ruta/listaReferido/', 'rutaController@listaReferido');
+		Route::get('ruta/procesarReferido/{id}', 'rutaController@procesarReferido');
 	});
 });
 //*Modulos de Autenticacion*/

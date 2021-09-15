@@ -10,6 +10,7 @@ use App\Models\Configuracion\tab_ruta as tab_configuracion_ruta;
 use App\Models\Configuracion\tab_proceso_usuario;
 use App\Models\Configuracion\tab_estatus;
 use App\Models\Proceso\tab_persona;
+use App\Models\Proceso\tab_referir;
 use View;
 use Validator;
 use Response;
@@ -312,9 +313,7 @@ class solicitudController extends Controller
     */
     public function guardar( Request $request, $id = NULL )
     {
-        DB::beginTransaction();
-
-        if($id!=''||$id!=null){
+        DB::beginTransaction();      
   
             try {
 
@@ -324,14 +323,31 @@ class solicitudController extends Controller
                     return Redirect::back()->withErrors( $validator)->withInput( $request->all());
                 }
 
-                $tab_solicitud = tab_solicitud::find($id);
-                $tab_solicitud->id_tab_tipo_solicitud = $request->solicitud;
-                $tab_solicitud->id_tab_usuario        = Auth::user()->id; 
-                $tab_solicitud->de_observacion        = $request->observacion; 
-                $tab_solicitud->id_tab_proceso        = tab_tipo_solicitud::getProceso($request->solicitud);
-                $tab_solicitud->id_persona            = $request->id_persona;
+                if(!empty($id)){
+                    $tab_solicitud = tab_solicitud::find($id);
+                }else{
+                    $tab_solicitud = new tab_solicitud;
+                }
+
+             
+                $tab_solicitud->id_tab_tipo_solicitud   = $request->solicitud;
+                $tab_solicitud->id_tab_usuario          = Auth::user()->id; 
+                $tab_solicitud->de_observacion          = $request->observacion; 
+                $tab_solicitud->id_tab_estatus          = 1;
+                $tab_solicitud->id_tab_proceso          = tab_tipo_solicitud::getProceso($request->solicitud);
+                $tab_solicitud->id_tab_ejercicio_fiscal = Session::get('ejercicio');
+                $tab_solicitud->in_activo               = true;
+                $tab_solicitud->id_persona              = $request->id_persona;
                 $tab_solicitud->id_centro_asistencial = Session::get('id_instituto');
                 $tab_solicitud->save();
+
+                if(!empty($request->id_referir)){
+
+                    $tab_referir = tab_referir::find($request->id_referir);
+                    $tab_referir->id_solicitud_asignada = $tab_solicitud->id;
+                    $tab_referir->save();
+
+                }
 
                 DB::commit();
                 
@@ -345,50 +361,7 @@ class solicitudController extends Controller
                 ])->withInput( $request->all());
             }
   
-        }else{
-  
-            try {
-
-                $validator = Validator::make($request->all(), tab_solicitud::$validarCrear);
-
-                if ($validator->fails()){
-                    return Redirect::back()->withErrors( $validator)->withInput( $request->all());
-                }
-
-                if (tab_configuracion_ruta::getVerificaRuta( $request->solicitud)==null){
-                    return Redirect::back()->withErrors([
-                        'da_alert_form' => 'No se genero la solicitud debido a que el proceso no tiene ruta asignada.'
-                    ])->withInput( $request->all());
-                }
-
-                $tab_solicitud = new tab_solicitud;
-                $tab_solicitud->id_tab_tipo_solicitud   = $request->solicitud;
-                $tab_solicitud->id_tab_usuario          = Auth::user()->id; 
-                $tab_solicitud->de_observacion          = $request->observacion; 
-                $tab_solicitud->id_tab_estatus          = 1;
-                $tab_solicitud->id_tab_proceso          = tab_tipo_solicitud::getProceso($request->solicitud);
-                $tab_solicitud->id_tab_ejercicio_fiscal = Session::get('ejercicio');
-                $tab_solicitud->in_activo               = true;
-                $tab_solicitud->id_persona              = $request->id_persona;
-                $tab_solicitud->id_centro_asistencial = Session::get('id_instituto');
-                $tab_solicitud->save();
-
-                self::crearRuta($tab_solicitud);
-
-                DB::commit();
-
-                $serial = tab_solicitud::findOrFail($tab_solicitud->id);
-
-                Session::flash('msg_side_overlay', 'Tramite registrado exitosamente! Numero de Proceso: '.$serial->nu_solicitud );
-                return Redirect::to('/proceso/solicitud/pendiente');
-
-            }catch (\Illuminate\Database\QueryException $e){
-                DB::rollback();
-                return Redirect::back()->withErrors([
-                    'da_alert_form' => $e->getMessage()
-                ])->withInput( $request->all());
-            }
-        }
+       
     }
 
     protected function crearRuta($tab_solicitud){

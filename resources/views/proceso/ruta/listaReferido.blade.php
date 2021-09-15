@@ -49,7 +49,7 @@
             <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Tareas</li>
-                    <li class="breadcrumb-item active" aria-current="page">En Progreso</li>
+                    <li class="breadcrumb-item active" aria-current="page">Lista de Pacientes Referidos</li>
                 </ol>
             </nav>
         </div>            
@@ -103,7 +103,7 @@
                         <th class="text-center" style="width: 100px;">Cédula</th>
                         <th class="text-center" style="width: 200px;">Nombre y Apellido</th>
                         <th class="text-center" style="width: 150px;">Municipio</th>
-                        <th>Descripción</th>
+                        <th>Solicitud</th>
                         <th class="text-center" style="width: 150px;">Instituto</th>
                         <th>Fecha</th>
                         <th class="text-center" style="width: 100px;">Acciones</th>
@@ -115,21 +115,15 @@
                         <td class="font-w600">{{ $value->cedula }}</td>
                         <td class="font-w600">{{ $value->nombres.' '.$value->apellidos}}</td>
                         <td class="font-w600">{{ $value->de_municipio }}</td>
-                        <td class="font-w600">{{ $value->nu_identificador }}-{{ $value->de_solicitud }}</td>
+                        <td class="font-w600">{{ $value->de_solicitud }}</td>
                         <td class="font-w600">{{ $value->de_instituto }}</td>
                        <!-- <td class="d-none d-sm-table-cell"><em class="text-muted">{{ $value->nb_usuario }}</em></td> -->
                         <td class="font-w600">{{ $value->fe_creado }}</td>
                         <td class="text-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Detalle" onclick="location.href='{{ url('/proceso/ruta/lista').'/'. $value->id_ruta}}'">
-                                    <i class="fa fa-list-ol"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Avanzar Tramite" onclick="location.href='{{ url('/proceso/ruta/enviar').'/'. $value->id_ruta}}'">
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Crear Solicitud" onclick="location.href='{{ url('/proceso/ruta/procesarReferido').'/'. $value->id}}'">
                                     <i class="fa fa-vote-yea"></i>
-                                </button>
-                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Ver Expediente"onclick="location.href='{{ url('/proceso/ruta/expediente').'/'. $value->id_persona }}'">
-                                    <i class="fa fa-book"></i>
-                                </button>                               
+                                </button>                                                      
                             </div>
                         </td>
                     </tr>
