@@ -116,13 +116,9 @@
                         @endif
                         </td>
                         <td class="font-w600 text-center">
-                        @if ($value->in_anexo == true || $value->in_anexo == true)
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Enviar Correo" onclick="location.href='{{ url('/proceso/documento/enviar').'/'. $value->id }}'">
-                                <i class="fa fa-mail-bulk"></i>
-                            </button>
-                        @else
-                            No
-                        @endif
+                             <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Referir Caso"onclick="location.href='{{ url('/proceso/ruta/referir').'/'. $value->id }}'">
+                                    <i class="fa fa-arrow-right"></i>
+                             </button>
                         </td>
                     </tr>
                 @endforeach
