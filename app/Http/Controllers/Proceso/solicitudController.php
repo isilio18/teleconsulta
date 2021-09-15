@@ -349,6 +349,8 @@ class solicitudController extends Controller
 
                 }
 
+                self::crearRuta($tab_solicitud);
+
                 DB::commit();
                 
                 Session::flash('msg_side_overlay', 'Registro Editado con Exito!');
