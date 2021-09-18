@@ -119,6 +119,9 @@
                              <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" title="Referir Caso"onclick="location.href='{{ url('/proceso/ruta/referir').'/'. $value->id }}'">
                                     <i class="fa fa-arrow-right"></i>
                              </button>
+                              <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Enviar Correo" onclick="location.href='{{ url('/proceso/documento/enviar').'/'. $value->id }}'">
+                                <i class="fa fa-mail-bulk"></i>
+                            </button>
                         </td>
                     </tr>
                 @endforeach
