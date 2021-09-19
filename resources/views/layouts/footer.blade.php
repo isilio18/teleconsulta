@@ -6,7 +6,7 @@
                 Desarrollado por <i class="fa fa-code text-danger"></i> GOBEL
             </div>
             <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                GOBEL Administrativo &copy; <span data-toggle="year-copy"></span>
+                GOBEL Salud &copy; <span data-toggle="year-copy"></span>
             </div>
         </div>
     </div>
