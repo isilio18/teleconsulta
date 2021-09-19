@@ -304,7 +304,7 @@ class persona extends Controller
       if (tab_persona::where('cedula', '=', $request->cedula)
       ->exists()) {
 
-        $tab_persona = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'id_sexo', 'telefono', 'direccion','correo')
+        $tab_persona = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'id_sexo', 'telefono', 'direccion','correo','id_municipio',DB::raw("to_char(fe_nacimiento,'dd-mm-yyyy')  as fe_nacimiento"))
         ->where('cedula', '=', $request->cedula)
         ->first()->toArray();
 

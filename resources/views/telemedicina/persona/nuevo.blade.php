@@ -43,10 +43,13 @@
                             $("#persona").val(data.data.id);
                             $("#nombres").val(data.data.nombres);
                             $("#apellido").val(data.data.apellidos);
-                            $("#sexo").val(data.data.sexo);
+                            $("#sexo").val(data.data.id_sexo);
                             $("#telefono").val(data.data.telefono);
                             $("#direccion").val(data.data.direccion);
                             $("#correos").val(data.data.correo);
+                            $("#correos").val(data.data.correo);
+                            $("#municipio").val(data.data.id_municipio);
+                            $("#fe_nacimiento").val(data.data.fe_nacimiento);
                         }else{
                             $("#resultado").html(data.msg);
                             $("#nombres").val('');
@@ -55,6 +58,10 @@
                             $("#telefono").val('');
                             $("#direccion").val('');
                             $("#correos").val('');
+                            $("#persona").val('');
+                            $("#municipio").val('');
+                            $("#fe_nacimiento").val('');
+
                         }
                     }
                 });
