@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Telemedicina;
 use App\Models\Telemedicina\tab_persona;
 use App\Models\Configuracion\tab_municipio;
 use App\Models\Configuracion\tab_sexo;
+use App\Models\Configuracion\tab_nacionalidad;
 use View;
 use Validator;
 use Response;
@@ -85,12 +86,17 @@ class persona extends Controller
         
         $tab_municipio = tab_municipio::select( 'id','de_municipio')
         ->orderby('id','ASC')
+        ->get();  
+
+        $tab_nacionalidad = tab_nacionalidad::select( 'id','de_nacionalidad')
+        ->orderby('id','ASC')
         ->get();        
 
         return View::make('telemedicina.persona.nuevo')->with([
-            'data'  => $data,
-            'tab_municipio'  => $tab_municipio,
-            'tab_sexo'  => $tab_sexo,
+            'data'             => $data,
+            'tab_municipio'     => $tab_municipio,
+            'tab_sexo'          => $tab_sexo,
+            'tab_nacionalidad' => $tab_nacionalidad 
         ]);
     }
 
@@ -150,6 +156,7 @@ class persona extends Controller
             $tabla->fe_nacimiento = $fe_nacimiento;
             $tabla->correo = $request->correos;
             $tabla->id_municipio = $request->municipio;
+            $tabla->id_nacionalidad = $request->nacionalidad;
             $tabla->save();
 
             DB::commit();
@@ -189,6 +196,7 @@ class persona extends Controller
             $tabla->fe_nacimiento = $fe_nacimiento;
             $tabla->correo = $request->correos;
             $tabla->id_municipio = $request->municipio;
+            $tabla->id_nacionalidad = $request->nacionalidad;
             $tabla->save();
 
             DB::commit();
@@ -304,7 +312,7 @@ class persona extends Controller
       if (tab_persona::where('cedula', '=', $request->cedula)
       ->exists()) {
 
-        $tab_persona = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'id_sexo', 'telefono', 'direccion','correo','id_municipio',DB::raw("to_char(fe_nacimiento,'dd-mm-yyyy')  as fe_nacimiento"))
+        $tab_persona = tab_persona::select( 'id', 'cedula', 'nombres', 'apellidos', 'id_sexo', 'telefono', 'direccion','correo','id_municipio','id_nacionalidad',DB::raw("to_char(fe_nacimiento,'dd-mm-yyyy')  as fe_nacimiento"))
         ->where('cedula', '=', $request->cedula)
         ->first()->toArray();
 

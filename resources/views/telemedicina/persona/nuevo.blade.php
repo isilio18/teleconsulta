@@ -50,6 +50,7 @@
                             $("#correos").val(data.data.correo);
                             $("#municipio").val(data.data.id_municipio);
                             $("#fe_nacimiento").val(data.data.fe_nacimiento);
+                            $("#nacionalidad").val(data.data.id_nacionalidad);
                         }else{
                             $("#resultado").html(data.msg);
                             $("#nombres").val('');
@@ -61,6 +62,7 @@
                             $("#persona").val('');
                             $("#municipio").val('');
                             $("#fe_nacimiento").val('');
+                            $("#nacionalidad").val('');
 
                         }
                     }
@@ -126,7 +128,23 @@
                         </div>
                         @endif
                         <input type="hidden" id="persona" name="persona" value="{{ old('persona') }}">
-                        <div class="form-group form-row">
+                        <div class="form-group form-row"> 
+                          <div id="resultado"></div>
+                        </div>
+                        <div class="form-group form-row">                           
+                            <div class="col-4">
+                                <label for="nacionalidad">Nacionalidad</label>
+                                <select class="custom-select {!! $errors->has('nacionalidad') ? 'is-invalid' : '' !!}" name="nacionalidad" id="nacionalidad" {{ $errors->has('nacionalidad') ? 'aria-describedby="nacionalidad-error" aria-invalid="true"' : '' }}>
+                                    <option value="0" >Seleccione...</option>
+                                    @foreach($tab_nacionalidad as $nacionalidad)
+                                        <option value="{{ $nacionalidad->id }}" {{ $nacionalidad->id == old('nacionalidad') ? 'selected' : '' }}>{{ $nacionalidad->de_nacionalidad }}</option>
+                                    @endforeach
+                                </select>
+                                @if( $errors->has('nacionalidad') )
+                                    <div id="nacionalidad-error" class="invalid-feedback animated fadeIn">{{ $errors->first('nacionalidad') }}</div>
+                                @endif
+                            </div>   
+
 
                             <div class="col-4">
                                 <label for="cedula">Cedula</label>
@@ -142,8 +160,11 @@
                                     @endif
                                 </div>
                             </div>
-                            <div id="resultado"></div>
-                        </div>                        
+                           
+                       
+
+                       
+                         </div>                       
                        
                         <div class="form-group">
                             <label for="nombres">Nombres</label>
