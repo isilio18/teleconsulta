@@ -147,7 +147,7 @@
 
 
                             <div class="col-4">
-                                <label for="cedula">Cedula</label>
+                                <label for="cedula">Cédula</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control {!! $errors->has('cedula') ? 'is-invalid' : '' !!}" id="cedula" name="cedula" placeholder="Cedula..." value="{{ old('cedula') }}" {{ $errors->has('cedula') ? 'aria-describedby="cedula-error" aria-invalid="true"' : '' }}>
 <!--                                    <div class="input-group-append">
