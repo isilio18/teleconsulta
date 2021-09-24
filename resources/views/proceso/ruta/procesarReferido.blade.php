@@ -40,7 +40,7 @@ $(function () {
                 <input type="hidden" name="id_referir" value="{{ (empty($tab_persona->id_referir))?'':$tab_persona->id_referir }}">
                 <div class="block">
                     <div class="block-header block-header-default">
-                        <a class="btn btn-light" href="{{ URL::to('proceso/ruta/lista').'/'.$id }}">
+                        <a class="btn btn-light" href="{{ URL::to('proceso/ruta/listaReferido')}}">
                             <i class="fa fa-arrow-left mr-1"></i> Volver
                         </a>
                     </div>

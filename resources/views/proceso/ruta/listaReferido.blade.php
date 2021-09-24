@@ -102,10 +102,10 @@
                     <tr>
                         <th class="text-center" style="width: 100px;">Cédula</th>
                         <th class="text-center" style="width: 200px;">Nombre y Apellido</th>
-                        <th class="text-center" style="width: 150px;">Municipio</th>
                         <th>Solicitud</th>
                         <th class="text-center" style="width: 150px;">Instituto</th>
-                        <th>Fecha</th>
+                        <th>Especialidad</th>
+                        <th>Observación</th>
                         <th class="text-center" style="width: 100px;">Acciones</th>
                     </tr>
                 </thead>
@@ -114,11 +114,11 @@
                     <tr>
                         <td class="font-w600">{{ $value->cedula }}</td>
                         <td class="font-w600">{{ $value->nombres.' '.$value->apellidos}}</td>
-                        <td class="font-w600">{{ $value->de_municipio }}</td>
                         <td class="font-w600">{{ $value->de_solicitud }}</td>
                         <td class="font-w600">{{ $value->de_instituto }}</td>
                        <!-- <td class="d-none d-sm-table-cell"><em class="text-muted">{{ $value->nb_usuario }}</em></td> -->
-                        <td class="font-w600">{{ $value->fe_creado }}</td>
+                        <td class="font-w600">{{ $value->de_especialidad }}</td>
+                        <td class="font-w600">{{ $value->de_observacion }}</td>
                         <td class="text-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Crear Solicitud" onclick="location.href='{{ url('/proceso/ruta/procesarReferido').'/'. $value->id}}'">
