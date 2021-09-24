@@ -132,18 +132,7 @@
                           <div id="resultado"></div>
                         </div>
                         <div class="form-group form-row">                           
-                            <div class="col-4">
-                                <label for="nacionalidad">Nacionalidad</label>
-                                <select class="custom-select {!! $errors->has('nacionalidad') ? 'is-invalid' : '' !!}" name="nacionalidad" id="nacionalidad" {{ $errors->has('nacionalidad') ? 'aria-describedby="nacionalidad-error" aria-invalid="true"' : '' }}>
-                                    <option value="0" >Seleccione...</option>
-                                    @foreach($tab_nacionalidad as $nacionalidad)
-                                        <option value="{{ $nacionalidad->id }}" {{ $nacionalidad->id == old('nacionalidad') ? 'selected' : '' }}>{{ $nacionalidad->de_nacionalidad }}</option>
-                                    @endforeach
-                                </select>
-                                @if( $errors->has('nacionalidad') )
-                                    <div id="nacionalidad-error" class="invalid-feedback animated fadeIn">{{ $errors->first('nacionalidad') }}</div>
-                                @endif
-                            </div>   
+                            
 
 
                             <div class="col-4">
@@ -160,6 +149,19 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="col-4">
+                                <label for="nacionalidad">Nacionalidad</label>
+                                <select class="custom-select {!! $errors->has('nacionalidad') ? 'is-invalid' : '' !!}" name="nacionalidad" id="nacionalidad" {{ $errors->has('nacionalidad') ? 'aria-describedby="nacionalidad-error" aria-invalid="true"' : '' }}>
+                                    <option value="0" >Seleccione...</option>
+                                    @foreach($tab_nacionalidad as $nacionalidad)
+                                        <option value="{{ $nacionalidad->id }}" {{ $nacionalidad->id == old('nacionalidad') ? 'selected' : '' }}>{{ $nacionalidad->de_nacionalidad }}</option>
+                                    @endforeach
+                                </select>
+                                @if( $errors->has('nacionalidad') )
+                                    <div id="nacionalidad-error" class="invalid-feedback animated fadeIn">{{ $errors->first('nacionalidad') }}</div>
+                                @endif
+                            </div>   
                            
                        
 
