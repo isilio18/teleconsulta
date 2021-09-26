@@ -6,7 +6,7 @@
     title="Visor DICOM"
     width="100%"
     height="590"
-    src="https://teleconsulta.gobeltech.com/webDICOM-master/webDICOM-master/">
+    src="https://teleconsulta.gobeltech.com/webDICOM-master">
 </iframe>
 
 
