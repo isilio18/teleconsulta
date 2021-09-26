@@ -41,6 +41,18 @@ class consultaController extends Controller
         //$this->middleware('optimizar');
     }
 
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dicom(Request $request){
+            
+         return View::make('consulta.visor.dicom')->with(['remote_addr' => $_SERVER['REMOTE_ADDR']]);
+    }
+
+
         /**
      * Display a listing of the resource.
      *

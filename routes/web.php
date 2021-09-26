@@ -49,6 +49,8 @@ Route::group(['namespace' => 'Telemedicina'], function(){
     Route::get('consulta/informe/{id}', 'consultaController@informe');
     Route::get('consulta/historicoInforme/{id}', 'consultaController@historicoInforme');
 	Route::post('consulta/registrarInforme', 'consultaController@guardarInforme');
+
+	Route::get('visor/dicom', 'consultaController@dicom');
         
 	Route::group(['prefix' => 'telemedicina'], function(){
 	Route::get('persona/lista', 'persona@lista');
