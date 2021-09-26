@@ -6,7 +6,7 @@
     title="Visor DICOM"
     width="100%"
     height="590"
-    src="http://{{$remote_addr}}/teleconsulta/public/webDICOM-master/">
+    src="https://teleconsulta.gobeltech.com/webDICOM-master/webDICOM-master/">
 </iframe>
 
 
