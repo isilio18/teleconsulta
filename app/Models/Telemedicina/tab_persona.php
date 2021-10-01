@@ -16,12 +16,12 @@ class tab_persona extends Model
                 "cedula" => "required|numeric",
                 "nombres" => "required|min:1|max:600",
                 "apellido" => "required|min:1|max:600",
-                "sexo" => "required",
+                /*"sexo" => "required",
                 "telefono" => "required",
                 "municipio" => "required",
                 "direccion" => "required",
                 "fe_nacimiento" => "required",
-                "correos" => "required",
+                "correos" => "required",*/
                 "nacionalidad" => "required|min:1"
         
 	);
@@ -30,12 +30,12 @@ class tab_persona extends Model
                 "cedula" => "required|numeric",
                 "nombres" => "required|min:1|max:600",
                 "apellido" => "required|min:1|max:600",
-                "sexo" => "required",
+                /*"sexo" => "required",
                 "telefono" => "required",
                 "municipio" => "required",
                 "direccion" => "required",
                 "fe_nacimiento" => "required",
-                "correos" => "required",
+                "correos" => "required",*/
                 "nacionalidad" => "required|min:1"
     );
 
