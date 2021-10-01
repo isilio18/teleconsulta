@@ -354,7 +354,7 @@ class solicitudController extends Controller
                 DB::commit();
                 
                 Session::flash('msg_side_overlay', 'Registro Editado con Exito!');
-                return Redirect::to('/proceso/solicitud/lista');
+                return Redirect::to('/proceso/solicitud/pendiente');
 
             }catch (\Illuminate\Database\QueryException $e){
                 DB::rollback();
@@ -430,7 +430,7 @@ class solicitudController extends Controller
             DB::commit();
 
             Session::flash('msg_side_overlay', 'La solicitud se envio exitosamente!');
-            return Redirect::to('/proceso/solicitud/lista');
+            return Redirect::to('/proceso/solicitud/pendiente');
 
         }catch (\Illuminate\Database\QueryException $e)
         {
