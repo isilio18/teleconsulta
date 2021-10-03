@@ -80,7 +80,7 @@
                                         <i class="fa fa-eye text-primary mr-1"></i> Ver
                                     </a>
                                      <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('https://teleconsulta.gobeltech.com/visor/dicomPaciente').'/'. $value->id }}'" target="_blank">
-                                        <i class="fa fa-eye text-primary mr-1"></i> Ver
+                                        <i class="fa fa-eye text-primary mr-1"></i> Ver DICOM
                                     </a>
                                                                 
                                 </div>
