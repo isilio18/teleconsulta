@@ -187,7 +187,8 @@ Route::group(['namespace' => 'Proceso'], function(){
 		Route::post('documento/guardar', 'documentoController@guardar');
 		Route::post('documento/guardar/{id}', 'documentoController@guardar');
 		Route::post('documento/eliminar/{id}', 'documentoController@eliminar');
-		Route::get('documento/ver/{id}/{t}', 'documentoController@verAnexo');
+		Route::get('documento/ver/{id}/{t}', 'documentoController@verAnexo');		
+		Route::get('documento/ver/{id}', 'descargaController@verAnexo');
 		Route::get('documento/verDICOM/{id}', 'documentoController@verAnexoDICOM');
 		Route::get('reporte/ver/{id}/{t}', 'documentoController@verReporte');
 
