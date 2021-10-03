@@ -12,6 +12,7 @@ use App\Models\Configuracion\tab_tipo_informe;
 use App\Models\Proceso\tab_persona;
 use App\Models\Teleconsulta\tab_informe;
 use App\Models\Teleconsulta\tab_consulta;
+use App\Models\Proceso\tab_documento;
 use View;
 use Validator;
 use Input;
@@ -51,6 +52,19 @@ class consultaController extends Controller
             
          return View::make('consulta.visor.dicom')->with(['remote_addr' => $_SERVER['REMOTE_ADDR']]);
     }
+
+    public function dicomPaciente(Request $request,$id){
+
+
+        $tab_documento = tab_documento::select( 'id', 'de_extension')
+        ->where('id', '=', $id)->first();
+
+         return View::make('consulta.visor.dicomPaciente')->with(
+            ['remote_addr' => $_SERVER['REMOTE_ADDR'],
+            'archivo' => $tab_documento->id.'.'.$tab_documento->de_extension
+            ]);
+    }
+
 
 
         /**

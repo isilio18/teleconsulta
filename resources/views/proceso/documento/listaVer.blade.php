@@ -16,6 +16,16 @@
         $('.pagination span').addClass('page-link');
     </script>
 
+       <script>
+        $('#dicom').on('show.bs.modal', function (event) {
+            $("#dicomForm").attr('action','{{ url('/proceso/documento/eliminar'). '/'. $id }}');
+            var button = $(event.relatedTarget);
+            var item_id = button.data('item_id');
+            var modal = $(this);
+            modal.find('.modal-content #registro_id').val(item_id);
+        });
+    </script>
+
 @endsection
 
 @section('content')
@@ -68,6 +78,7 @@
                                     <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('/proceso/documento/ver').'/'. $value->id }}/' + (new Date().getTime());" target="_blank">
                                         <i class="fa fa-eye text-primary mr-1"></i> Ver
                                     </a>
+                                    <button type="button" class="btn-block-option mr-2"><a href="{{ URL::to('http://localhost:8000/visor/dicomPaciente').'/'.$value->id}}"> <i class="fa fa-eye text-primary mr-1"></i> Ver Imagen DICOM</a></button>
                                 </div>
                             </div>
                         </div>
@@ -77,6 +88,8 @@
                 </div>
                 @endforeach
             </div>  
+
+
 
         </div>
     </div>

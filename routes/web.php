@@ -51,6 +51,7 @@ Route::group(['namespace' => 'Telemedicina'], function(){
 	Route::post('consulta/registrarInforme', 'consultaController@guardarInforme');
 
 	Route::get('visor/dicom', 'consultaController@dicom');
+	Route::get('visor/dicomPaciente/{id}', 'consultaController@dicomPaciente');
         
 	Route::group(['prefix' => 'telemedicina'], function(){
 	Route::get('persona/lista', 'persona@lista');
@@ -187,6 +188,7 @@ Route::group(['namespace' => 'Proceso'], function(){
 		Route::post('documento/guardar/{id}', 'documentoController@guardar');
 		Route::post('documento/eliminar/{id}', 'documentoController@eliminar');
 		Route::get('documento/ver/{id}/{t}', 'documentoController@verAnexo');
+		Route::get('documento/verDICOM/{id}', 'documentoController@verAnexoDICOM');
 		Route::get('reporte/ver/{id}/{t}', 'documentoController@verReporte');
 
 		Route::get('documento/enviar/{id}', 'documentoController@mail');
