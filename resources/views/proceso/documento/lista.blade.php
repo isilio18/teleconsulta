@@ -79,9 +79,10 @@
                                     <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('/proceso/documento/ver').'/'. $value->id }}/' + (new Date().getTime());" target="_blank">
                                         <i class="fa fa-eye text-primary mr-1"></i> Ver
                                     </a>
-                                    <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('/proceso/documento/ver').'/'. $value->id }}/' + (new Date().getTime());" target="_blank">
-                                        <i class="fa fa-eye text-primary mr-1"></i> Ver
-                                    </a>                                                             
+                                    
+                                    <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href="{{ URL::to('https://teleconsulta.gobeltech.com/visor/dicomPaciente').'/'.$value->id }}" >
+                                        <i class="fa fa-eye text-primary mr-1"></i> Ver Imagen Dicom
+                                    </a>                                  
                                 </div>
                                 <div class="btn-group">
                                     <a class="btn btn-sm btn-light" data-toggle="tooltip" title="Editar" href="{{ url('/proceso/documento/editar').'/'. $value->id }}">
