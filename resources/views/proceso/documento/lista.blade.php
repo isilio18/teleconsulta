@@ -47,7 +47,7 @@
 
             <div class="row items-push">
                 @foreach($tab_documento as $key => $value)
-                <div class="col-sm-8 col-md-4 col-xl-3 d-flex align-items-center">
+                <div class="col-sm-10 col-md-4 col-xl-3 d-flex align-items-center">
                     <!-- Example File -->
                     <div class="options-container w-100">
                         <!-- Example File Block -->
