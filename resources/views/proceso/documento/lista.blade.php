@@ -75,7 +75,7 @@
                         <!-- Example File Hover Options -->
                         <div class="options-overlay rounded-lg bg-white-50">
                             <div class="options-overlay-content">
-                                <div class="mb-8">
+                                <div class="mb-2">
                                     <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('/proceso/documento/ver').'/'. $value->id }}/' + (new Date().getTime());" target="_blank">
                                         <i class="fa fa-eye text-primary mr-1"></i> Ver
                                     </a>
