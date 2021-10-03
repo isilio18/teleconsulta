@@ -61,7 +61,7 @@ class consultaController extends Controller
 
          return View::make('consulta.visor.dicomPaciente')->with(
             ['remote_addr' => $_SERVER['REMOTE_ADDR'],
-            'archivo' => $tab_documento->id.'.'.$tab_documento->de_extension
+            'archivo' => $id
             ]);
     }
 
