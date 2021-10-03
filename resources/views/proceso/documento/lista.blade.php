@@ -79,8 +79,9 @@
                                     <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('/proceso/documento/ver').'/'. $value->id }}/' + (new Date().getTime());" target="_blank">
                                         <i class="fa fa-eye text-primary mr-1"></i> Ver
                                     </a>
-                                    <button type="button" class="btn-block-option mr-2"><a href="{{ URL::to('https://teleconsulta.gobeltech.com/visor/dicomPaciente').'/'.$value->id}}"> <i class="fa fa-plus mr-1"></i> Ver Imagen DICOM</a>
-                                    </button>
+                                    <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ URL::to('https://teleconsulta.gobeltech.com/visor/dicomPaciente').'/'.$value->id}}" target="_blank">
+                                        <i class="fa fa-eye text-primary mr-1"></i> Ver Imagen Dicom
+                                    </a>                                  
                                 </div>
                                 <div class="btn-group">
                                     <a class="btn btn-sm btn-light" data-toggle="tooltip" title="Editar" href="{{ url('/proceso/documento/editar').'/'. $value->id }}">
