@@ -62,7 +62,7 @@ DcmViewer.prototype.showSeries = function(files) {
 
     async function getFiles(url) {
         var files = new Array()
-        var entries  = await (new zip.ZipReader(new zip.HttpReader("http://localhost/teleconsulta/storage/app/App/documento/"+url))).getEntries();
+        var entries  = await (new zip.ZipReader(new zip.HttpReader("https://teleconsulta.gobeltech.com/teleconsulta/storage/app/App/documento/"+url))).getEntries();
         for(var i = 0; i < entries.length; i++) {
             entry = entries[i]        
 
