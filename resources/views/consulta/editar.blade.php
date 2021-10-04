@@ -357,11 +357,11 @@ $(function () {
                         <div class="form-group">
                             <label class="d-block">Covid-19</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="covid" value="1" {{($tab_persona->covidf==true)?'checked':''}}>
+                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="covid" value="1" {{($tab_persona->covid==true)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline1">Si</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="covid"  value="2" {{($tab_persona->covidf==false)?'checked':''}}>
+                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="covid"  value="2" {{($tab_persona->covid==false)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline2">no</label>
                             </div>
                             </div>
