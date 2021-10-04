@@ -103,7 +103,7 @@ $(function () {
                         <div class="form-group form-row">
                             <div class="col-8">
                                 <label for="fecha">Fecha</label>
-                                <input type="text" class="js-flatpickr form-control {!! $errors->has('fecha') ? 'is-invalid' : '' !!}" id="fecha" name="fecha" placeholder="d-m-Y HH:MM" data-date-format="Y-m-d H:i" data-enable-time="true" value="{{ empty(old('fecha'))? $tab_consulta->fe_consulta : old('fecha') }}" {{ $errors->has('fecha') ? 'aria-describedby="fecha-error" aria-invalid="true"' : '' }}>
+                                <input type="text" class="js-flatpickr form-control {!! $errors->has('fecha') ? 'is-invalid' : '' !!}" id="fecha" name="fecha" placeholder="d-m-Y HH:MM" data-date-format="Y-m-d H:i" data-enable-time="true" value="{{ empty(old('fecha'))? date('Y-m-d H:i') : old('fecha') }}" {{ $errors->has('fecha') ? 'aria-describedby="fecha-error" aria-invalid="true"' : '' }}>
                                 @if( $errors->has('fecha') )
                                     <div id="fecha-error" class="invalid-feedback animated fadeIn">{{ $errors->first('fecha') }}</div>
                                 @endif
@@ -111,12 +111,12 @@ $(function () {
 
                         </div>                        
 
-                <label for="correo">Antecedentes Patológicos del Paciente</label>   
+                <label for="correo">Antecedentes Patologicos de Paciente</label>   
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="diabetes" id="diabetes" @if ($tab_consulta->diabetes) checked @endif>
+                                <input type="checkbox" name="diabetes" id="diabetes" @if ( old('diabetes')) checked @endif {{($tab_persona->diabetes==true)?'checked':''}}>
                                 <label for="daily" title="Diariamente">
                                     Diabetes
                                 </label>
@@ -126,7 +126,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="obesidad" id="obesidad" @if ( $tab_consulta->obesidad) checked @endif>
+                                <input type="checkbox" name="obesidad" id="obesidad" @if ( old('obesidad')) checked @endif {{($tab_persona->obesidad==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Obesidad
                                 </label>
@@ -136,17 +136,17 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                               <input type="checkbox" name="cancer" id="cancer" @if ( $tab_consulta->cancer) checked @endif>
+                                <input type="checkbox" name="cancer" id="cancer" @if ( old('cancer')) checked @endif {{($tab_persona->cancer==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Cáncer
                                 </label>
                             </div>
                         </div>
                     </div> 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="hipertencion" id="hipertencion" @if ($tab_consulta->hipertension) checked @endif>
+                                <input type="checkbox" name="hipertencion" id="hipertencion" @if ( old('hipertencion')) checked @endif {{($tab_persona->hipertencion==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Hipertensión
                                 </label>
@@ -156,7 +156,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="hepatitis" id="hepatitis" @if ( $tab_consulta->hepatitis) checked @endif>
+                                <input type="checkbox" name="hepatitis" id="hepatitis" @if ( old('hepatitis')) checked @endif {{($tab_persona->hepatitis==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Hepatitis
                                 </label>
@@ -166,7 +166,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="asmatico" id="asmatico" @if ( $tab_consulta->asmatico) checked @endif>
+                                <input type="checkbox" name="asmatico" id="asmatico" @if ( old('asmatico')) checked @endif {{($tab_persona->asmatico==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Asma
                                 </label>
@@ -176,36 +176,37 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="tiroide" id="tiroide" @if ( $tab_consulta->tiroide) checked @endif>
-                                <label for="monthly" title="Mensual">
+                                <input type="checkbox" name="tiroide" id="tiroide" @if ( old('tiroide')) checked @endif>
+                                <label for="monthly" title="Mensual" {{($tab_persona->tiroide==true)?'checked':''}}>
                                     Tiroide
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="cardiopata" id="cardiopata" @if ( $tab_consulta->cardiopata) checked @endif>
+                                <input type="checkbox" name="cardiopata" id="cardiopata" @if ( old('cardiopata')) checked @endif {{($tab_persona->cardiopata==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Cardiopatía
                                 </label>
                             </div>
                         </div>
-                    </div>                      
-                    <div class="col-md-6">
+                    </div>                       
+                    <div class="col-md-12">
                         <div class="form-group form-row">
-                            <input type="text" class="form-control {!! $errors->has('otros') ? 'is-invalid' : '' !!}" id="otros" name="otros" placeholder="Otros..." value="{{ empty(old('otros'))? $tab_consulta->otros : old('otros') }}" {{ $errors->has('otros') ? 'aria-describedby="otros-error" aria-invalid="true"' : '' }}>
+                            <input type="text" class="form-control {!! $errors->has('otros') ? 'is-invalid' : '' !!}" id="otros" name="otros" placeholder="Otros..." value="{{ (empty(old('otros')))?((!empty($tab_persona->otros))?$tab_persona->otros:''):old('otros')}}" {{ $errors->has('otros') ? 'aria-describedby="otros-error" aria-invalid="true"' : '' }}>
                         </div>
-                    </div>                    
+                    </div>                     
+                    
                 </div>                        
 
-                <label for="correo">Antecedentes Patológicos de Familiares</label>   
+                <label for="correo">Antecedentes Patologicos de Familiares</label>   
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="diabetesf" id="diabetesf" @if ($tab_consulta->diabetesf) checked @endif>
+                                <input type="checkbox" name="diabetesf" id="diabetesf" @if ( old('diabetesf')) checked @endif {{($tab_persona->diabetesf==true)?'checked':''}}>
                                 <label for="daily" title="Diariamente">
                                     Diabetes
                                 </label>
@@ -215,7 +216,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="obesidadf" id="obesidadf" @if ( $tab_consulta->obesidadf) checked @endif>
+                                <input type="checkbox" name="obesidadf" id="obesidadf" @if ( old('obesidadf')) checked @endif {{($tab_persona->obesidadf==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Obesidad
                                 </label>
@@ -225,7 +226,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                               <input type="checkbox" name="cancerf" id="cancerf" @if ( $tab_consulta->cancerf) checked @endif>
+                                <input type="checkbox" name="cancerf" id="cancerf" @if ( old('cancerf')) checked @endif {{($tab_persona->cancerf==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Cáncer
                                 </label>
@@ -235,7 +236,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="hipertencionf" id="hipertencionf" @if ($tab_consulta->hipertensionf) checked @endif>
+                                <input type="checkbox" name="hipertencionf" id="hipertencionf" @if ( old('hipertencionf')) checked @endif {{($tab_persona->hipertencionf==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Hipertensión
                                 </label>
@@ -245,7 +246,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="hepatitisf" id="hepatitisf" @if ( $tab_consulta->hepatitisf) checked @endif>
+                                <input type="checkbox" name="hepatitisf" id="hepatitisf" @if ( old('hepatitisf')) checked @endif {{($tab_persona->hepatitisf==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Hepatitis
                                 </label>
@@ -255,7 +256,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="asmaticof" id="asmaticof" @if ( $tab_consulta->asmaticof) checked @endif>
+                                <input type="checkbox" name="asmaticof" id="asmaticof" @if ( old('asmaticof')) checked @endif {{($tab_persona->asmaticof==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Asma
                                 </label>
@@ -265,57 +266,57 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="tiroidef" id="tiroidef" @if ( $tab_consulta->tiroidef) checked @endif>
+                                <input type="checkbox" name="tiroidef" id="tiroidef" @if ( old('tiroidef')) checked @endif {{($tab_persona->tiroidef==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Tiroide
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="cardiopataf" id="cardiopataf" @if ( $tab_consulta->cardiopataf) checked @endif>
+                                <input type="checkbox" name="cardiopataf" id="cardiopataf" @if ( old('cardiopataf')) checked @endif {{($tab_persona->cardiopataf==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Cardiopatía
                                 </label>
                             </div>
                         </div>
                     </div>                      
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group form-row">
-                            <input type="text" class="form-control {!! $errors->has('otrosf') ? 'is-invalid' : '' !!}" id="otrosf" name="otrosf" placeholder="Otros..." value="{{ empty(old('otrosf'))? $tab_consulta->otrosf : old('otrosf') }}" {{ $errors->has('otrosf') ? 'aria-describedby="otrosf-error" aria-invalid="true"' : '' }}>
+                            <input type="text" class="form-control {!! $errors->has('otrosf') ? 'is-invalid' : '' !!}" id="otrosf" name="otrosf" placeholder="Otros..." value="{{ (empty(old('otrosf')))?((!empty($tab_persona->otrosf))?$tab_persona->otrosf:''):old('otrosf')}}" {{ $errors->has('otrosf') ? 'aria-describedby="otrosf-error" aria-invalid="true"' : '' }}>
                         </div>
-                    </div>                    
-                </div> 
+                    </div>                   
+                </div>
                  <div class="row">
-                     <div class="col-md-4">
+                     <div class="col-md-5">
                         <div class="form-group">
-                            <label class="d-block">Es alérgico a algún medicamento</label>
+                            <label class="d-block">¿Es alergico algun medicamento?</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="in_alergico" value="1" @if ( $tab_consulta->in_alergico==true) checked @endif>
+                                 <input class="form-check-input" type="radio" id="example-radios-inline1" name="in_alergico" value="1" {{($tab_persona->in_alergico==true)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline1">Si</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="in_alergico"  value="2" @if ( $tab_consulta->in_alergico==false) checked @endif>
+                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="in_alergico"  value="2" {{($tab_persona->in_alergico==false)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline2">no</label>
                             </div>
                             </div>
                          </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                         <div class="form-group form-row">
-                            <input type="text" class="form-control {!! $errors->has('alergico') ? 'is-invalid' : '' !!}" id="alergico" name="alergico" placeholder="..." value="{{ empty(old('alergico'))? $tab_consulta->alergico : old('alergico') }}" {{ $errors->has('alergico') ? 'aria-describedby="alergico-error" aria-invalid="true"' : '' }}>
+                            <input type="text" class="form-control {!! $errors->has('alergico') ? 'is-invalid' : '' !!}" id="alergico" name="alergico" placeholder="..." value="{{ (empty(old('alergico')))?((!empty($tab_persona->alergico))?$tab_persona->alergico:''):old('alergico')}}" {{ $errors->has('alergico') ? 'aria-describedby="alergico-error" aria-invalid="true"' : '' }}>
                         </div>
                         </div>
                                          
-                </div>
+                </div>      
                 
                 <label for="correo">Hábitos Tóxicos</label>   
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="tabaco" id="tabaco" @if ( $tab_consulta->tabaco==true) checked @endif>
+                                <input type="checkbox" name="tabaco" id="tabaco" @if ( old('tabaco')) checked @endif {{($tab_persona->tabaco==true)?'checked':''}}>
                                 <label for="daily" title="Diariamente">
                                     Tabaco
                                 </label>
@@ -325,7 +326,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="alcohol" id="obesidad" @if ( $tab_consulta->alcohol==true) checked @endif>
+                                <input type="checkbox" name="alcohol" id="obesidad" @if ( old('alcohol')) checked @endif {{($tab_persona->alcohol==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Alcohol
                                 </label>
@@ -335,7 +336,7 @@ $(function () {
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="checkbox">
-                                <input type="checkbox" name="droga" id="droga" @if ( $tab_consulta->droga==true) checked @endif>
+                                <input type="checkbox" name="droga" id="droga" @if ( old('droga')) checked @endif {{($tab_persona->droga==true)?'checked':''}}>
                                 <label for="monthly" title="Mensual">
                                     Droga
                                 </label>
@@ -344,54 +345,55 @@ $(function () {
                     </div>                    
                     <div class="col-md-6">
                         <div class="form-group form-row">
-                            <input type="text" class="form-control {!! $errors->has('otrosh') ? 'is-invalid' : '' !!}" id="otrosh" name="otrosh" placeholder="Otros..." value="{{ empty(old('otrosh'))? $tab_consulta->otrosh : old('otrosh') }}" {{ $errors->has('otrosh') ? 'aria-describedby="otrosh-error" aria-invalid="true"' : '' }}>
+                            <input type="text" class="form-control {!! $errors->has('otrosh') ? 'is-invalid' : '' !!}" id="otrosh" name="otrosh" placeholder="Otros..." value="{{ (empty(old('otrosh')))?((!empty($tab_persona->otrosh))?$tab_persona->otrosh:''):old('otrosh')}}" {{ $errors->has('otrosh') ? 'aria-describedby="otrosh-error" aria-invalid="true"' : '' }}>
                         </div>
                     </div>                     
                     
-                </div>   
+                </div>  
                 
                 <label for="vacunacion">Vacunación</label>
-                    <div class="row">
+                                 <div class="row">
                      <div class="col-md-2">
                         <div class="form-group">
                             <label class="d-block">Covid-19</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="covid" value="1" @if ( $tab_consulta->covid==true) checked @endif>
+                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="covid" value="1" {{($tab_persona->covidf==true)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline1">Si</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="covid"  value="2" @if ( $tab_consulta->covid==false) checked @endif>
+                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="covid"  value="2" {{($tab_persona->covidf==false)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline2">no</label>
                             </div>
-                            </div>  
                             </div>
+                         </div>
                         <div class="col-md-3">
                         <div class="form-group form-row">
                         <label for="fecha">Fecha Covid</label>
-                        <input type="text" class="js-flatpickr form-control {!! $errors->has('fecha_covid') ? 'is-invalid' : '' !!}" id="fecha_covid" name="fecha_covid" placeholder="d-m-Y HH:MM" data-date-format="Y-m-d H:i" data-enable-time="true" value="{{ empty(old('fecha_covid'))? $tab_consulta->fe_covid : old('fecha_covid') }}" {{ $errors->has('fecha_covid') ? 'aria-describedby="fecha_covid-error" aria-invalid="true"' : '' }}>
+                        <input type="text" class="js-flatpickr form-control {!! $errors->has('fecha_covid') ? 'is-invalid' : '' !!}" id="fecha_covid" name="fecha_covid" placeholder="d-m-Y HH:MM" data-date-format="Y-m-d H:i" data-enable-time="true" value="{{ (empty(old('fecha_covid')))?((!empty($tab_persona->fe_covid))?$tab_persona->fe_covid:''):old('fecha_covid')}}" {{ $errors->has('fecha_covid') ? 'aria-describedby="fecha_covid-error" aria-invalid="true"' : '' }}>
                         </div>
-                        </div> 
-                        <div class="col-md-2"></div>                        
-                     <div class="col-md-2">
+                        </div>
+                     <div class="col-md-2"></div>
+                         
+                         <div class="col-md-2">
                         <div class="form-group">
                             <label class="d-block">Vacuna</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="vacuna" value="1" @if ( $tab_consulta->vacuna==true) checked @endif>
+                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="vacuna" value="1" {{($tab_persona->vacuna==true)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline1">Si</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="vacuna"  value="2" @if ( $tab_consulta->vacuna==false) checked @endif>
+                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="vacuna"  value="2" {{($tab_persona->vacuna==false)?'checked':''}}>
                                 <label class="form-check-label" for="example-radios-inline2">no</label>
                             </div>
-                            </div>  
                             </div>
+                         </div>
                         <div class="col-md-3">
                         <div class="form-group form-row">
                         <label for="fecha">Fecha Vacuna</label>
-                        <input type="text" class="js-flatpickr form-control {!! $errors->has('fecha_vacuna') ? 'is-invalid' : '' !!}" id="fecha_vacuna" name="fecha_vacuna" placeholder="d-m-Y HH:MM" data-date-format="Y-m-d H:i" data-enable-time="true" value="{{ empty(old('fecha_vacuna'))? $tab_consulta->fe_vacuna : old('fecha_vacuna') }}" {{ $errors->has('fecha_vacuna') ? 'aria-describedby="fecha_vacuna-error" aria-invalid="true"' : '' }}>
+                        <input type="text" class="js-flatpickr form-control {!! $errors->has('fecha_vacuna') ? 'is-invalid' : '' !!}" id="fecha_vacuna" name="fecha_vacuna" placeholder="d-m-Y HH:MM" data-date-format="Y-m-d H:i" data-enable-time="true" value="{{ (empty(old('fecha_vacuna')))?((!empty($tab_persona->fe_vacuna))?$tab_persona->fe_vacuna:''):old('fecha_vacuna')}}" {{ $errors->has('fecha_vacuna') ? 'aria-describedby="fecha_vacuna-error" aria-invalid="true"' : '' }}>
                         </div>
-                        </div>                         
-                            </div>                                          
+                        </div>                                         
+                </div>
                 
                         <div class="form-group form-row">
                             <label for="informe">Motivo de la Consulta</label>
