@@ -139,9 +139,12 @@ class consultaController extends Controller
         
         $tab_consulta = tab_consulta::where('id_ruta', '=', $ruta)->first(); 
         
-        $tab_persona = tab_persona::select('telemedicina.tab_persona.id', 'cedula','nombres', 'apellidos', 'de_sexo', 'telefono', 'direccion', DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"))
+        $tab_persona = tab_persona::select('telemedicina.tab_persona.id', 'cedula','nombres', 'apellidos', 'de_sexo', 'telefono', 'direccion', DB::raw("SUBSTRING(cast(age(now(),fe_nacimiento) as varchar),0,3) as edad"),
+            't02.id', 't02.id_persona', 't02.diabetes', 't02.fumador', 't02.obesidad', 't02.cancer', 't02.hipertension', 't02.hepatitis', 't02.asmatico', 't02.tiroide', 't02.cardiopata', 't02.covid', 't02.otros', 't02.diabetesf', 't02.fumadorf', 't02.obesidadf', 't02.cancerf', 't02.hipertensionf', 't02.hepatitisf', 't02.asmaticof', 't02.tiroidef', 't02.cardiopataf', 't02.covidf', 't02.otrosf', 't02.de_consulta', 't02.de_diagnostico', 't02.de_tratamiento', 't02.in_activo', 't02.fe_consulta', 't02.medico', 't02.especialidad', 't02.in_alergico', 't02.talla', 't02.alergico', 't02.tabaco', 't02.alcohol', 't02.droga', 't02.otrosh', 't02.vacuna', 't02.fe_covid', 't02.fe_vacuna', 't02.updated_at', 't02.created_at', 't02.id_ruta', 't02.de_posologia')
         ->join('configuracion.tab_sexo as t01', 'telemedicina.tab_persona.id_sexo', '=', 't01.id')
+        ->leftjoin('telemedicina.tab_consulta as t02', DB::raw("cast(t02.id_persona as bigint)"), '=', 'telemedicina.tab_persona.id')
         ->where('telemedicina.tab_persona.id', '=', $tab_proceso->id_persona)
+        ->orderby('t02.id','desc')
         ->first();        
         
         if(!$tab_consulta){    
