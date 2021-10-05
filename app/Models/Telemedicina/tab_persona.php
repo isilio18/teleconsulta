@@ -35,8 +35,8 @@ class tab_persona extends Model
                 "municipio" => "required",
                 "direccion" => "required",
                 "fe_nacimiento" => "required",
-                "correos" => "required",*/
-                "nacionalidad" => "required|min:1"
+                "correos" => "required",
+                "nacionalidad" => "required|min:1"*/
     );
 
     public function scopeSearch($query, $q, $sortBy)
