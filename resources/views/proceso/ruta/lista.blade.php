@@ -42,7 +42,7 @@
             <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">{{$tab_tipo_solicitud->de_solicitud}}</li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $tab_solicitud->nu_solicitud }}</li>
+                   
                 </ol>
             </nav>
         </div>              
