@@ -178,11 +178,13 @@ Route::group(['namespace' => 'Proceso'], function(){
 		Route::post('ruta/datos', 'rutaController@datos');
 		Route::post('documento/lista', 'documentoController@lista');
 		Route::get('documento/lista/{id}', 'documentoController@lista');
+		Route::get('documento/listaDicom/{id}', 'documentoController@listaDicom');
 		Route::post('documento/lista/ver', 'documentoController@listaVer');
 		Route::get('documento/lista/ver/{id}', 'documentoController@listaVer');
 		Route::post('documento/storeLista', 'documentoController@storeLista');
 		Route::post('documento/nuevo', 'documentoController@nuevo');
 		Route::get('documento/nuevo/{id}', 'documentoController@nuevo');
+		Route::get('documento/nuevoDicom/{id}', 'documentoController@nuevoDicom');
 		Route::get('documento/editar/{id}', 'documentoController@editar');
 		Route::post('documento/guardar', 'documentoController@guardar');
 		Route::post('documento/guardar/{id}', 'documentoController@guardar');

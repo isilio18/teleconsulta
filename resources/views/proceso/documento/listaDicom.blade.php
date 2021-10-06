@@ -39,7 +39,7 @@
                 <i class="fa fa-arrow-left mr-1"></i> Volver
             </a>
             <div class="block-options">
-                <button type="button" class="btn-block-option mr-2"><a href="{{ URL::to('proceso/documento/nuevo'). '/'. $ruta }}"><i class="fa fa-plus mr-1"></i> Nuevo</a></button>
+                <button type="button" class="btn-block-option mr-2"><a href="{{ URL::to('proceso/documento/nuevoDicom'). '/'. $ruta }}"><i class="fa fa-plus mr-1"></i> Nuevo</a></button>
                 <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
             </div>
         </div>
@@ -76,9 +76,13 @@
                         <div class="options-overlay rounded-lg bg-white-50">
                             <div class="options-overlay-content">
                                 <div class="mb-2">
-                                    <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('/proceso/documento/ver').'/'. $value->id }}/' + (new Date().getTime());" target="_blank">
+                                    <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('/proceso/documento/verDICOM').'/'. $value->id }}'" target="_blank">
                                         <i class="fa fa-eye text-primary mr-1"></i> Ver
-                                    </a>                                
+                                    </a>
+                                     <a class="btn btn-hero-light" data-toggle="tooltip" title="Ver Documento" onClick="this.href='{{ url('https://teleconsulta.gobeltech.com/visor/dicomPaciente').'/'. $value->id }}'" >
+                                        <i class="fa fa-eye text-primary mr-1"></i> Ver DICOM
+                                    </a>
+                                                                
                                 </div>
                                 <div class="btn-group">
                                     <a class="btn btn-sm btn-light" data-toggle="tooltip" title="Editar" href="{{ url('/proceso/documento/editar').'/'. $value->id }}">

@@ -14,6 +14,7 @@ use Storage;
 use File;
 use Illuminate\Http\Response as ResposeFile;
 use Redirect;
+use ZipArchive;
 use Mail;
 //*******************************//
 use Illuminate\Http\Request;
@@ -69,11 +70,64 @@ class documentoController extends Controller
         'mime', 'de_extension', 'in_activo', 'created_at', 'updated_at')
         ->where('id_tab_ruta', '=', $tab_ruta->id)
         ->where('in_activo', '=', true)
+        ->where('in_dicom', '=', false)
         //->search($q, $sortBy)
         ->orderBy($sortBy, $orderBy)
         ->paginate($perPage);
 
         return View::make('proceso.documento.lista')->with([
+          'tab_documento' => $tab_documento,
+          'orderBy' => $orderBy,
+          'sortBy' => $sortBy,
+          'perPage' => $perPage,
+          'columnas' => $columnas,
+          'q' => $q,
+          'id' => $id,
+          'ruta' => $tab_ruta->id
+        ]);
+    }
+
+    public function listaDicom( Request $request, $id)
+    {
+        $sortBy = 'id';
+        $orderBy = 'desc';
+        $perPage = 100;
+        $q = null;
+        $columnas = [
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Origen'],
+          ['valor'=>'bnumberdialed', 'texto'=>'Número de Destino']
+        ];
+
+        if ($request->has('orderBy')){
+            $orderBy = $request->query('orderBy');
+        }
+        if ($request->has('sortBy')){
+            $sortBy = $request->query('sortBy');
+        } 
+        if ($request->has('perPage')){
+            $perPage = $request->query('perPage');
+        } 
+        if ($request->has('q')){
+            $q = $request->query('q');
+        }
+
+        $tab_ruta = tab_ruta::select( 'id', 'id_tab_solicitud', 'id_tab_tipo_solicitud', 'id_tab_usuario', 
+        'de_observacion', 'id_tab_estatus', 'nu_orden', 'id_tab_proceso', 'in_actual', 
+        'in_activo', 'created_at', 'updated_at', DB::raw("to_char(created_at, 'dd/mm/YYYY hh12:mi AM') as fe_creado"))
+        ->where('id_tab_solicitud', '=', $id)
+        ->where('in_activo', '=', true)
+        ->where('in_actual', '=', true)
+        ->first();
+
+        $tab_documento = tab_documento::select( 'id', 'id_tab_ruta', 'id_tab_solicitud', 'de_documento', 'nb_archivo', 
+        'mime', 'de_extension', 'in_activo', 'created_at', 'updated_at')
+        ->where('id_tab_ruta', '=', $tab_ruta->id)
+        ->where('in_activo', '=', true)
+        ->where('in_dicom', '=', true)
+        ->orderBy($sortBy, $orderBy)
+        ->paginate($perPage);
+
+        return View::make('proceso.documento.listaDicom')->with([
           'tab_documento' => $tab_documento,
           'orderBy' => $orderBy,
           'sortBy' => $sortBy,
@@ -97,6 +151,18 @@ class documentoController extends Controller
         ->first();
 
         return View::make('proceso.documento.nuevo')->with([
+            'ruta' => $id,
+            'id' => $tab_ruta->id_tab_solicitud
+        ]);
+    }
+
+    public function nuevoDicom( Request $request, $id)
+    {
+        $tab_ruta = tab_ruta::select( 'id', 'id_tab_solicitud')
+        ->where('id', '=', $id)
+        ->first();
+
+        return View::make('proceso.documento.nuevoDicom')->with([
             'ruta' => $id,
             'id' => $tab_ruta->id_tab_solicitud
         ]);
@@ -129,7 +195,7 @@ class documentoController extends Controller
     {
         DB::beginTransaction();
 
-        if($id!=''||$id!=null){
+        if($request->in_dicom <> 1){
   
             try {
 
@@ -141,13 +207,20 @@ class documentoController extends Controller
 
                 $extension = strtolower(File::extension(basename($request->file('archivo')->getClientOriginalName())));
 
-                $tab_documento = tab_documento::find($id);
+              
+                $tab_documento = new tab_documento;
+                $tab_documento->id_tab_ruta = $request->ruta;
+                $tab_documento->id_tab_solicitud = $request->solicitud;
                 $tab_documento->de_documento = $request->descripcion;
                 $tab_documento->nb_archivo = $request->file('archivo')->getClientOriginalName();
                 $tab_documento->de_extension = $extension;
                 $tab_documento->mime = $request->file('archivo')->getMimeType();
+                $tab_documento->in_activo = true;
+                $tab_documento->in_dicom  = false;
                 $tab_documento->save();
-                
+
+
+                              
                 $directorio = '/App/documento';
                 $disk = Storage::disk('local');
                 $disk->makeDirectory($directorio);
@@ -178,28 +251,55 @@ class documentoController extends Controller
                     return Redirect::back()->withErrors( $validator)->withInput( $request->all());
                 }
     
-                $extension = strtolower(File::extension(basename($request->file('archivo')->getClientOriginalName())));
+                $cant_documento = tab_documento::where('id_tab_ruta','=',$request->ruta)->count();
+                $nb_dir = $request->ruta.$cant_documento;
+                              
+                mkdir(storage_path().'/app/App/documento/'.$nb_dir, 0777);     
+
+                $directorio = '/App/documento/'.$nb_dir;
+                $disk = Storage::disk('local');
+                $disk->makeDirectory($directorio);          
+
+                for($i=0; $i<count($request->file('archivo'));$i++){
+                
+                    $archivo = $request->file('archivo')[$i]->getClientOriginalName();
+
+                    $extension = strtolower(File::extension(basename($request->file('archivo')[$i]->getClientOriginalName())));
+                   
+                    $disk->put($directorio.'/'.$request->file('archivo')[$i]->getClientOriginalName(), file_get_contents($request->file('archivo')[$i]->getRealPath()));
+                }
+
+               
+
+                $zip = new ZipArchive;
+
+                $zip->open(storage_path().'/app/App/documento/'.$nb_dir.'.zip', ZipArchive::CREATE);     
+               
+                for($i=0; $i<count($request->file('archivo'));$i++){ 
+
+                       $zip->addFile(storage_path().'/app/App/documento/'.$nb_dir.'/'.$request->file('archivo')[$i]->getClientOriginalName(), $request->file('archivo')[$i]->getClientOriginalName());
+                }
+
+                $zip->close();                                      
+
 
                 $tab_documento = new tab_documento;
                 $tab_documento->id_tab_ruta = $request->ruta;
                 $tab_documento->id_tab_solicitud = $request->solicitud;
                 $tab_documento->de_documento = $request->descripcion;
-                $tab_documento->nb_archivo = $request->file('archivo')->getClientOriginalName();
-                $tab_documento->de_extension = $extension;
-                $tab_documento->mime = $request->file('archivo')->getMimeType();
+                $tab_documento->nb_archivo = $nb_dir;
+                $tab_documento->de_extension = 'zip';
+                $tab_documento->mime = 'application/zip';
                 $tab_documento->in_activo = true;
+                $tab_documento->in_dicom  = true;
                 $tab_documento->save();
 
-                $directorio = '/App/documento';
-                $disk = Storage::disk('local');
-                $disk->makeDirectory($directorio);
-
-                $disk->put($directorio.'/'.$tab_documento->id.'.'.$extension, file_get_contents($request->file('archivo')->getRealPath()));
+                
 
                 DB::commit();
 
                 Session::flash('msg_side_overlay', 'Registro Guardado con Exito!');
-                return Redirect::to('/proceso/documento/lista'.'/'.$request->solicitud);
+                return Redirect::to('/proceso/documento/listaDicom'.'/'.$request->solicitud);
 
             }catch (\Illuminate\Database\QueryException $e){
 
@@ -262,6 +362,23 @@ class documentoController extends Controller
         //if($adjuntos->de_extension == 'zip' || $adjuntos->de_extension == 'rar'){
             
            return Response::download(storage_path('app').$directorio,$adjuntos->nb_archivo);
+           
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function verAnexoDICOM($id)
+    {
+          $adjuntos = tab_documento::where('id', '=', $id)->first();
+
+          $directorio = '/App/documento/'.$adjuntos->nb_archivo.'.'.$adjuntos->de_extension;
+          $archivo = Storage::disk('local')->get($directorio);
+
+          return Response::download(storage_path('app').$directorio,$adjuntos->nb_archivo.'.'.$adjuntos->de_extension);
            
     }
 
