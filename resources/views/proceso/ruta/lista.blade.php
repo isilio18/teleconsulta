@@ -54,6 +54,9 @@
                     <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Anexar Documentos a la Ruta" onclick="location.href='{{ url('/proceso/documento/lista').'/'. $id }}'">
                         <i class="fa fa-fw fa-paste"></i> Anexar Documentos
                     </button>
+                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Anexar Imagenes DICOM" onclick="location.href='{{ url('/proceso/documento/listaDicom').'/'. $id }}'">
+                        <i class="fa fa-fw fa-paste"></i> Imagenes DICOM
+                    </button>
                 </div>
                                     
             </div>
