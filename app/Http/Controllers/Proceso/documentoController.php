@@ -335,7 +335,10 @@ class documentoController extends Controller
             DB::commit();
 
             Session::flash('msg_side_overlay', 'Registro Borrado con Exito!');
-            return Redirect::to('/proceso/documento/lista'.'/'.$id);
+            if($tab_documento->in_dicom == true)
+              return Redirect::to('/proceso/documento/listaDicom'.'/'.$id);
+            else
+              return Redirect::to('/proceso/documento/lista'.'/'.$id);
 
         }catch (\Illuminate\Database\QueryException $e)
         {
