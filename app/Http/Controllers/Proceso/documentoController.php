@@ -252,9 +252,14 @@ class documentoController extends Controller
                 }
     
                 $cant_documento = tab_documento::where('id_tab_ruta','=',$request->ruta)->count();
-                $nb_dir = $request->ruta.$cant_documento;
-                              
-                mkdir(storage_path().'/app/App/documento/'.$nb_dir, 0777);     
+
+
+                $nb_dir = $request->ruta.($cant_documento+1);
+
+                $dir = storage_path().'/app/App/documento/'.$nb_dir;
+               
+                mkdir($dir, 0777);   
+
 
                 $directorio = '/App/documento/'.$nb_dir;
                 $disk = Storage::disk('local');
@@ -280,7 +285,15 @@ class documentoController extends Controller
                        $zip->addFile(storage_path().'/app/App/documento/'.$nb_dir.'/'.$request->file('archivo')[$i]->getClientOriginalName(), $request->file('archivo')[$i]->getClientOriginalName());
                 }
 
-                $zip->close();                                      
+                $zip->close();   
+
+
+                $files = array_diff(scandir($dir), array('.','..'));
+                foreach ($files as $file) {
+                  (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+                }
+                
+                rmdir($dir);                                  
 
 
                 $tab_documento = new tab_documento;
