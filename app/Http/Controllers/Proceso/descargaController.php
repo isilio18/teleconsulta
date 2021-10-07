@@ -30,14 +30,12 @@ class descargaController extends Controller
     
     public function verAnexo($id)
     {
-	    $adjuntos = tab_documento::where('id', '=', $id)->first();
+	      $adjuntos = tab_documento::where('id', '=', $id)->first();
 
-		$directorio = '/App/documento/'.$id.'.'.$adjuntos->de_extension;
-		$archivo = Storage::disk('local')->get($directorio);
+          $directorio = '/App/documento/'.$adjuntos->nb_archivo.'.'.$adjuntos->de_extension;
+          $archivo = Storage::disk('local')->get($directorio);
 
-        //if($adjuntos->de_extension == 'zip' || $adjuntos->de_extension == 'rar'){
-            
-           return Response::download(storage_path('app').$directorio,$adjuntos->nb_archivo);
+          return Response::download(storage_path('app').$directorio,$adjuntos->nb_archivo.'.'.$adjuntos->de_extension);
            
     }
 
