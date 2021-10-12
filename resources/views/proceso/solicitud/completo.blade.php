@@ -48,8 +48,8 @@
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Tareas</li>
-                    <li class="breadcrumb-item active" aria-current="page">Completadas</li>
+                    <li class="breadcrumb-item">Solicitudes</li>
+                    <li class="breadcrumb-item active" aria-current="page">Culminadas</li>
                 </ol>
             </nav>
         </div>                  
