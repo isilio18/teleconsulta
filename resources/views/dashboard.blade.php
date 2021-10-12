@@ -67,7 +67,7 @@
                         <i class="fa fa-search-minus text-muted"></i>
                     </div>
                     <div class="text-black font-size-h1 font-w700">{{ $total_anulado }}</div>
-                    <div class="text-muted mb-3">solicitudes Anuladas</div>
+                    <div class="text-muted mb-3">Solicitudes Anuladas</div>
                     <div class="d-inline-block px-3 py-1 rounded-lg font-size-sm font-w600 text-danger bg-danger-lighter">
                         {{ number_format($total_anulado*100/$total) }}%
                     </div>
