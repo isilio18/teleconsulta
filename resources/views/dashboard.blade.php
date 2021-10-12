@@ -26,14 +26,14 @@
                     </div>
                     <div class="text-black font-size-h1 font-w700">{{ $total_pendiente }}</div>
                     <div class="text-muted mb-3">
-                        Procesos Pendientes
+                        Solicitudes Pendientes
                     </div>
                     <div class="d-inline-block px-3 py-1 rounded-lg font-size-sm font-w600 text-success bg-success-lighter">
                     {{ number_format($total_pendiente*100/$total) }}%
                     </div>
                 </div>
                 <div class="block-content block-content-full block-content-sm bg-body-light font-size-sm">
-                    <a class="font-w500" href="{{ URL::to('proceso/solicitud/lista') }}">
+                    <a class="font-w500" href="{{ URL::to('proceso/solicitud/pendiente') }}">
                         Visualizar
                         <i class="fa fa-arrow-right ml-1 opacity-25"></i>
                     </a>
@@ -47,7 +47,7 @@
                         <i class="fa fa-hourglass-half text-muted"></i>
                     </div>
                     <div class="text-black font-size-h1 font-w700">{{ $total_en_proceso }}</div>
-                    <div class="text-muted mb-3">Procesos en Cola</div>
+                    <div class="text-muted mb-3">Solicitudes en Cola</div>
                     <div class="d-inline-block px-3 py-1 rounded-lg font-size-sm font-w600 text-success bg-success-lighter">
                         {{ number_format($total_en_proceso*100/$total) }}%
                     </div>
@@ -67,7 +67,7 @@
                         <i class="fa fa-search-minus text-muted"></i>
                     </div>
                     <div class="text-black font-size-h1 font-w700">{{ $total_anulado }}</div>
-                    <div class="text-muted mb-3">Procesos Anulados</div>
+                    <div class="text-muted mb-3">solicitudes Anuladas</div>
                     <div class="d-inline-block px-3 py-1 rounded-lg font-size-sm font-w600 text-danger bg-danger-lighter">
                         {{ number_format($total_anulado*100/$total) }}%
                     </div>
@@ -87,7 +87,7 @@
                         <i class="fa fa-check-double text-muted"></i>
                     </div>
                     <div class="text-black font-size-h1 font-w700">{{ $total_completo }}</div>
-                    <div class="text-muted mb-3">Procesos Completados</div>
+                    <div class="text-muted mb-3">Solicitudes Culminadas</div>
                     <div class="d-inline-block px-3 py-1 rounded-lg font-size-sm font-w600 text-success bg-success-lighter">
                         {{ number_format($total_completo*100/$total) }}%
                     </div>
