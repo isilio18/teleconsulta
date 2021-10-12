@@ -33,7 +33,7 @@ class persona extends Controller
     */
     public function lista( Request $request)
     {
-        $sortBy = 'id';
+        $sortBy = 'cedula';
         $orderBy = 'desc';
         $perPage = 5;
         $q = null;
