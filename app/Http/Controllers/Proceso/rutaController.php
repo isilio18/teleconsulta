@@ -530,7 +530,7 @@ class rutaController extends Controller
         $tramite = tab_solicitud_usuario::getListaTramiteAsignado(Auth::user()->id);
        
         $tab_solicitud = tab_persona::select( 't02.id', 
-        'nb_usuario','t01.id_persona',
+        'nb_usuario','t01.id_persona','nu_solicitud',
          DB::raw("to_char(t02.created_at, 'dd/mm/YYYY') as fe_creado"),'nombres','apellidos','cedula',"t01.id as id_ruta","de_especialidad","de_instituto","de_municipio","t02.de_observacion","de_solicitud")        
         ->join('proceso.tab_ruta as t01', 't01.id_persona', '=', 'telemedicina.tab_persona.id')
         ->join('proceso.tab_referir as t02', 't02.id_tab_ruta', '=', 't01.id')
@@ -539,6 +539,7 @@ class rutaController extends Controller
         ->leftjoin('configuracion.tab_especialidad as t05', 't05.id', '=', 't02.id_tab_especialidad')
         ->leftjoin('configuracion.tab_municipio as t06', 't06.id', '=', 'telemedicina.tab_persona.id_municipio')
          ->leftjoin('configuracion.tab_solicitud as t07', 't07.id', '=', 't02.id_tab_tipo_solicitud')
+        ->join('proceso.tab_solicitud', 'telemedicina.tab_persona.id', '=', 'proceso.tab_solicitud.id_persona')                
         ->whereNull('id_solicitud_asignada')
         ->search($q, $sortBy)
         ->orderBy('id', $orderBy)

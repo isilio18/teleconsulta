@@ -42,7 +42,7 @@ class tab_persona extends Model
     public function scopeSearch($query, $q, $sortBy)
     {
       switch ($sortBy) {
-          case 'id':
+          case 'cedula':
               return $query->where('cedula', 'ILIKE', "%{$q}%");
           break;
             default:
