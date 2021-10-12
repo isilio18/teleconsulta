@@ -48,8 +48,8 @@
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Tareas</li>
-                    <li class="breadcrumb-item active" aria-current="page">Lista de Pacientes Referidos</li>
+                    <li class="breadcrumb-item">Lista de Pacientes Referidos</li>
+                    <!--<li class="breadcrumb-item active" aria-current="page">Lista de Pacientes Referidos</li>-->
                 </ol>
             </nav>
         </div>            
@@ -73,7 +73,7 @@
         </div>
         @endif
             
-        <form action="{{ url('/proceso/solicitud/pendiente') }}" method="get">
+        <form action="{{ url('/proceso/ruta/listaReferido') }}" method="get">
             <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <label>
@@ -100,6 +100,7 @@
             <table class="table table-hover table-bordered table-striped table-vcenter">
                 <thead class="thead-light">
                     <tr>
+                        <th class="text-center" style="width: 100px;">Nro. Solicitud</th>
                         <th class="text-center" style="width: 100px;">Cédula</th>
                         <th class="text-center" style="width: 200px;">Nombre y Apellido</th>
                         <th>Solicitud</th>
@@ -112,6 +113,7 @@
                 <tbody>
                 @foreach($tab_solicitud as $key => $value)
                     <tr>
+                        <td class="font-w600">{{ $value->nu_solicitud }}</td>
                         <td class="font-w600">{{ $value->cedula }}</td>
                         <td class="font-w600">{{ $value->nombres.' '.$value->apellidos}}</td>
                         <td class="font-w600">{{ $value->de_solicitud }}</td>
